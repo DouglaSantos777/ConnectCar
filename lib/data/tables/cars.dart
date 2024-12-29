@@ -1,9 +1,9 @@
 import 'package:connectcar/data/tables/auto_primary_key.dart';
-import 'package:connectcar/data/tables/category.dart';
+import 'package:connectcar/data/tables/categories.dart';
 import 'package:connectcar/data/tables/status.dart';
 import 'package:drift/drift.dart';
 
-class Car extends Table with AutoIncrementingPrimaryKey{
+class Cars extends Table with AutoIncrementingPrimaryKey{
 IntColumn get renavam => integer()();
 TextColumn get plate => text().withLength(max: 20)();
 TextColumn get brand => text().withLength(max: 50)();
@@ -15,7 +15,7 @@ TextColumn get description => text().withDefault(const Constant(""))();
 DateTimeColumn get createdAt => dateTime()();
 
 TextColumn get category => 
-text().references(Category, #nome)();
+text().references(Categories, #nome)();
 
 TextColumn get status => 
 text().references(Status, #nome)();

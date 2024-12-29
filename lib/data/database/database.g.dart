@@ -3,12 +3,12 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
-class $CategoryTable extends Category
-    with TableInfo<$CategoryTable, Categories> {
+class $CategoriesTable extends Categories
+    with TableInfo<$CategoriesTable, Category> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $CategoryTable(this.attachedDatabase, [this._alias]);
+  $CategoriesTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _nomeMeta = const VerificationMeta('nome');
   @override
   late final GeneratedColumn<String> nome = GeneratedColumn<String>(
@@ -23,9 +23,9 @@ class $CategoryTable extends Category
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'category';
+  static const String $name = 'categories';
   @override
-  VerificationContext validateIntegrity(Insertable<Categories> instance,
+  VerificationContext validateIntegrity(Insertable<Category> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -41,23 +41,23 @@ class $CategoryTable extends Category
   @override
   Set<GeneratedColumn> get $primaryKey => {nome};
   @override
-  Categories map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Category map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Categories(
+    return Category(
       nome: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
     );
   }
 
   @override
-  $CategoryTable createAlias(String alias) {
-    return $CategoryTable(attachedDatabase, alias);
+  $CategoriesTable createAlias(String alias) {
+    return $CategoriesTable(attachedDatabase, alias);
   }
 }
 
-class Categories extends DataClass implements Insertable<Categories> {
+class Category extends DataClass implements Insertable<Category> {
   final String nome;
-  const Categories({required this.nome});
+  const Category({required this.nome});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -65,16 +65,16 @@ class Categories extends DataClass implements Insertable<Categories> {
     return map;
   }
 
-  CategoryCompanion toCompanion(bool nullToAbsent) {
-    return CategoryCompanion(
+  CategoriesCompanion toCompanion(bool nullToAbsent) {
+    return CategoriesCompanion(
       nome: Value(nome),
     );
   }
 
-  factory Categories.fromJson(Map<String, dynamic> json,
+  factory Category.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Categories(
+    return Category(
       nome: serializer.fromJson<String>(json['nome']),
     );
   }
@@ -86,18 +86,18 @@ class Categories extends DataClass implements Insertable<Categories> {
     };
   }
 
-  Categories copyWith({String? nome}) => Categories(
+  Category copyWith({String? nome}) => Category(
         nome: nome ?? this.nome,
       );
-  Categories copyWithCompanion(CategoryCompanion data) {
-    return Categories(
+  Category copyWithCompanion(CategoriesCompanion data) {
+    return Category(
       nome: data.nome.present ? data.nome.value : this.nome,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('Categories(')
+    return (StringBuffer('Category(')
           ..write('nome: $nome')
           ..write(')'))
         .toString();
@@ -107,22 +107,21 @@ class Categories extends DataClass implements Insertable<Categories> {
   int get hashCode => nome.hashCode;
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Categories && other.nome == this.nome);
+      identical(this, other) || (other is Category && other.nome == this.nome);
 }
 
-class CategoryCompanion extends UpdateCompanion<Categories> {
+class CategoriesCompanion extends UpdateCompanion<Category> {
   final Value<String> nome;
   final Value<int> rowid;
-  const CategoryCompanion({
+  const CategoriesCompanion({
     this.nome = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  CategoryCompanion.insert({
+  CategoriesCompanion.insert({
     required String nome,
     this.rowid = const Value.absent(),
   }) : nome = Value(nome);
-  static Insertable<Categories> custom({
+  static Insertable<Category> custom({
     Expression<String>? nome,
     Expression<int>? rowid,
   }) {
@@ -132,8 +131,8 @@ class CategoryCompanion extends UpdateCompanion<Categories> {
     });
   }
 
-  CategoryCompanion copyWith({Value<String>? nome, Value<int>? rowid}) {
-    return CategoryCompanion(
+  CategoriesCompanion copyWith({Value<String>? nome, Value<int>? rowid}) {
+    return CategoriesCompanion(
       nome: nome ?? this.nome,
       rowid: rowid ?? this.rowid,
     );
@@ -153,7 +152,7 @@ class CategoryCompanion extends UpdateCompanion<Categories> {
 
   @override
   String toString() {
-    return (StringBuffer('CategoryCompanion(')
+    return (StringBuffer('CategoriesCompanion(')
           ..write('nome: $nome, ')
           ..write('rowid: $rowid')
           ..write(')'))
@@ -318,11 +317,11 @@ class StatusCompanion extends UpdateCompanion<StatusData> {
   }
 }
 
-class $CarTable extends Car with TableInfo<$CarTable, CarData> {
+class $CarsTable extends Cars with TableInfo<$CarsTable, Car> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $CarTable(this.attachedDatabase, [this._alias]);
+  $CarsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -397,7 +396,7 @@ class $CarTable extends Car with TableInfo<$CarTable, CarData> {
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES category (nome)'));
+          GeneratedColumn.constraintIsAlways('REFERENCES categories (nome)'));
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumn<String> status = GeneratedColumn<String>(
@@ -425,9 +424,9 @@ class $CarTable extends Car with TableInfo<$CarTable, CarData> {
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'car';
+  static const String $name = 'cars';
   @override
-  VerificationContext validateIntegrity(Insertable<CarData> instance,
+  VerificationContext validateIntegrity(Insertable<Car> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -508,9 +507,9 @@ class $CarTable extends Car with TableInfo<$CarTable, CarData> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  CarData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Car map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return CarData(
+    return Car(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       renavam: attachedDatabase.typeMapping
@@ -539,12 +538,12 @@ class $CarTable extends Car with TableInfo<$CarTable, CarData> {
   }
 
   @override
-  $CarTable createAlias(String alias) {
-    return $CarTable(attachedDatabase, alias);
+  $CarsTable createAlias(String alias) {
+    return $CarsTable(attachedDatabase, alias);
   }
 }
 
-class CarData extends DataClass implements Insertable<CarData> {
+class Car extends DataClass implements Insertable<Car> {
   final int id;
   final int renavam;
   final String plate;
@@ -557,7 +556,7 @@ class CarData extends DataClass implements Insertable<CarData> {
   final DateTime createdAt;
   final String category;
   final String status;
-  const CarData(
+  const Car(
       {required this.id,
       required this.renavam,
       required this.plate,
@@ -588,8 +587,8 @@ class CarData extends DataClass implements Insertable<CarData> {
     return map;
   }
 
-  CarCompanion toCompanion(bool nullToAbsent) {
-    return CarCompanion(
+  CarsCompanion toCompanion(bool nullToAbsent) {
+    return CarsCompanion(
       id: Value(id),
       renavam: Value(renavam),
       plate: Value(plate),
@@ -605,10 +604,10 @@ class CarData extends DataClass implements Insertable<CarData> {
     );
   }
 
-  factory CarData.fromJson(Map<String, dynamic> json,
+  factory Car.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return CarData(
+    return Car(
       id: serializer.fromJson<int>(json['id']),
       renavam: serializer.fromJson<int>(json['renavam']),
       plate: serializer.fromJson<String>(json['plate']),
@@ -642,7 +641,7 @@ class CarData extends DataClass implements Insertable<CarData> {
     };
   }
 
-  CarData copyWith(
+  Car copyWith(
           {int? id,
           int? renavam,
           String? plate,
@@ -655,7 +654,7 @@ class CarData extends DataClass implements Insertable<CarData> {
           DateTime? createdAt,
           String? category,
           String? status}) =>
-      CarData(
+      Car(
         id: id ?? this.id,
         renavam: renavam ?? this.renavam,
         plate: plate ?? this.plate,
@@ -669,8 +668,8 @@ class CarData extends DataClass implements Insertable<CarData> {
         category: category ?? this.category,
         status: status ?? this.status,
       );
-  CarData copyWithCompanion(CarCompanion data) {
-    return CarData(
+  Car copyWithCompanion(CarsCompanion data) {
+    return Car(
       id: data.id.present ? data.id.value : this.id,
       renavam: data.renavam.present ? data.renavam.value : this.renavam,
       plate: data.plate.present ? data.plate.value : this.plate,
@@ -690,7 +689,7 @@ class CarData extends DataClass implements Insertable<CarData> {
 
   @override
   String toString() {
-    return (StringBuffer('CarData(')
+    return (StringBuffer('Car(')
           ..write('id: $id, ')
           ..write('renavam: $renavam, ')
           ..write('plate: $plate, ')
@@ -713,7 +712,7 @@ class CarData extends DataClass implements Insertable<CarData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CarData &&
+      (other is Car &&
           other.id == this.id &&
           other.renavam == this.renavam &&
           other.plate == this.plate &&
@@ -728,7 +727,7 @@ class CarData extends DataClass implements Insertable<CarData> {
           other.status == this.status);
 }
 
-class CarCompanion extends UpdateCompanion<CarData> {
+class CarsCompanion extends UpdateCompanion<Car> {
   final Value<int> id;
   final Value<int> renavam;
   final Value<String> plate;
@@ -741,7 +740,7 @@ class CarCompanion extends UpdateCompanion<CarData> {
   final Value<DateTime> createdAt;
   final Value<String> category;
   final Value<String> status;
-  const CarCompanion({
+  const CarsCompanion({
     this.id = const Value.absent(),
     this.renavam = const Value.absent(),
     this.plate = const Value.absent(),
@@ -755,7 +754,7 @@ class CarCompanion extends UpdateCompanion<CarData> {
     this.category = const Value.absent(),
     this.status = const Value.absent(),
   });
-  CarCompanion.insert({
+  CarsCompanion.insert({
     this.id = const Value.absent(),
     required int renavam,
     required String plate,
@@ -778,7 +777,7 @@ class CarCompanion extends UpdateCompanion<CarData> {
         createdAt = Value(createdAt),
         category = Value(category),
         status = Value(status);
-  static Insertable<CarData> custom({
+  static Insertable<Car> custom({
     Expression<int>? id,
     Expression<int>? renavam,
     Expression<String>? plate,
@@ -808,7 +807,7 @@ class CarCompanion extends UpdateCompanion<CarData> {
     });
   }
 
-  CarCompanion copyWith(
+  CarsCompanion copyWith(
       {Value<int>? id,
       Value<int>? renavam,
       Value<String>? plate,
@@ -821,7 +820,7 @@ class CarCompanion extends UpdateCompanion<CarData> {
       Value<DateTime>? createdAt,
       Value<String>? category,
       Value<String>? status}) {
-    return CarCompanion(
+    return CarsCompanion(
       id: id ?? this.id,
       renavam: renavam ?? this.renavam,
       plate: plate ?? this.plate,
@@ -881,7 +880,7 @@ class CarCompanion extends UpdateCompanion<CarData> {
 
   @override
   String toString() {
-    return (StringBuffer('CarCompanion(')
+    return (StringBuffer('CarsCompanion(')
           ..write('id: $id, ')
           ..write('renavam: $renavam, ')
           ..write('plate: $plate, ')
@@ -902,48 +901,50 @@ class CarCompanion extends UpdateCompanion<CarData> {
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
   $DatabaseManager get managers => $DatabaseManager(this);
-  late final $CategoryTable category = $CategoryTable(this);
+  late final $CategoriesTable categories = $CategoriesTable(this);
   late final $StatusTable status = $StatusTable(this);
-  late final $CarTable car = $CarTable(this);
+  late final $CarsTable cars = $CarsTable(this);
   late final CategoryDao categoryDao = CategoryDao(this as Database);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [category, status, car];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [categories, status, cars];
 }
 
-typedef $$CategoryTableCreateCompanionBuilder = CategoryCompanion Function({
+typedef $$CategoriesTableCreateCompanionBuilder = CategoriesCompanion Function({
   required String nome,
   Value<int> rowid,
 });
-typedef $$CategoryTableUpdateCompanionBuilder = CategoryCompanion Function({
+typedef $$CategoriesTableUpdateCompanionBuilder = CategoriesCompanion Function({
   Value<String> nome,
   Value<int> rowid,
 });
 
-final class $$CategoryTableReferences
-    extends BaseReferences<_$Database, $CategoryTable, Categories> {
-  $$CategoryTableReferences(super.$_db, super.$_table, super.$_typedResult);
+final class $$CategoriesTableReferences
+    extends BaseReferences<_$Database, $CategoriesTable, Category> {
+  $$CategoriesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$CarTable, List<CarData>> _carRefsTable(
+  static MultiTypedResultKey<$CarsTable, List<Car>> _carsRefsTable(
           _$Database db) =>
-      MultiTypedResultKey.fromTable(db.car,
-          aliasName: $_aliasNameGenerator(db.category.nome, db.car.category));
+      MultiTypedResultKey.fromTable(db.cars,
+          aliasName:
+              $_aliasNameGenerator(db.categories.nome, db.cars.category));
 
-  $$CarTableProcessedTableManager get carRefs {
-    final manager = $$CarTableTableManager($_db, $_db.car)
+  $$CarsTableProcessedTableManager get carsRefs {
+    final manager = $$CarsTableTableManager($_db, $_db.cars)
         .filter((f) => f.category.nome($_item.nome));
 
-    final cache = $_typedResult.readTableOrNull(_carRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(_carsRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
-class $$CategoryTableFilterComposer
-    extends Composer<_$Database, $CategoryTable> {
-  $$CategoryTableFilterComposer({
+class $$CategoriesTableFilterComposer
+    extends Composer<_$Database, $CategoriesTable> {
+  $$CategoriesTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -953,19 +954,19 @@ class $$CategoryTableFilterComposer
   ColumnFilters<String> get nome => $composableBuilder(
       column: $table.nome, builder: (column) => ColumnFilters(column));
 
-  Expression<bool> carRefs(
-      Expression<bool> Function($$CarTableFilterComposer f) f) {
-    final $$CarTableFilterComposer composer = $composerBuilder(
+  Expression<bool> carsRefs(
+      Expression<bool> Function($$CarsTableFilterComposer f) f) {
+    final $$CarsTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.nome,
-        referencedTable: $db.car,
+        referencedTable: $db.cars,
         getReferencedColumn: (t) => t.category,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CarTableFilterComposer(
+            $$CarsTableFilterComposer(
               $db: $db,
-              $table: $db.car,
+              $table: $db.cars,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -975,9 +976,9 @@ class $$CategoryTableFilterComposer
   }
 }
 
-class $$CategoryTableOrderingComposer
-    extends Composer<_$Database, $CategoryTable> {
-  $$CategoryTableOrderingComposer({
+class $$CategoriesTableOrderingComposer
+    extends Composer<_$Database, $CategoriesTable> {
+  $$CategoriesTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -988,9 +989,9 @@ class $$CategoryTableOrderingComposer
       column: $table.nome, builder: (column) => ColumnOrderings(column));
 }
 
-class $$CategoryTableAnnotationComposer
-    extends Composer<_$Database, $CategoryTable> {
-  $$CategoryTableAnnotationComposer({
+class $$CategoriesTableAnnotationComposer
+    extends Composer<_$Database, $CategoriesTable> {
+  $$CategoriesTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1000,19 +1001,19 @@ class $$CategoryTableAnnotationComposer
   GeneratedColumn<String> get nome =>
       $composableBuilder(column: $table.nome, builder: (column) => column);
 
-  Expression<T> carRefs<T extends Object>(
-      Expression<T> Function($$CarTableAnnotationComposer a) f) {
-    final $$CarTableAnnotationComposer composer = $composerBuilder(
+  Expression<T> carsRefs<T extends Object>(
+      Expression<T> Function($$CarsTableAnnotationComposer a) f) {
+    final $$CarsTableAnnotationComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.nome,
-        referencedTable: $db.car,
+        referencedTable: $db.cars,
         getReferencedColumn: (t) => t.category,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CarTableAnnotationComposer(
+            $$CarsTableAnnotationComposer(
               $db: $db,
-              $table: $db.car,
+              $table: $db.cars,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -1022,33 +1023,33 @@ class $$CategoryTableAnnotationComposer
   }
 }
 
-class $$CategoryTableTableManager extends RootTableManager<
+class $$CategoriesTableTableManager extends RootTableManager<
     _$Database,
-    $CategoryTable,
-    Categories,
-    $$CategoryTableFilterComposer,
-    $$CategoryTableOrderingComposer,
-    $$CategoryTableAnnotationComposer,
-    $$CategoryTableCreateCompanionBuilder,
-    $$CategoryTableUpdateCompanionBuilder,
-    (Categories, $$CategoryTableReferences),
-    Categories,
-    PrefetchHooks Function({bool carRefs})> {
-  $$CategoryTableTableManager(_$Database db, $CategoryTable table)
+    $CategoriesTable,
+    Category,
+    $$CategoriesTableFilterComposer,
+    $$CategoriesTableOrderingComposer,
+    $$CategoriesTableAnnotationComposer,
+    $$CategoriesTableCreateCompanionBuilder,
+    $$CategoriesTableUpdateCompanionBuilder,
+    (Category, $$CategoriesTableReferences),
+    Category,
+    PrefetchHooks Function({bool carsRefs})> {
+  $$CategoriesTableTableManager(_$Database db, $CategoriesTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$CategoryTableFilterComposer($db: db, $table: table),
+              $$CategoriesTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$CategoryTableOrderingComposer($db: db, $table: table),
+              $$CategoriesTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$CategoryTableAnnotationComposer($db: db, $table: table),
+              $$CategoriesTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<String> nome = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
-              CategoryCompanion(
+              CategoriesCompanion(
             nome: nome,
             rowid: rowid,
           ),
@@ -1056,28 +1057,30 @@ class $$CategoryTableTableManager extends RootTableManager<
             required String nome,
             Value<int> rowid = const Value.absent(),
           }) =>
-              CategoryCompanion.insert(
+              CategoriesCompanion.insert(
             nome: nome,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$CategoryTableReferences(db, table, e)))
+              .map((e) => (
+                    e.readTable(table),
+                    $$CategoriesTableReferences(db, table, e)
+                  ))
               .toList(),
-          prefetchHooksCallback: ({carRefs = false}) {
+          prefetchHooksCallback: ({carsRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [if (carRefs) db.car],
+              explicitlyWatchedTables: [if (carsRefs) db.cars],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
-                  if (carRefs)
+                  if (carsRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable:
-                            $$CategoryTableReferences._carRefsTable(db),
+                            $$CategoriesTableReferences._carsRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$CategoryTableReferences(db, table, p0).carRefs,
+                            $$CategoriesTableReferences(db, table, p0).carsRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.category == item.nome),
@@ -1089,18 +1092,18 @@ class $$CategoryTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$CategoryTableProcessedTableManager = ProcessedTableManager<
+typedef $$CategoriesTableProcessedTableManager = ProcessedTableManager<
     _$Database,
-    $CategoryTable,
-    Categories,
-    $$CategoryTableFilterComposer,
-    $$CategoryTableOrderingComposer,
-    $$CategoryTableAnnotationComposer,
-    $$CategoryTableCreateCompanionBuilder,
-    $$CategoryTableUpdateCompanionBuilder,
-    (Categories, $$CategoryTableReferences),
-    Categories,
-    PrefetchHooks Function({bool carRefs})>;
+    $CategoriesTable,
+    Category,
+    $$CategoriesTableFilterComposer,
+    $$CategoriesTableOrderingComposer,
+    $$CategoriesTableAnnotationComposer,
+    $$CategoriesTableCreateCompanionBuilder,
+    $$CategoriesTableUpdateCompanionBuilder,
+    (Category, $$CategoriesTableReferences),
+    Category,
+    PrefetchHooks Function({bool carsRefs})>;
 typedef $$StatusTableCreateCompanionBuilder = StatusCompanion Function({
   required String nome,
   Value<int> rowid,
@@ -1114,16 +1117,16 @@ final class $$StatusTableReferences
     extends BaseReferences<_$Database, $StatusTable, StatusData> {
   $$StatusTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$CarTable, List<CarData>> _carRefsTable(
+  static MultiTypedResultKey<$CarsTable, List<Car>> _carsRefsTable(
           _$Database db) =>
-      MultiTypedResultKey.fromTable(db.car,
-          aliasName: $_aliasNameGenerator(db.status.nome, db.car.status));
+      MultiTypedResultKey.fromTable(db.cars,
+          aliasName: $_aliasNameGenerator(db.status.nome, db.cars.status));
 
-  $$CarTableProcessedTableManager get carRefs {
-    final manager = $$CarTableTableManager($_db, $_db.car)
+  $$CarsTableProcessedTableManager get carsRefs {
+    final manager = $$CarsTableTableManager($_db, $_db.cars)
         .filter((f) => f.status.nome($_item.nome));
 
-    final cache = $_typedResult.readTableOrNull(_carRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(_carsRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -1140,19 +1143,19 @@ class $$StatusTableFilterComposer extends Composer<_$Database, $StatusTable> {
   ColumnFilters<String> get nome => $composableBuilder(
       column: $table.nome, builder: (column) => ColumnFilters(column));
 
-  Expression<bool> carRefs(
-      Expression<bool> Function($$CarTableFilterComposer f) f) {
-    final $$CarTableFilterComposer composer = $composerBuilder(
+  Expression<bool> carsRefs(
+      Expression<bool> Function($$CarsTableFilterComposer f) f) {
+    final $$CarsTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.nome,
-        referencedTable: $db.car,
+        referencedTable: $db.cars,
         getReferencedColumn: (t) => t.status,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CarTableFilterComposer(
+            $$CarsTableFilterComposer(
               $db: $db,
-              $table: $db.car,
+              $table: $db.cars,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -1186,19 +1189,19 @@ class $$StatusTableAnnotationComposer
   GeneratedColumn<String> get nome =>
       $composableBuilder(column: $table.nome, builder: (column) => column);
 
-  Expression<T> carRefs<T extends Object>(
-      Expression<T> Function($$CarTableAnnotationComposer a) f) {
-    final $$CarTableAnnotationComposer composer = $composerBuilder(
+  Expression<T> carsRefs<T extends Object>(
+      Expression<T> Function($$CarsTableAnnotationComposer a) f) {
+    final $$CarsTableAnnotationComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.nome,
-        referencedTable: $db.car,
+        referencedTable: $db.cars,
         getReferencedColumn: (t) => t.status,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CarTableAnnotationComposer(
+            $$CarsTableAnnotationComposer(
               $db: $db,
-              $table: $db.car,
+              $table: $db.cars,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -1219,7 +1222,7 @@ class $$StatusTableTableManager extends RootTableManager<
     $$StatusTableUpdateCompanionBuilder,
     (StatusData, $$StatusTableReferences),
     StatusData,
-    PrefetchHooks Function({bool carRefs})> {
+    PrefetchHooks Function({bool carsRefs})> {
   $$StatusTableTableManager(_$Database db, $StatusTable table)
       : super(TableManagerState(
           db: db,
@@ -1250,20 +1253,20 @@ class $$StatusTableTableManager extends RootTableManager<
               .map((e) =>
                   (e.readTable(table), $$StatusTableReferences(db, table, e)))
               .toList(),
-          prefetchHooksCallback: ({carRefs = false}) {
+          prefetchHooksCallback: ({carsRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [if (carRefs) db.car],
+              explicitlyWatchedTables: [if (carsRefs) db.cars],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
-                  if (carRefs)
+                  if (carsRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable:
-                            $$StatusTableReferences._carRefsTable(db),
+                            $$StatusTableReferences._carsRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$StatusTableReferences(db, table, p0).carRefs,
+                            $$StatusTableReferences(db, table, p0).carsRefs,
                         referencedItemsForCurrentItem: (item,
                                 referencedItems) =>
                             referencedItems.where((e) => e.status == item.nome),
@@ -1286,8 +1289,8 @@ typedef $$StatusTableProcessedTableManager = ProcessedTableManager<
     $$StatusTableUpdateCompanionBuilder,
     (StatusData, $$StatusTableReferences),
     StatusData,
-    PrefetchHooks Function({bool carRefs})>;
-typedef $$CarTableCreateCompanionBuilder = CarCompanion Function({
+    PrefetchHooks Function({bool carsRefs})>;
+typedef $$CarsTableCreateCompanionBuilder = CarsCompanion Function({
   Value<int> id,
   required int renavam,
   required String plate,
@@ -1301,7 +1304,7 @@ typedef $$CarTableCreateCompanionBuilder = CarCompanion Function({
   required String category,
   required String status,
 });
-typedef $$CarTableUpdateCompanionBuilder = CarCompanion Function({
+typedef $$CarsTableUpdateCompanionBuilder = CarsCompanion Function({
   Value<int> id,
   Value<int> renavam,
   Value<String> plate,
@@ -1316,15 +1319,15 @@ typedef $$CarTableUpdateCompanionBuilder = CarCompanion Function({
   Value<String> status,
 });
 
-final class $$CarTableReferences
-    extends BaseReferences<_$Database, $CarTable, CarData> {
-  $$CarTableReferences(super.$_db, super.$_table, super.$_typedResult);
+final class $$CarsTableReferences
+    extends BaseReferences<_$Database, $CarsTable, Car> {
+  $$CarsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $CategoryTable _categoryTable(_$Database db) => db.category
-      .createAlias($_aliasNameGenerator(db.car.category, db.category.nome));
+  static $CategoriesTable _categoryTable(_$Database db) => db.categories
+      .createAlias($_aliasNameGenerator(db.cars.category, db.categories.nome));
 
-  $$CategoryTableProcessedTableManager get category {
-    final manager = $$CategoryTableTableManager($_db, $_db.category)
+  $$CategoriesTableProcessedTableManager get category {
+    final manager = $$CategoriesTableTableManager($_db, $_db.categories)
         .filter((f) => f.nome($_item.category!));
     final item = $_typedResult.readTableOrNull(_categoryTable($_db));
     if (item == null) return manager;
@@ -1333,7 +1336,7 @@ final class $$CarTableReferences
   }
 
   static $StatusTable _statusTable(_$Database db) => db.status
-      .createAlias($_aliasNameGenerator(db.car.status, db.status.nome));
+      .createAlias($_aliasNameGenerator(db.cars.status, db.status.nome));
 
   $$StatusTableProcessedTableManager get status {
     final manager = $$StatusTableTableManager($_db, $_db.status)
@@ -1345,8 +1348,8 @@ final class $$CarTableReferences
   }
 }
 
-class $$CarTableFilterComposer extends Composer<_$Database, $CarTable> {
-  $$CarTableFilterComposer({
+class $$CarsTableFilterComposer extends Composer<_$Database, $CarsTable> {
+  $$CarsTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1383,18 +1386,18 @@ class $$CarTableFilterComposer extends Composer<_$Database, $CarTable> {
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  $$CategoryTableFilterComposer get category {
-    final $$CategoryTableFilterComposer composer = $composerBuilder(
+  $$CategoriesTableFilterComposer get category {
+    final $$CategoriesTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.category,
-        referencedTable: $db.category,
+        referencedTable: $db.categories,
         getReferencedColumn: (t) => t.nome,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CategoryTableFilterComposer(
+            $$CategoriesTableFilterComposer(
               $db: $db,
-              $table: $db.category,
+              $table: $db.categories,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -1424,8 +1427,8 @@ class $$CarTableFilterComposer extends Composer<_$Database, $CarTable> {
   }
 }
 
-class $$CarTableOrderingComposer extends Composer<_$Database, $CarTable> {
-  $$CarTableOrderingComposer({
+class $$CarsTableOrderingComposer extends Composer<_$Database, $CarsTable> {
+  $$CarsTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1462,18 +1465,18 @@ class $$CarTableOrderingComposer extends Composer<_$Database, $CarTable> {
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
-  $$CategoryTableOrderingComposer get category {
-    final $$CategoryTableOrderingComposer composer = $composerBuilder(
+  $$CategoriesTableOrderingComposer get category {
+    final $$CategoriesTableOrderingComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.category,
-        referencedTable: $db.category,
+        referencedTable: $db.categories,
         getReferencedColumn: (t) => t.nome,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CategoryTableOrderingComposer(
+            $$CategoriesTableOrderingComposer(
               $db: $db,
-              $table: $db.category,
+              $table: $db.categories,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -1503,8 +1506,8 @@ class $$CarTableOrderingComposer extends Composer<_$Database, $CarTable> {
   }
 }
 
-class $$CarTableAnnotationComposer extends Composer<_$Database, $CarTable> {
-  $$CarTableAnnotationComposer({
+class $$CarsTableAnnotationComposer extends Composer<_$Database, $CarsTable> {
+  $$CarsTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1541,18 +1544,18 @@ class $$CarTableAnnotationComposer extends Composer<_$Database, $CarTable> {
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  $$CategoryTableAnnotationComposer get category {
-    final $$CategoryTableAnnotationComposer composer = $composerBuilder(
+  $$CategoriesTableAnnotationComposer get category {
+    final $$CategoriesTableAnnotationComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.category,
-        referencedTable: $db.category,
+        referencedTable: $db.categories,
         getReferencedColumn: (t) => t.nome,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CategoryTableAnnotationComposer(
+            $$CategoriesTableAnnotationComposer(
               $db: $db,
-              $table: $db.category,
+              $table: $db.categories,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -1582,28 +1585,28 @@ class $$CarTableAnnotationComposer extends Composer<_$Database, $CarTable> {
   }
 }
 
-class $$CarTableTableManager extends RootTableManager<
+class $$CarsTableTableManager extends RootTableManager<
     _$Database,
-    $CarTable,
-    CarData,
-    $$CarTableFilterComposer,
-    $$CarTableOrderingComposer,
-    $$CarTableAnnotationComposer,
-    $$CarTableCreateCompanionBuilder,
-    $$CarTableUpdateCompanionBuilder,
-    (CarData, $$CarTableReferences),
-    CarData,
+    $CarsTable,
+    Car,
+    $$CarsTableFilterComposer,
+    $$CarsTableOrderingComposer,
+    $$CarsTableAnnotationComposer,
+    $$CarsTableCreateCompanionBuilder,
+    $$CarsTableUpdateCompanionBuilder,
+    (Car, $$CarsTableReferences),
+    Car,
     PrefetchHooks Function({bool category, bool status})> {
-  $$CarTableTableManager(_$Database db, $CarTable table)
+  $$CarsTableTableManager(_$Database db, $CarsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$CarTableFilterComposer($db: db, $table: table),
+              $$CarsTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$CarTableOrderingComposer($db: db, $table: table),
+              $$CarsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$CarTableAnnotationComposer($db: db, $table: table),
+              $$CarsTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> renavam = const Value.absent(),
@@ -1618,7 +1621,7 @@ class $$CarTableTableManager extends RootTableManager<
             Value<String> category = const Value.absent(),
             Value<String> status = const Value.absent(),
           }) =>
-              CarCompanion(
+              CarsCompanion(
             id: id,
             renavam: renavam,
             plate: plate,
@@ -1646,7 +1649,7 @@ class $$CarTableTableManager extends RootTableManager<
             required String category,
             required String status,
           }) =>
-              CarCompanion.insert(
+              CarsCompanion.insert(
             id: id,
             renavam: renavam,
             plate: plate,
@@ -1662,7 +1665,7 @@ class $$CarTableTableManager extends RootTableManager<
           ),
           withReferenceMapper: (p0) => p0
               .map((e) =>
-                  (e.readTable(table), $$CarTableReferences(db, table, e)))
+                  (e.readTable(table), $$CarsTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({category = false, status = false}) {
             return PrefetchHooks(
@@ -1685,18 +1688,18 @@ class $$CarTableTableManager extends RootTableManager<
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.category,
-                    referencedTable: $$CarTableReferences._categoryTable(db),
+                    referencedTable: $$CarsTableReferences._categoryTable(db),
                     referencedColumn:
-                        $$CarTableReferences._categoryTable(db).nome,
+                        $$CarsTableReferences._categoryTable(db).nome,
                   ) as T;
                 }
                 if (status) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.status,
-                    referencedTable: $$CarTableReferences._statusTable(db),
+                    referencedTable: $$CarsTableReferences._statusTable(db),
                     referencedColumn:
-                        $$CarTableReferences._statusTable(db).nome,
+                        $$CarsTableReferences._statusTable(db).nome,
                   ) as T;
                 }
 
@@ -1710,25 +1713,25 @@ class $$CarTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$CarTableProcessedTableManager = ProcessedTableManager<
+typedef $$CarsTableProcessedTableManager = ProcessedTableManager<
     _$Database,
-    $CarTable,
-    CarData,
-    $$CarTableFilterComposer,
-    $$CarTableOrderingComposer,
-    $$CarTableAnnotationComposer,
-    $$CarTableCreateCompanionBuilder,
-    $$CarTableUpdateCompanionBuilder,
-    (CarData, $$CarTableReferences),
-    CarData,
+    $CarsTable,
+    Car,
+    $$CarsTableFilterComposer,
+    $$CarsTableOrderingComposer,
+    $$CarsTableAnnotationComposer,
+    $$CarsTableCreateCompanionBuilder,
+    $$CarsTableUpdateCompanionBuilder,
+    (Car, $$CarsTableReferences),
+    Car,
     PrefetchHooks Function({bool category, bool status})>;
 
 class $DatabaseManager {
   final _$Database _db;
   $DatabaseManager(this._db);
-  $$CategoryTableTableManager get category =>
-      $$CategoryTableTableManager(_db, _db.category);
+  $$CategoriesTableTableManager get categories =>
+      $$CategoriesTableTableManager(_db, _db.categories);
   $$StatusTableTableManager get status =>
       $$StatusTableTableManager(_db, _db.status);
-  $$CarTableTableManager get car => $$CarTableTableManager(_db, _db.car);
+  $$CarsTableTableManager get cars => $$CarsTableTableManager(_db, _db.cars);
 }
