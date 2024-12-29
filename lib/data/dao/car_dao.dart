@@ -12,13 +12,25 @@ class CarDao extends DatabaseAccessor<Database> with _$CarDaoMixin {
 
   CarDao(this.db) : super(db);
 
-  Future<Car> getById(int id) {
+  Future insertCar(Insertable<Car> car) => into(cars).insert(car);
+
+  Future<Car?> getById(int id) {
     return (select(cars)
           ..where(
             (row) => row.id.equals(id),
           ))
-        .getSingle();
+        .getSingleOrNull();
   }
 
   Future<List<Car>> getAllCars() => select(cars).get();
+}
+
+class CarCategory {
+  final Car car;
+  final Category category;
+
+  CarCategory({
+    required this.car,
+    required this.category,
+  });
 }
