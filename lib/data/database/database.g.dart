@@ -4,7 +4,7 @@ part of 'database.dart';
 
 // ignore_for_file: type=lint
 class $CategoryTable extends Category
-    with TableInfo<$CategoryTable, CategoryData> {
+    with TableInfo<$CategoryTable, Categories> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -25,7 +25,7 @@ class $CategoryTable extends Category
   String get actualTableName => $name;
   static const String $name = 'category';
   @override
-  VerificationContext validateIntegrity(Insertable<CategoryData> instance,
+  VerificationContext validateIntegrity(Insertable<Categories> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -41,9 +41,9 @@ class $CategoryTable extends Category
   @override
   Set<GeneratedColumn> get $primaryKey => {nome};
   @override
-  CategoryData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Categories map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return CategoryData(
+    return Categories(
       nome: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
     );
@@ -55,9 +55,9 @@ class $CategoryTable extends Category
   }
 }
 
-class CategoryData extends DataClass implements Insertable<CategoryData> {
+class Categories extends DataClass implements Insertable<Categories> {
   final String nome;
-  const CategoryData({required this.nome});
+  const Categories({required this.nome});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -71,10 +71,10 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
     );
   }
 
-  factory CategoryData.fromJson(Map<String, dynamic> json,
+  factory Categories.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return CategoryData(
+    return Categories(
       nome: serializer.fromJson<String>(json['nome']),
     );
   }
@@ -86,18 +86,18 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
     };
   }
 
-  CategoryData copyWith({String? nome}) => CategoryData(
+  Categories copyWith({String? nome}) => Categories(
         nome: nome ?? this.nome,
       );
-  CategoryData copyWithCompanion(CategoryCompanion data) {
-    return CategoryData(
+  Categories copyWithCompanion(CategoryCompanion data) {
+    return Categories(
       nome: data.nome.present ? data.nome.value : this.nome,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('CategoryData(')
+    return (StringBuffer('Categories(')
           ..write('nome: $nome')
           ..write(')'))
         .toString();
@@ -108,10 +108,10 @@ class CategoryData extends DataClass implements Insertable<CategoryData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CategoryData && other.nome == this.nome);
+      (other is Categories && other.nome == this.nome);
 }
 
-class CategoryCompanion extends UpdateCompanion<CategoryData> {
+class CategoryCompanion extends UpdateCompanion<Categories> {
   final Value<String> nome;
   final Value<int> rowid;
   const CategoryCompanion({
@@ -122,7 +122,7 @@ class CategoryCompanion extends UpdateCompanion<CategoryData> {
     required String nome,
     this.rowid = const Value.absent(),
   }) : nome = Value(nome);
-  static Insertable<CategoryData> custom({
+  static Insertable<Categories> custom({
     Expression<String>? nome,
     Expression<int>? rowid,
   }) {
@@ -905,6 +905,7 @@ abstract class _$Database extends GeneratedDatabase {
   late final $CategoryTable category = $CategoryTable(this);
   late final $StatusTable status = $StatusTable(this);
   late final $CarTable car = $CarTable(this);
+  late final CategoryDao categoryDao = CategoryDao(this as Database);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -922,7 +923,7 @@ typedef $$CategoryTableUpdateCompanionBuilder = CategoryCompanion Function({
 });
 
 final class $$CategoryTableReferences
-    extends BaseReferences<_$Database, $CategoryTable, CategoryData> {
+    extends BaseReferences<_$Database, $CategoryTable, Categories> {
   $$CategoryTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<$CarTable, List<CarData>> _carRefsTable(
@@ -1024,14 +1025,14 @@ class $$CategoryTableAnnotationComposer
 class $$CategoryTableTableManager extends RootTableManager<
     _$Database,
     $CategoryTable,
-    CategoryData,
+    Categories,
     $$CategoryTableFilterComposer,
     $$CategoryTableOrderingComposer,
     $$CategoryTableAnnotationComposer,
     $$CategoryTableCreateCompanionBuilder,
     $$CategoryTableUpdateCompanionBuilder,
-    (CategoryData, $$CategoryTableReferences),
-    CategoryData,
+    (Categories, $$CategoryTableReferences),
+    Categories,
     PrefetchHooks Function({bool carRefs})> {
   $$CategoryTableTableManager(_$Database db, $CategoryTable table)
       : super(TableManagerState(
@@ -1091,14 +1092,14 @@ class $$CategoryTableTableManager extends RootTableManager<
 typedef $$CategoryTableProcessedTableManager = ProcessedTableManager<
     _$Database,
     $CategoryTable,
-    CategoryData,
+    Categories,
     $$CategoryTableFilterComposer,
     $$CategoryTableOrderingComposer,
     $$CategoryTableAnnotationComposer,
     $$CategoryTableCreateCompanionBuilder,
     $$CategoryTableUpdateCompanionBuilder,
-    (CategoryData, $$CategoryTableReferences),
-    CategoryData,
+    (Categories, $$CategoryTableReferences),
+    Categories,
     PrefetchHooks Function({bool carRefs})>;
 typedef $$StatusTableCreateCompanionBuilder = StatusCompanion Function({
   required String nome,
