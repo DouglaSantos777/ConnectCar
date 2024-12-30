@@ -67,8 +67,8 @@ class DetalhesAluguelScreen extends StatelessWidget {
                     const Text('Informações do Aluguel:', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black87)),
                     const SizedBox(height: 8),
                     const Text('Data de Retirada {aluguel}', style: TextStyle(fontSize: 18, color: Colors.black54)),
-                    const Text('Data de Devolução {cliente} - CNH {cliente}', style: TextStyle(fontSize: 18, color: Colors.black54)),
-                    const Text('Valor Total {cliente}', style: TextStyle(fontSize: 18, color: Colors.black54)),
+                    const Text('Data de Devolução {aluguel}', style: TextStyle(fontSize: 18, color: Colors.black54)),
+                    const Text('Valor Total {aluguel}', style: TextStyle(fontSize: 18, color: Colors.black54)),
                     const SizedBox(height: 16),
 
                     // se o cliente já pagou:
