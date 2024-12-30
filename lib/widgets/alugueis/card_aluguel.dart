@@ -9,26 +9,55 @@ class CardAluguel extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: TextButton.styleFrom(
-        padding: EdgeInsets.zero,  
+        padding: EdgeInsets.zero,
       ),
       child: Container(
         width: double.infinity,
-        margin: const EdgeInsets.only(bottom: 8),
+        margin: const EdgeInsets.only(bottom: 12),
         decoration: BoxDecoration(
           color: const Color.fromARGB(255, 4, 86, 153),
-          borderRadius: BorderRadius.circular(8)
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
         child: const Padding(
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Aluguel de {categoria carro}', style: TextStyle(color: Colors.white, fontSize: 20),),
-              Text('Cliente {nome do cliente}', style: TextStyle(color: Colors.white70, fontSize: 16),),
-              Text('Data de retirada - Data de devolução', style: TextStyle(color: Colors.white70, fontSize: 16),),
+              Text(
+                'Aluguel de {categoria carro}',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 6),
+              Text(
+                'Cliente {nome do cliente}',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 18,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'Data de retirada - Data de devolução',
+                style: TextStyle(
+                  color: Colors.white60,
+                  fontSize: 16,
+                ),
+              ),
             ],
           ),
-        )
+        ),
       ),
     );
   }
