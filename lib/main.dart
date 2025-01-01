@@ -15,10 +15,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue.shade900),
         useMaterial3: false,
-        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.blueAccent,  
-          selectedItemColor: Colors.green,     
-          unselectedItemColor: Colors.blue,   
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(  
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Colors.blue,     
+          unselectedItemColor: Colors.grey,
+          showUnselectedLabels: true,    
         ),
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.grey[200],

@@ -16,7 +16,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const CarrosScreen(),
+    CarrosScreen(),
     const AlugueisScreen(),
     const AdicionarCarroScreen(),
     const RealizarAluguelScreen(),
@@ -35,7 +35,6 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
       body: _screens[_selectedIndex],  
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          color: Colors.blueAccent,
           boxShadow: [
             BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 10),
           ],
@@ -43,14 +42,11 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,  
           onTap: _onItemTapped, 
-          selectedIconTheme: const IconThemeData(size: 22),
-          unselectedIconTheme: const IconThemeData(size: 22),
-          showUnselectedLabels: true,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.directions_car), label: 'Carros'),
             BottomNavigationBarItem(icon: Icon(Icons.car_rental), label: 'Alugueis'),
             BottomNavigationBarItem(icon: Icon(Icons.app_registration_outlined), label: 'Adicionar carro'),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Realizar aluguel'),
+            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Alugar'),
             BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Histórico'),
           ],
         ),
