@@ -23,7 +23,7 @@ class FormularioNumerico extends StatelessWidget {
         ],
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: const Icon(Icons.numbers_rounded, color: Colors.blueAccent, size: 24),
+          prefixIcon: const Icon(Icons.numbers_rounded),
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {

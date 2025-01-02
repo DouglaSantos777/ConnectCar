@@ -36,7 +36,7 @@ class FormularioDataState extends State<FormularioData> {
         readOnly: true, 
         decoration: InputDecoration(
           labelText: widget.label,
-          suffixIcon: const Icon(Icons.calendar_month_outlined, color: Colors.blueAccent, size: 24), 
+          suffixIcon: const Icon(Icons.calendar_month_outlined), 
         ),
         onTap: () {
           _selectDate(context); 

@@ -1,4 +1,5 @@
 ﻿import 'package:connectcar/screens/detalhes_carro_screen.dart';
+import 'package:connectcar/theme/cores_theme.dart';
 import 'package:flutter/material.dart';
 
 class CardCarro extends StatelessWidget {
@@ -6,6 +7,8 @@ class CardCarro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -20,19 +23,22 @@ class CardCarro extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 10),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDarkMode ? Colors.grey[850] : CoresTheme.textoTemaEscuro, 
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.green.shade400, width: 1.5),
+          border: Border.all(
+            color: isDarkMode ? CoresTheme.bordasTemaEscuro : Colors.green.shade400, 
+            width: 1.5,
+          ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: isDarkMode ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.1), 
               spreadRadius: 2,
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
           ],
         ),
-        child: const Column(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -40,32 +46,32 @@ class CardCarro extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Colors.green,
+                color: isDarkMode ? CoresTheme.bordasTemaEscuro : CoresTheme.corVerde, 
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               '{marca}',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
-                color: Colors.black87,
+                color: isDarkMode ? CoresTheme.textoTemaEscuro : Colors.black, 
               ),
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
               '{modelo} - {ano}',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.black54,
+                color: isDarkMode ? CoresTheme.textoTemaEscuro : Colors.black54, 
               ),
             ),
-            SizedBox(height: 6),
+            const SizedBox(height: 6),
             Text(
               '{placa}',
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.black45,
+                color: isDarkMode ? Colors.white54 : Colors.black45, 
                 fontStyle: FontStyle.italic,
               ),
             ),

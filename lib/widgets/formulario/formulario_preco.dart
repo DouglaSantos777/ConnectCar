@@ -19,7 +19,7 @@ class FormularioPreco extends StatelessWidget {
         ],
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: const Icon(Icons.attach_money, color: Colors.blueAccent, size: 24),
+          prefixIcon: const Icon(Icons.attach_money),
         ),
       ),
     );

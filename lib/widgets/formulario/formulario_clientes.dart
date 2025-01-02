@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:connectcar/theme/cores_theme.dart';
+import 'package:flutter/material.dart';
 
 class FormularioClientes extends StatefulWidget {
   final Map<String, String> clientes; 
@@ -47,14 +48,13 @@ class _FormularioClientesState extends State<FormularioClientes> {
             decoration: const InputDecoration(
               labelText: 'Pesquisar por CPF ou Nome',
               prefixIcon: Icon(Icons.search),
-              border: OutlineInputBorder(),
             ),
             onChanged: _filtrarClientes,
           ),
           const SizedBox(height: 10),
           DropdownButtonFormField<String>(
             value: widget.clienteSelecionado,
-            hint: const Text('Selecione um cliente'),
+            hint: const Text('Selecione um cliente', style: TextStyle(color: CoresTheme.textoEscuroClaro, fontWeight: FontWeight.w700),),
             items: clientesFiltrados.map((cliente) {
               return DropdownMenuItem<String>(
                 value: cliente.key,  

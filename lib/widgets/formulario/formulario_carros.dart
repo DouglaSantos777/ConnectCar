@@ -1,7 +1,8 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:connectcar/theme/cores_theme.dart';
+import 'package:flutter/material.dart';
 
 class FormularioCarros extends StatefulWidget {
-  final Map<String, String> carros; // chave: placa ou renavam, valor: modelo
+  final Map<String, String> carros; 
   final String? carroSelecionado;
   final void Function(String?) onChanged;
 
@@ -55,7 +56,7 @@ class _FormularioCarrosState extends State<FormularioCarros> {
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
             value: widget.carroSelecionado,
-            hint: const Text('Selecione um carro'),
+            hint: const Text('Selecione um carro', style: TextStyle(color: CoresTheme.textoEscuroClaro, fontWeight: FontWeight.w700),),
             items: _carrosFiltrados.map((entry) {
               return DropdownMenuItem<String>(
                 value: entry.key,

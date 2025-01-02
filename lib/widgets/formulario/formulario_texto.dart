@@ -33,7 +33,7 @@ class FormularioTexto extends StatelessWidget {
             },
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: const Icon(Icons.edit, color: Colors.blueAccent, size: 24,), 
+          prefixIcon: const Icon(Icons.edit,), 
         ),
       ),
     );

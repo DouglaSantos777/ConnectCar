@@ -1,4 +1,6 @@
 ﻿import 'package:connectcar/screens/detalhes_carro_screen.dart';
+import 'package:connectcar/theme/botao_carros_theme.dart';
+import 'package:connectcar/theme/cores_theme.dart';
 import 'package:flutter/material.dart';
 
 class BotaoCarros extends StatelessWidget {
@@ -29,14 +31,13 @@ class BotaoCarros extends StatelessWidget {
               );
             },
             child: Chip(
-              backgroundColor: Colors.blue[50],
-              padding: const EdgeInsets.all(8),
+              backgroundColor: BotaoCarrosTheme.obterCorDeFundo(context),
               shape: RoundedRectangleBorder(
                 side: const BorderSide(
-                  color: Colors.blueAccent,
                   width: 1.5,
+                  color: CoresTheme.bordasTemaEscuro,
                 ),
-                borderRadius: BorderRadius.circular(15.0),
+                borderRadius: BorderRadius.circular(12.0),
               ),
               label: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,13 +50,13 @@ class BotaoCarros extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 4,),
                   Text(
                     categoria['nome']!,
-                    style: const TextStyle(
-                      color: Colors.black87,
+                    style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
+                      color: BotaoCarrosTheme.obterCorDoTexto(context),
                     ),
                   ),
                 ],

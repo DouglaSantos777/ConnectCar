@@ -1,4 +1,5 @@
 ﻿import 'package:connectcar/screens/lista_carros_screen.dart';
+import 'package:connectcar/theme/cores_theme.dart';
 import 'package:connectcar/widgets/carros_widgets/botao_carros.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,6 @@ class SecaoCarrosDisponiveis extends StatelessWidget {
             const Text(
               'Carros Disponíveis',
               style: TextStyle(
-                color: Colors.black87,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -33,7 +33,8 @@ class SecaoCarrosDisponiveis extends StatelessWidget {
               icon: const Icon(Icons.directions_car),
               label: const Text('Ver todos'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: CoresTheme.azulPrimarioClaro,
+                foregroundColor: CoresTheme.textoTemaEscuro,
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -43,18 +44,12 @@ class SecaoCarrosDisponiveis extends StatelessWidget {
           ],
         ),
         
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 8),
           child: TextField(
             decoration: InputDecoration(
               hintText: 'Pesquise por marca ou modelo...',
-              prefixIcon: const Icon(Icons.search),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: const BorderSide(color: Colors.blueAccent),
-              ),
-              filled: true,
-              fillColor: Colors.grey[200],
+              prefixIcon: Icon(Icons.search),
             ),
           ),
         ),

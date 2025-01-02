@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:connectcar/theme/cores_theme.dart';
+import 'package:flutter/material.dart';
 
 class CardAluguel extends StatelessWidget {
   final VoidCallback onPressed;
@@ -34,9 +35,9 @@ class CardAluguel extends StatelessWidget {
               Text(
                 'Aluguel de {categoria carro}',
                 style: TextStyle(
-                  color: Colors.white,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
+                  color: CoresTheme.textoTemaEscuro,
                 ),
               ),
               SizedBox(height: 6),

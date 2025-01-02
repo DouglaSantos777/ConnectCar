@@ -13,7 +13,7 @@ class FormularioDescricao extends StatelessWidget {
         minLines: 2, 
         decoration: InputDecoration(
           labelText: label,
-          prefixIcon: const Icon(Icons.edit, color: Colors.blueAccent, size: 24,),
+          prefixIcon: const Icon(Icons.edit),
           contentPadding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 12.0),
         ),
       ),

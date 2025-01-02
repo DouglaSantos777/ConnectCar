@@ -16,45 +16,41 @@ class _AdicionarCarroScreenState extends State<AdicionarCarroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey[50],
-        appBar: AppBar(
-          title: const Text('Adicionar Carro'),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                children: [
-                  const Text(
-                    'Insira os dados do veículo nos campos abaixo:',
-                    style: TextStyle(
-                      color: Colors.blueAccent,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                    ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Adicionar Carro'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: Column(
+              children: [
+                const Text(
+                  'Insira os dados do veículo nos campos abaixo:',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
                   ),
-                  const SizedBox(height: 14),
-                  Form(
-                    child: Column(
-                      children: [
-                        const FormularioTexto(label: 'Marca'),
-                        const FormularioTexto(label: 'Modelo'),
-                        const FormularioNumerico(label: 'Ano'),
-                        const FormularioTexto(label: 'Placa'),
-                        const FormularioNumerico(label: 'Renavam'),
-                        const FormularioTexto(label: 'Categoria'),
-                        FormularioPreco(label: 'Preço por dia'),
-                        const FormularioDescricao(label: 'Descrição'),
-                        
-                        BotaoCadastro(label: 'Cadastrar carro', onPressed: (){})
-                      ],
-                    ),
+                ),
+                const SizedBox(height: 14),
+                Form(
+                  child: Column(
+                    children: [
+                      const FormularioTexto(label: 'Marca'),
+                      const FormularioTexto(label: 'Modelo'),
+                      const FormularioNumerico(label: 'Ano'),
+                      const FormularioTexto(label: 'Placa'),
+                      const FormularioNumerico(label: 'Renavam'),
+                      const FormularioTexto(label: 'Categoria'),
+                      FormularioPreco(label: 'Preço por dia'),
+                      const FormularioDescricao(label: 'Descrição'),
+                      
+                      BotaoCadastro(label: 'Cadastrar carro', onPressed: (){})
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

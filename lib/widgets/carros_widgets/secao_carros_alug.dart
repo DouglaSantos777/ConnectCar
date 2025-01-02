@@ -1,4 +1,5 @@
 ﻿import 'package:connectcar/screens/lista_carros_screen.dart';
+import 'package:connectcar/theme/cores_theme.dart';
 import 'package:connectcar/widgets/carros_widgets/botao_carros.dart';
 import 'package:flutter/material.dart';
 
@@ -10,9 +11,9 @@ class SecaoCarrosAlugados extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey[50],
-        border: Border(
-          left: BorderSide(color: Colors.blueGrey.shade300, width: 4),
+        color: CoresTheme.bordasTemaEscuro,
+        border: const Border(
+          left: BorderSide(width: 4, color: Color.fromARGB(255, 51, 88, 108)),
         ),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
@@ -31,12 +32,12 @@ class SecaoCarrosAlugados extends StatelessWidget {
             children: [
               const Row(
                 children: [
-                  Icon(Icons.directions_car_filled_outlined, color: Colors.blueGrey, size: 26),
+                  Icon(Icons.directions_car_filled_outlined,size: 26, color: CoresTheme.textoTemaEscuro,),
                   SizedBox(width: 8),
                   Text(
                     'Carros Alugados',
                     style: TextStyle(
-                      color: Colors.black87,
+                      color: CoresTheme.textoTemaEscuro,
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
@@ -56,7 +57,7 @@ class SecaoCarrosAlugados extends StatelessWidget {
                 label: const Text('Ver todos'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueGrey.shade400,
-                  foregroundColor: Colors.white,
+                  foregroundColor: CoresTheme.textoTemaEscuro,
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),

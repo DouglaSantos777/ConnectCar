@@ -12,7 +12,6 @@ class Orcamento extends StatelessWidget {
         Text(
           'Realize o orçamento:',
           style: TextStyle(
-            color: Colors.blueAccent,
             fontWeight: FontWeight.w600,
             fontSize: 20,
           ),

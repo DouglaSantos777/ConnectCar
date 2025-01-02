@@ -13,7 +13,6 @@ class AdicionarCliente extends StatelessWidget {
         Text(
           'Insira os dados do cliente:',
           style: TextStyle(
-            color: Colors.blueAccent,
             fontWeight: FontWeight.w600,
             fontSize: 20,
           ),

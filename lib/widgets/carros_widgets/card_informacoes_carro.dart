@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/widgets/alugueis/orcamento.dart';
+﻿import 'package:connectcar/theme/cores_theme.dart';
+import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:flutter/material.dart';
 
 class CardCarroDetalhes extends StatelessWidget {
@@ -6,11 +7,15 @@ class CardCarroDetalhes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
+      color: isDarkMode ? Colors.grey[850] : Colors.white70, 
+      shadowColor: isDarkMode ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.1), 
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -24,7 +29,7 @@ class CardCarroDetalhes extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue[900],
+                    color: isDarkMode ? CoresTheme.textoTemaEscuro : CoresTheme.textoAzulTemaClaro, 
                   ),
                 ),
                 Text(
@@ -32,7 +37,7 @@ class CardCarroDetalhes extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.blue[900],
+                    color: isDarkMode ? CoresTheme.textoTemaEscuro : CoresTheme.textoAzulTemaClaro, 
                   ),
                 ),
               ],
@@ -43,11 +48,11 @@ class CardCarroDetalhes extends StatelessWidget {
               children: [
                 Text(
                   'Ano: 2020',
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                  style: TextStyle(fontSize: 16),
                 ),
                 Text(
                   'Placa: ABC1234',
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                  style: TextStyle(fontSize: 16),
                 ),
               ],
             ),
@@ -57,11 +62,11 @@ class CardCarroDetalhes extends StatelessWidget {
               children: [
                 Text(
                   'Renavam: 1234567890',
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                  style: TextStyle(fontSize: 16),
                 ),
                 Text(
                   'Categoria: SUV',
-                  style: TextStyle(fontSize: 16, color: Colors.black54),
+                  style: TextStyle(fontSize: 16),
                 ),
               ],
             ),
@@ -73,7 +78,7 @@ class CardCarroDetalhes extends StatelessWidget {
                   'Status: Disponível',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Colors.green,
+                    color: CoresTheme.corVerde,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -90,10 +95,10 @@ class CardCarroDetalhes extends StatelessWidget {
             const SizedBox(height: 16),
             const Text(
               'Descrição: Carro em excelente estado, ideal para viagens longas e passeios. Confortável e econômico, com todos os recursos de segurança necessários.',
-              style: TextStyle(fontSize: 14, color: Colors.black54),
+              style: TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 16),
-            const Orcamento()
+            const Orcamento(),
           ],
         ),
       ),
