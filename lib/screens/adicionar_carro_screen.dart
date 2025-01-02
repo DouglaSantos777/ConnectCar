@@ -1,8 +1,8 @@
 ﻿import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_descricao.dart';
+import 'package:connectcar/widgets/formulario/formulario_imagem.dart';
 import 'package:connectcar/widgets/formulario/formulario_numerico.dart';
 import 'package:connectcar/widgets/formulario/formulario_preco.dart';
-import 'package:connectcar/widgets/formulario/formulario_radio.dart';
 import 'package:connectcar/widgets/formulario/formulario_texto.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,6 @@ class AdicionarCarroScreen extends StatefulWidget {
 }
 
 class _AdicionarCarroScreenState extends State<AdicionarCarroScreen> {
-  String? _statusSelecionado;
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +47,6 @@ class _AdicionarCarroScreenState extends State<AdicionarCarroScreen> {
                         const FormularioTexto(label: 'Placa'),
                         const FormularioNumerico(label: 'Renavam'),
                         const FormularioTexto(label: 'Categoria'),
-                        FormularioRadio<String>(
-                          options: const ['Disponível', 'Alugado'], 
-                          selectedValue: _statusSelecionado,
-                          onChanged: (value) {
-                            setState(() {
-                              _statusSelecionado = value;
-                            });
-                          },
-                          labelBuilder: (option) => option, 
-                        ),
                         FormularioPreco(label: 'Preço por dia'),
                         const FormularioDescricao(label: 'Descrição'),
                         
