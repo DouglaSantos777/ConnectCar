@@ -1,4 +1,5 @@
 ﻿import 'package:connectcar/screens/realizar_aluguel_screen.dart';
+import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:flutter/material.dart';
 
 class CardCarroDetalhes extends StatelessWidget {
@@ -93,27 +94,7 @@ class CardCarroDetalhes extends StatelessWidget {
               style: TextStyle(fontSize: 14, color: Colors.black54),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const RealizarAluguelScreen(),
-                ),
-              );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue[800],
-                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text(
-                'Alugar Agora',
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
+            const Orcamento()
           ],
         ),
       ),
