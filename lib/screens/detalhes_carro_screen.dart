@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/widgets/carros_widgets/card_informacoes_carro.dart';
+﻿import 'package:connectcar/widgets/alugueis/orcamento.dart';
+import 'package:connectcar/widgets/carros_widgets/card_informacoes_carro.dart';
 import 'package:flutter/material.dart';
 
 class DetalhesCarroScreen extends StatelessWidget {
@@ -12,7 +13,11 @@ class DetalhesCarroScreen extends StatelessWidget {
       ),
       body: Container(
         padding: const EdgeInsets.all(16),
-        child: const CardCarroDetalhes(),
+        child: const Column(
+          children: [
+            CardCarroDetalhes(),
+          ],
+        ),
       )
     );
   }
