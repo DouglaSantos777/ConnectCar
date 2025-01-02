@@ -28,7 +28,41 @@ class MyApp extends StatelessWidget {
           iconTheme: const IconThemeData(
             color: Colors.black87
           )
-        )
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          labelStyle: const TextStyle(
+            color: Colors.black54,
+            fontWeight: FontWeight.w500,
+          ),
+          prefixIconColor: Colors.blueAccent,
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.blueAccent,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.blueAccent,
+              width: 1.5,
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.grey,
+              width: 1.0,
+            ),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 18.0,
+            horizontal: 16.0,
+          ),
+          fillColor: Colors.white70,
+          filled: true,
+        ),
       ),
       home: const PrincipalScreen(),
     );

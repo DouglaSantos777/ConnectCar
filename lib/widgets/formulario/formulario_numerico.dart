@@ -23,35 +23,7 @@ class FormularioNumerico extends StatelessWidget {
         ],
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: const TextStyle(
-            color: Colors.black54,
-            fontWeight: FontWeight.w500,
-          ),
           prefixIcon: const Icon(Icons.numbers_rounded, color: Colors.blueAccent, size: 24),
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.blueAccent,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.blueAccent,
-              width: 1.5,
-            ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          border: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Colors.grey,
-              width: 1.0,
-            ),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          contentPadding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
-          fillColor: Colors.white70,
-          filled: true, 
         ),
         validator: (value) {
           if (value == null || value.isEmpty) {
