@@ -1,10 +1,9 @@
-﻿import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
+﻿import 'package:connectcar/widgets/alugueis/adicionar_cliente.dart';
+import 'package:connectcar/widgets/alugueis/orcamento.dart';
+import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
+import 'package:connectcar/widgets/formulario/formulario_carros.dart';
+import 'package:connectcar/widgets/formulario/formulario_clientes.dart';
 import 'package:connectcar/widgets/formulario/formulario_data.dart';
-import 'package:connectcar/widgets/formulario/formulario_descricao.dart';
-import 'package:connectcar/widgets/formulario/formulario_numerico.dart';
-import 'package:connectcar/widgets/formulario/formulario_radio.dart';
-import 'package:connectcar/widgets/formulario/formulario_texto.dart';
-import 'package:connectcar/widgets/valor_total_estilo.dart';
 import 'package:flutter/material.dart';
 
 class RealizarAluguelScreen extends StatefulWidget {
@@ -15,7 +14,8 @@ class RealizarAluguelScreen extends StatefulWidget {
 }
 
 class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
-  String? _statusSelecionado;
+  String? clienteSelecionado;
+  String? carroSelecionado;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      'Insira os dados do cliente:',
+                      'Selecione o cliente:',
                       style: TextStyle(
                         color: Colors.blueAccent,
                         fontWeight: FontWeight.w600,
@@ -43,45 +43,55 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
                       ),
                     ),
                     const SizedBox(height: 14),
-                    const FormularioTexto(label: 'Nome'),
-                    const FormularioTexto(label: 'CPF'),
-                    const FormularioNumerico(label: 'CNH'),
-                    const FormularioDescricao(label: 'Endereço'),
-                    const FormularioTexto(label: 'Telefone'),
-                    const FormularioTexto(label: 'Email'),
-
-                    const Text(
-                      'Realize o orçamento:',
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    const FormularioData(label: 'Data de Retirada'),
-                    const FormularioData(label: 'Data de Devolução'),
-                    const ValorTotalEstilo(valorTotal: '500.00'),
-
-                    const Text(
-                      'Realize o pagamento:',
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(height: 14),
-                    FormularioRadio<String>(
-                      options: const ['Pago', 'Pendente'], 
-                      selectedValue: _statusSelecionado,
-                      onChanged: (value) {
+                    FormularioClientes(
+                      clientes: const {
+                        '123.456.789-00': 'João Silva',
+                        '987.654.321-00': 'Maria Oliveira',
+                        '111.222.333-44': 'Carlos Santos',
+                      },
+                      clienteSelecionado: clienteSelecionado,
+                      onChanged: (String? newValue) {
                         setState(() {
-                          _statusSelecionado = value;
+                          clienteSelecionado = newValue;
                         });
                       },
-                      labelBuilder: (option) => option, 
                     ),
+                    const Text(
+                      'Selecione o carro:',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+                    FormularioCarros(
+                      carros: const {
+                        'ABC-1234': 'Toyota Corolla',
+                        'XYZ-5678': 'Honda Civic',
+                        'JKL-9101': 'Ford Focus',
+                        'MNO-3456': 'Toyota Corolla',  
+                      }, 
+                      carroSelecionado: carroSelecionado,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          carroSelecionado = newValue;
+                        });
+                      },
+                    ),
+                    if (clienteSelecionado == null) ...[
+                      const AdicionarCliente(),
+                    ],
+                    const Orcamento(),
+                    const Text(
+                      'Selecione a data de pagamento:',
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
                     const FormularioData(label: 'Data de Pagamento'), 
 
                     BotaoCadastro(label: 'Finalizar aluguel', onPressed: (){})
