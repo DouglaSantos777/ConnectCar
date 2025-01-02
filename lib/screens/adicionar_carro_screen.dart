@@ -1,6 +1,5 @@
 ﻿import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_descricao.dart';
-import 'package:connectcar/widgets/formulario/formulario_imagem.dart';
 import 'package:connectcar/widgets/formulario/formulario_numerico.dart';
 import 'package:connectcar/widgets/formulario/formulario_preco.dart';
 import 'package:connectcar/widgets/formulario/formulario_texto.dart';

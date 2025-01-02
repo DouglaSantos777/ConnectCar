@@ -1,5 +1,4 @@
-﻿import 'package:connectcar/screens/realizar_aluguel_screen.dart';
-import 'package:connectcar/widgets/alugueis/orcamento.dart';
+﻿import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:flutter/material.dart';
 
 class CardCarroDetalhes extends StatelessWidget {

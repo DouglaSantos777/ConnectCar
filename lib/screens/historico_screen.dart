@@ -2,7 +2,6 @@
 import 'package:connectcar/widgets/graficos/grafico_linhas.dart';
 import 'package:connectcar/widgets/graficos/grafico_pizza.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 
 class HistoricoScreen extends StatelessWidget {
   const HistoricoScreen({super.key});
@@ -20,7 +19,7 @@ class HistoricoScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Carro mais alugado do ano',
+              'Carros mais alugados do ano',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
