@@ -8,26 +8,26 @@ import 'package:flutter/material.dart';
 
 class CustomThemeData {
   ThemeData buildThemeData(AppTheme appTheme) {
-    final CustomAppBarTheme _appBarTheme = CustomAppBarTheme();
-    final CustomBottomNavigationBarTheme _bottomNavigationTheme = CustomBottomNavigationBarTheme();
-    final CustomInputDecorationTheme _inputDecorationTheme = CustomInputDecorationTheme();
+    final CustomAppBarTheme appBarTheme = CustomAppBarTheme();
+    final CustomBottomNavigationBarTheme bottomNavigationTheme = CustomBottomNavigationBarTheme();
+    final CustomInputDecorationTheme inputDecorationTheme = CustomInputDecorationTheme();
     
     return ThemeData(
       colorScheme: appTheme == AppTheme.dark
-          ? const ColorScheme.dark(
-              primary: CoresTheme.lilasPrimarioEscuro,
-              surface: CoresTheme.backgroundTemaEscuro,
-              onSurface: CoresTheme.textoTemaEscuro,
-            )
-          : const ColorScheme.light(
-              primary: CoresTheme.azulPrimarioClaro,
-              surface: CoresTheme.backgroundTemaClaro,
-              onSurface: CoresTheme.textoPrimarioClaro,
-            ),
+        ? const ColorScheme.dark(
+            primary: CoresTheme.lilasPrimarioEscuro,
+            surface: CoresTheme.backgroundTemaEscuro,
+            onSurface: CoresTheme.textoTemaEscuro,
+          )
+        : const ColorScheme.light(
+            primary: CoresTheme.azulPrimarioClaro,
+            surface: CoresTheme.backgroundTemaClaro,
+            onSurface: CoresTheme.textoPrimarioClaro,
+          ),
       useMaterial3: true,
-      appBarTheme: _appBarTheme.buildAppBarTheme(appTheme),
-      bottomNavigationBarTheme: _bottomNavigationTheme.buildBottomNavTheme(appTheme),
-      inputDecorationTheme: _inputDecorationTheme.buildInputTheme(appTheme),
+      appBarTheme: appBarTheme.buildAppBarTheme(appTheme),
+      bottomNavigationBarTheme: bottomNavigationTheme.buildBottomNavTheme(appTheme),
+      inputDecorationTheme: inputDecorationTheme.buildInputTheme(appTheme),
     );
   }
 }
