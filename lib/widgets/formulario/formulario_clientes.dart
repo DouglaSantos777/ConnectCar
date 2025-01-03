@@ -1,14 +1,13 @@
-﻿import 'package:connectcar/theme/cores_theme.dart';
+﻿import 'package:connectcar/models/app_database.dart';
 import 'package:flutter/material.dart';
+import 'package:connectcar/theme/cores_theme.dart';  
 
 class FormularioClientes extends StatefulWidget {
-  final Map<String, String> clientes; 
   final String? clienteSelecionado;
   final void Function(String?) onChanged;
 
   const FormularioClientes({
     super.key,
-    required this.clientes,
     required this.onChanged,
     this.clienteSelecionado,
   });
@@ -19,20 +18,22 @@ class FormularioClientes extends StatefulWidget {
 
 class _FormularioClientesState extends State<FormularioClientes> {
   final TextEditingController _cpfController = TextEditingController();
-  List<MapEntry<String, String>> clientesFiltrados = [];
+  List<ClienteData> clientesFiltrados = [];
+  late Future<List<ClienteData>> _clientesFuture;
 
   @override
   void initState() {
     super.initState();
-    clientesFiltrados = widget.clientes.entries.toList();
+    _clientesFuture = AppDatabase.open().then((db) => db.getAllClientes()); 
   }
 
   void _filtrarClientes(String cpf) {
     setState(() {
-      clientesFiltrados = widget.clientes.entries
-        .where((cliente) =>
-            cliente.key.contains(cpf) || cliente.value.toLowerCase().contains(cpf.toLowerCase()))
-        .toList();
+      _clientesFuture.then((clientes) {
+        clientesFiltrados = clientes.where((cliente) {
+          return cliente.cpf.contains(cpf) || cliente.nome.toLowerCase().contains(cpf.toLowerCase());
+        }).toList();
+      });
     });
   }
 
@@ -52,16 +53,38 @@ class _FormularioClientesState extends State<FormularioClientes> {
             onChanged: _filtrarClientes,
           ),
           const SizedBox(height: 10),
-          DropdownButtonFormField<String>(
-            value: widget.clienteSelecionado,
-            hint: const Text('Selecione um cliente', style: TextStyle(color: CoresTheme.textoEscuroClaro, fontWeight: FontWeight.w700),),
-            items: clientesFiltrados.map((cliente) {
-              return DropdownMenuItem<String>(
-                value: cliente.key,  
-                child: Text('${cliente.value} - ${cliente.key}'), 
+          FutureBuilder<List<ClienteData>>(
+            future: _clientesFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              }
+              if (snapshot.hasError) {
+                return Text('Erro: ${snapshot.error}');
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Text('Nenhum cliente encontrado.');
+              }
+
+              if (clientesFiltrados.isEmpty) {
+                clientesFiltrados = snapshot.data!;
+              }
+
+              return DropdownButtonFormField<String>(
+                value: widget.clienteSelecionado,
+                hint: const Text(
+                  'Selecione um cliente',
+                  style: TextStyle(color: CoresTheme.textoEscuroClaro, fontWeight: FontWeight.w700),
+                ),
+                items: clientesFiltrados.map((cliente) {
+                  return DropdownMenuItem<String>(
+                    value: cliente.cpf, 
+                    child: Text('${cliente.nome} - ${cliente.cpf}'),
+                  );
+                }).toList(),
+                onChanged: widget.onChanged,
               );
-            }).toList(),
-            onChanged: widget.onChanged,
+            },
           ),
         ],
       ),

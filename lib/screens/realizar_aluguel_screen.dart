@@ -1,11 +1,11 @@
-﻿import 'package:connectcar/widgets/alugueis/adicionar_cliente.dart';
-import 'package:connectcar/widgets/alugueis/orcamento.dart';
+﻿import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_carros.dart';
 import 'package:connectcar/widgets/formulario/formulario_clientes.dart';
 import 'package:connectcar/widgets/formulario/formulario_data.dart';
 import 'package:flutter/material.dart';
+import 'package:connectcar/widgets/alugueis/adicionar_cliente.dart';
 
 class RealizarAluguelScreen extends StatefulWidget {
   const RealizarAluguelScreen({super.key});
@@ -17,6 +17,19 @@ class RealizarAluguelScreen extends StatefulWidget {
 class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
   String? clienteSelecionado;
   String? carroSelecionado;
+
+  void _navigateToAdicionarCliente() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const AdicionarCliente()),
+    );
+
+    if (result != null) {
+      setState(() {
+        clienteSelecionado = result; 
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +53,6 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
                   ),
                   const SizedBox(height: 14),
                   FormularioClientes(
-                    clientes: const {
-                      '123.456.789-00': 'João Silva',
-                      '987.654.321-00': 'Maria Oliveira',
-                      '111.222.333-44': 'Carlos Santos',
-                    },
                     clienteSelecionado: clienteSelecionado,
                     onChanged: (String? newValue) {
                       setState(() {
@@ -52,6 +60,7 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
                       });
                     },
                   ),
+                  const SizedBox(height: 14),
                   const Text(
                     'Selecione o carro:',
                     style: TextStyle(
@@ -66,7 +75,7 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
                       'XYZ-5678': 'Honda Civic',
                       'JKL-9101': 'Ford Focus',
                       'MNO-3456': 'Toyota Corolla',  
-                    }, 
+                    },
                     carroSelecionado: carroSelecionado,
                     onChanged: (String? newValue) {
                       setState(() {
@@ -75,7 +84,10 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
                     },
                   ),
                   if (clienteSelecionado == null) ...[
-                    const AdicionarCliente(),
+                    ElevatedButton(
+                      onPressed: _navigateToAdicionarCliente,
+                      child: const Text('Adicionar Cliente'),
+                    ),
                   ],
                   const Orcamento(),
                   const Text(
@@ -87,8 +99,20 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
                   ),
                   const SizedBox(height: 14),
                   const FormularioData(label: 'Data de Pagamento'), 
-    
-                  BotaoCadastro(label: 'Finalizar aluguel', onPressed: (){})
+                  BotaoCadastro(
+                    label: 'Finalizar aluguel',
+                    onPressed: () {
+                      if (clienteSelecionado == null || carroSelecionado == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Por favor, selecione cliente e carro!')),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Aluguel finalizado com sucesso!')),
+                        );
+                      }
+                    }
+                  )
                 ],
               ),
             ),
