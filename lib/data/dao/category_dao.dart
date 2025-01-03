@@ -12,6 +12,7 @@ class CategoryDao extends DatabaseAccessor<Database> with _$CategoryDaoMixin {
   CategoryDao(this.db) : super(db);
 
   Stream<List<Category>> watchCategories() => select(categories).watch();
+
   Future insertTag(Insertable<Category> category) =>
       into(categories).insert(category);
 }
