@@ -4,7 +4,9 @@ import 'package:drift/drift.dart';
 import 'package:connectcar/data/tables/categories.dart';
 import 'package:connectcar/data/tables/status.dart';
 import 'package:connectcar/data/tables/cars.dart';
+import 'package:connectcar/data/dao/car_dao.dart';
 import 'package:connectcar/data/dao/category_dao.dart';
+import 'package:connectcar/data/dao/status_dao.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as path;
@@ -22,7 +24,7 @@ LazyDatabase _openConnection() {
 
 @DriftDatabase(
   tables: [Cars, Categories, Status],
-  daos: [CategoryDao],
+  daos: [CarDao, CategoryDao, StatusDao],
 )
 class Database extends _$Database {
   Database() : super(_openConnection());
@@ -34,8 +36,10 @@ class Database extends _$Database {
   MigrationStrategy get migration => MigrationStrategy(
         onUpgrade: (migrator, from, to) async {
           if (from == 1) {
-            await migrator.addColumn(car, car.category);
+            await migrator.addColumn(cars, cars.category);
+            await migrator.addColumn(cars, cars.status); 
             await migrator.createTable(categories);
+            await migrator.createTable(status);
           }
         },
         beforeOpen: (details) async {

@@ -904,7 +904,9 @@ abstract class _$Database extends GeneratedDatabase {
   late final $CategoriesTable categories = $CategoriesTable(this);
   late final $StatusTable status = $StatusTable(this);
   late final $CarsTable cars = $CarsTable(this);
+  late final CarDao carDao = CarDao(this as Database);
   late final CategoryDao categoryDao = CategoryDao(this as Database);
+  late final StatusDao statusDao = StatusDao(this as Database);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();

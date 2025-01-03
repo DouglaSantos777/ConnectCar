@@ -1,3 +1,4 @@
+import 'package:connectcar/screens/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,15 +18,5 @@ class MyApp extends StatelessWidget {
       ),
       home: const MyHomePage(),
     );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-  
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }
