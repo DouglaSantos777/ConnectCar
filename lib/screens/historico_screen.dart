@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/widgets/graficos/grafico_barras.dart';
+﻿import 'package:connectcar/widgets/custom_app_bar.dart';
+import 'package:connectcar/widgets/graficos/grafico_barras.dart';
 import 'package:connectcar/widgets/graficos/grafico_linhas.dart';
 import 'package:connectcar/widgets/graficos/grafico_pizza.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,9 @@ class HistoricoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Relatório de Aluguel de Carros'),
-        centerTitle: true,
-      ),
-      body: const SingleChildScrollView(
+    return const Scaffold(
+      appBar: CustomAppBar(title: 'Histórico de aluguéis'),
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,5 +1,6 @@
 ﻿import 'package:connectcar/widgets/alugueis/adicionar_cliente.dart';
 import 'package:connectcar/widgets/alugueis/orcamento.dart';
+import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_carros.dart';
 import 'package:connectcar/widgets/formulario/formulario_clientes.dart';
@@ -20,9 +21,7 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Realizar aluguel'),
-      ),
+      appBar: const CustomAppBar(title: 'Realizar aluguel'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

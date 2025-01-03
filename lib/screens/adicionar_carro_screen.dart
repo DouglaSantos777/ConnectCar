@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
+﻿import 'package:connectcar/widgets/custom_app_bar.dart';
+import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_descricao.dart';
 import 'package:connectcar/widgets/formulario/formulario_numerico.dart';
 import 'package:connectcar/widgets/formulario/formulario_preco.dart';
@@ -17,9 +18,7 @@ class _AdicionarCarroScreenState extends State<AdicionarCarroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Adicionar Carro'),
-      ),
+      appBar: const CustomAppBar(title: 'Adicionar carro'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),

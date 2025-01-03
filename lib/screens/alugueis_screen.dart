@@ -1,5 +1,6 @@
 ﻿import 'package:connectcar/screens/detalhes_aluguel_screen.dart';
 import 'package:connectcar/widgets/alugueis/card_aluguel.dart';
+import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class AlugueisScreen extends StatelessWidget {
@@ -8,9 +9,7 @@ class AlugueisScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Aluguéis'),
-      ),
+      appBar: const CustomAppBar(title: 'Aluguéis'),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
