@@ -35,40 +35,6 @@ class CarDao extends DatabaseAccessor<Database> with _$CarDaoMixin {
     return await select(cars).get();
   }
 
-  Stream<List<CarDetails>> observeCarsWithStatusAndCategory() {
-  var orderedSelect = select(cars)
-    ..orderBy([
-      // Ordering by car name or another field
-      (t) => OrderingTerm(expression: t.name), // Ajuste o nome da coluna conforme seu banco de dados
-    ]);
-
-  return orderedSelect
-    .join([
-      // Left outer join with the Categories table
-      leftOuterJoin(
-        categories,
-        categories.name.equalsExp(cars.category), // Verifique se a coluna é 'name' em 'categories'
-      ),
-      // Left outer join with the Status table
-      leftOuterJoin(
-        status,
-        status.name.equalsExp(cars.status), // Verifique se a coluna é 'name' em 'status'
-      ),
-    ])
-    .watch()
-    .map((rows) {
-      return rows.map((row) {
-        return CarDetails(
-          car: row.readTable(cars), // Lê os dados do carro
-          category: row.readTableOrNull(categories)!, // Lê os dados da categoria (use `OrNull` se a coluna for opcional)
-          status: row.readTableOrNull(status)!, // Lê os dados do status (use `OrNull` se a coluna for opcional)
-        );
-      }).toList();
-    });
-}
-
-
-
   // Uso do Companion pois nao é necessário colocar tds os dados apenas os que acho necessário atualizar
   Future<bool> updateCar(CarsCompanion entity) async {
     return await update(cars).replace(entity);
