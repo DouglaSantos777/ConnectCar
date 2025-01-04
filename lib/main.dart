@@ -21,7 +21,7 @@ class MyApp extends ConsumerWidget {
     final appTheme = ref.watch(themeProvider);
 
     return MaterialApp(
-      title: 'ConnectCar', 
+      title: 'ConnectCar',
       debugShowCheckedModeBanner: false,
       theme: CustomThemeData().buildThemeData(appTheme),
       home: const PrincipalScreen(),

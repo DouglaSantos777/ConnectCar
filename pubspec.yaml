@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   drift: ^2.23.0
   drift_flutter: ^0.2.3
+  drift_db_viewer: ^2.1.0
+  path: ^1.9.0
   fl_chart: ^0.69.2
   riverpod: ^2.6.1
   hive: ^2.2.3
