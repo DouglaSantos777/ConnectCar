@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:connectcar/theme/cores_theme.dart';
+import 'package:flutter/material.dart';
 
 class ValorTotalEstilo extends StatelessWidget {
   final String valorTotal;
@@ -10,24 +11,20 @@ class ValorTotalEstilo extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 24),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.green.shade500, Colors.green.shade700],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: Colors.blueGrey.shade800,  
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            offset: const Offset(0, 6),
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Icon(Icons.attach_money, size: 30, color: Colors.white),
+          const Icon(Icons.attach_money, size: 30, color: CoresTheme.textoTemaEscuro),
           const SizedBox(width: 12),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +40,7 @@ class ValorTotalEstilo extends StatelessWidget {
               Text(
                 'R\$ $valorTotal',
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: CoresTheme.textoTemaEscuro,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),

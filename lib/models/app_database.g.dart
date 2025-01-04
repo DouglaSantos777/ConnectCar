@@ -250,7 +250,7 @@ class $ClienteTable extends Cliente with TableInfo<$ClienteTable, ClienteData> {
 }
 
 class ClienteData extends DataClass implements Insertable<ClienteData> {
-  final int id;
+  final int? id;
   final String nome;
   final String cpf;
   final String cnh;
@@ -295,7 +295,7 @@ class ClienteData extends DataClass implements Insertable<ClienteData> {
 
   ClienteCompanion toCompanion(bool nullToAbsent) {
     return ClienteCompanion(
-      id: Value(id),
+      id: Value(id!),
       nome: Value(nome),
       cpf: Value(cpf),
       cnh: Value(cnh),
@@ -332,7 +332,7 @@ class ClienteData extends DataClass implements Insertable<ClienteData> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<int>(id!),
       'nome': serializer.toJson<String>(nome),
       'cpf': serializer.toJson<String>(cpf),
       'cnh': serializer.toJson<String>(cnh),

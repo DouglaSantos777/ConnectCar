@@ -17,7 +17,7 @@ class DetalhesAluguelScreen extends StatelessWidget {
           child: Column(
             children: [
               CardCarro(),
-              CardCliente(),
+              CardCliente(clienteId: 4,),
               CardInformacoesAluguel(),
             ],
           ),

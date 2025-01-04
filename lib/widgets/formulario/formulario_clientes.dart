@@ -1,8 +1,10 @@
 ﻿import 'package:connectcar/models/app_database.dart';
+import 'package:connectcar/riverpod/clientes_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:connectcar/theme/cores_theme.dart';  
+import 'package:connectcar/theme/cores_theme.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class FormularioClientes extends StatefulWidget {
+class FormularioClientes extends ConsumerStatefulWidget {
   final String? clienteSelecionado;
   final void Function(String?) onChanged;
 
@@ -13,32 +15,25 @@ class FormularioClientes extends StatefulWidget {
   });
 
   @override
-  State<FormularioClientes> createState() => _FormularioClientesState();
+  ConsumerState<FormularioClientes> createState() => _FormularioClientesState();
 }
 
-class _FormularioClientesState extends State<FormularioClientes> {
+class _FormularioClientesState extends ConsumerState<FormularioClientes> {
   final TextEditingController _cpfController = TextEditingController();
   List<ClienteData> clientesFiltrados = [];
-  late Future<List<ClienteData>> _clientesFuture;
 
   @override
-  void initState() {
-    super.initState();
-    _clientesFuture = AppDatabase.open().then((db) => db.getAllClientes()); 
-  }
+  Widget build(BuildContext context) {
+    final clientes = ref.watch(clientesProvider);
 
-  void _filtrarClientes(String cpf) {
-    setState(() {
-      _clientesFuture.then((clientes) {
+    void _filtrarClientes(String cpf) {
+      setState(() {
         clientesFiltrados = clientes.where((cliente) {
           return cliente.cpf.contains(cpf) || cliente.nome.toLowerCase().contains(cpf.toLowerCase());
         }).toList();
       });
-    });
-  }
+    }
 
-  @override
-  Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Column(
@@ -53,39 +48,22 @@ class _FormularioClientesState extends State<FormularioClientes> {
             onChanged: _filtrarClientes,
           ),
           const SizedBox(height: 10),
-          FutureBuilder<List<ClienteData>>(
-            future: _clientesFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              }
-              if (snapshot.hasError) {
-                return Text('Erro: ${snapshot.error}');
-              }
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Text('Nenhum cliente encontrado.');
-              }
-
-              if (clientesFiltrados.isEmpty) {
-                clientesFiltrados = snapshot.data!;
-              }
-
-              return DropdownButtonFormField<String>(
-                value: widget.clienteSelecionado,
-                hint: const Text(
-                  'Selecione um cliente',
-                  style: TextStyle(color: CoresTheme.textoEscuroClaro, fontWeight: FontWeight.w700),
+          clientes.isEmpty
+              ? const Text('Nenhum cliente encontrado.')
+              : DropdownButtonFormField<String>(
+                  value: widget.clienteSelecionado,
+                  hint: const Text(
+                    'Selecione um cliente',
+                    style: TextStyle(color: CoresTheme.textoEscuroClaro, fontWeight: FontWeight.w700),
+                  ),
+                  items: (clientesFiltrados.isEmpty ? clientes : clientesFiltrados).map((cliente) {
+                    return DropdownMenuItem<String>(
+                      value: cliente.cpf,
+                      child: Text('${cliente.nome} - ${cliente.cpf}'),
+                    );
+                  }).toList(),
+                  onChanged: widget.onChanged,
                 ),
-                items: clientesFiltrados.map((cliente) {
-                  return DropdownMenuItem<String>(
-                    value: cliente.cpf, 
-                    child: Text('${cliente.nome} - ${cliente.cpf}'),
-                  );
-                }).toList(),
-                onChanged: widget.onChanged,
-              );
-            },
-          ),
         ],
       ),
     );

@@ -34,6 +34,7 @@ class AppDatabase extends _$AppDatabase {
     required String telefone,
     required String email,
   }) async {
+    
     final clienteCompanion = ClienteCompanion(
       nome: Value(nome),
       cpf: Value(cpf),
@@ -53,5 +54,9 @@ class AppDatabase extends _$AppDatabase {
 
   Future<List<ClienteData>> getAllClientes() async {
     return await select(cliente).get(); 
+  }
+
+  Future<ClienteData?> getClienteById(int id) async {
+    return (select(cliente)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
   }
 }

@@ -4,7 +4,7 @@ class CoresTheme {
   static const azulPrimarioClaro = Colors.blueAccent; 
   static const lilasPrimarioEscuro = Color.fromARGB(255, 186, 132, 253);
 
-  static const backgroundTemaClaro = Color.fromARGB(219, 243, 246, 249); 
+  static const backgroundTemaClaro = Color.fromARGB(219, 231, 231, 231); 
   static const backgroundTemaEscuro = Color(0xFF0A0E21); 
 
   static const textoPrimarioClaro = Colors.black87;
@@ -21,5 +21,7 @@ class CoresTheme {
 
   static var textoAzulTemaClaro = Colors.blue[900];
 
-  static const corVerde = Colors.green;
+  static const corVerde = Color.fromARGB(255, 60, 138, 63);
+
+  static const backgroundBotao = Color.fromARGB(255, 59, 3, 69);
 }

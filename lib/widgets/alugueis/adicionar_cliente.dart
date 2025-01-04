@@ -1,5 +1,6 @@
 ﻿import 'package:connectcar/models/app_database.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
+import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_numerico.dart';
 import 'package:connectcar/widgets/formulario/formulario_texto.dart';
 import 'package:flutter/material.dart';
@@ -118,15 +119,12 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
               FormularioTexto(label: 'Número', controller: enderecoNumeroController),
               FormularioTexto(label: 'Bairro', controller: enderecoBairroController),
               FormularioTexto(label: 'Cidade', controller: enderecoCidadeController),
-              FormularioTexto(label: 'Estado', controller: enderecoEstadoController),
+              FormularioTexto(label: 'UF', controller: enderecoEstadoController),
               FormularioTexto(label: 'CEP', controller: enderecoCepController),
               FormularioTexto(label: 'Telefone', controller: telefoneController),
               FormularioTexto(label: 'Email', controller: emailController),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _salvarCliente,
-                child: const Text('Salvar Cliente'),
-              ),
+              BotaoCadastro(label: 'Salvar Cliente', onPressed: _salvarCliente),
             ],
           ),
         ),

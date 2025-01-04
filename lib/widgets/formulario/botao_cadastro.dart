@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:connectcar/theme/cores_theme.dart';
+import 'package:flutter/material.dart';
 
 class BotaoCadastro extends StatelessWidget {
   final String label;
@@ -12,10 +13,10 @@ class BotaoCadastro extends StatelessWidget {
         onPressed();
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
+        backgroundColor: CoresTheme.corVerde,
         padding: const EdgeInsets.symmetric(
           vertical: 15.0,
-          horizontal: 50.0,
+          horizontal: 30.0,
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
@@ -26,7 +27,7 @@ class BotaoCadastro extends StatelessWidget {
         style: const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
-          color: Colors.white70
+          color: CoresTheme.textoTemaEscuro,
         ),
       ),
     );

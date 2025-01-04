@@ -14,6 +14,26 @@ class AdicionarCarroScreen extends StatefulWidget {
 }
 
 class _AdicionarCarroScreenState extends State<AdicionarCarroScreen> {
+  final TextEditingController marcaController = TextEditingController();
+  final TextEditingController modeloController = TextEditingController();
+  final TextEditingController anoController = TextEditingController();
+  final TextEditingController placaController = TextEditingController();
+  final TextEditingController renavamController = TextEditingController();
+  final TextEditingController categoriaController = TextEditingController();
+  final TextEditingController precoController = TextEditingController();
+  final TextEditingController descricaoController = TextEditingController();
+
+  void _salvarCarro() async {
+    final marca = marcaController.text;
+    final modelo = modeloController.text;
+    final ano = anoController.value;
+    final placa = placaController.text;
+    final renavam = renavamController.text;
+    final categoria = categoriaController.text;
+    final preco = precoController.value;
+    final descricao = descricaoController.text;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +65,7 @@ class _AdicionarCarroScreenState extends State<AdicionarCarroScreen> {
                       FormularioPreco(label: 'Preço por dia'),
                       const FormularioDescricao(label: 'Descrição'),
                       
-                      BotaoCadastro(label: 'Cadastrar carro', onPressed: (){})
+                      BotaoCadastro(label: 'Cadastrar carro', onPressed: _salvarCarro)
                     ],
                   ),
                 ),
