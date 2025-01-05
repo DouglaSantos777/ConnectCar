@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:connectcar/screens/principal_screen.dart';
-import 'package:connectcar/theme/theme_provider.dart';
+import 'package:connectcar/theme/theme_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

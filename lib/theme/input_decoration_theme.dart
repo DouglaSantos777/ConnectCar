@@ -1,5 +1,5 @@
 ﻿import 'package:connectcar/theme/cores_theme.dart';
-import 'package:connectcar/theme/theme_provider.dart';
+import 'package:connectcar/theme/theme_riverpod.dart';
 import 'package:flutter/material.dart';
 
 class CustomInputDecorationTheme{

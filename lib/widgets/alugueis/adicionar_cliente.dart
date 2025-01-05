@@ -47,7 +47,27 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
     });
   }
 
+  bool _validarCampos() {
+    return nomeController.text.isNotEmpty &&
+        cpfController.text.isNotEmpty &&
+        cnhController.text.isNotEmpty &&
+        enderecoRuaController.text.isNotEmpty &&
+        enderecoNumeroController.text.isNotEmpty &&
+        enderecoBairroController.text.isNotEmpty &&
+        enderecoCidadeController.text.isNotEmpty &&
+        enderecoEstadoController.text.isNotEmpty &&
+        enderecoCepController.text.isNotEmpty &&
+        telefoneController.text.isNotEmpty;
+  }
+
   void _salvarCliente() async {
+    if (!_validarCampos()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, preencha todos os campos obrigatórios.')),
+      );
+      return;
+    }
+
     final nome = nomeController.text;
     final cpf = cpfController.text;
     final cnh = cnhController.text;
@@ -113,15 +133,15 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
               ),
               const SizedBox(height: 14),
               FormularioTexto(label: 'Nome', controller: nomeController),
-              FormularioTexto(label: 'CPF', controller: cpfController),
-              FormularioNumerico(label: 'CNH', controller: cnhController),
+              FormularioNumerico(label: 'CPF', controller: cpfController, maskType: 'cpf',),
+              FormularioTexto(label: 'CNH', controller: cnhController, maskType: 'cnh',),
               FormularioTexto(label: 'Rua', controller: enderecoRuaController),
               FormularioTexto(label: 'Número', controller: enderecoNumeroController),
               FormularioTexto(label: 'Bairro', controller: enderecoBairroController),
               FormularioTexto(label: 'Cidade', controller: enderecoCidadeController),
-              FormularioTexto(label: 'UF', controller: enderecoEstadoController),
-              FormularioTexto(label: 'CEP', controller: enderecoCepController),
-              FormularioTexto(label: 'Telefone', controller: telefoneController),
+              FormularioTexto(label: 'UF', controller: enderecoEstadoController, maskType: 'uf',),
+              FormularioNumerico(label: 'CEP', controller: enderecoCepController, maskType: 'cep',),
+              FormularioNumerico(label: 'Telefone', controller: telefoneController, maskType: 'telefone',),
               FormularioTexto(label: 'Email', controller: emailController),
               const SizedBox(height: 20),
               BotaoCadastro(label: 'Salvar Cliente', onPressed: _salvarCliente),

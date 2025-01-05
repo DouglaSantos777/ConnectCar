@@ -3,7 +3,6 @@ import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_descricao.dart';
 import 'package:connectcar/widgets/formulario/formulario_numerico.dart';
-import 'package:connectcar/widgets/formulario/formulario_preco.dart';
 import 'package:connectcar/widgets/formulario/formulario_texto.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -66,9 +65,9 @@ class AdicionarCarroScreenState extends ConsumerState<AdicionarCarroScreen> {
               const SizedBox(height: 16),
               FormularioTexto(controller: marcaController, label: 'Marca'),
               FormularioTexto(controller: modeloController, label: 'Modelo'),
-              FormularioNumerico(controller: anoController, label: 'Ano'),
-              FormularioTexto(controller: placaController, label: 'Placa'),
-              FormularioNumerico(controller: renavamController, label: 'Renavam'),
+              FormularioNumerico(controller: anoController, label: 'Ano', maskType: 'ano',),
+              FormularioTexto(controller: placaController, label: 'Placa', maskType: 'placa',),
+              FormularioNumerico(controller: renavamController, label: 'Renavam', maskType: 'renavam',),
               
               DropdownButtonFormField<String>(
                 value: categoriaSelecionada,
@@ -90,7 +89,7 @@ class AdicionarCarroScreenState extends ConsumerState<AdicionarCarroScreen> {
                 },
               ),
               const SizedBox(height: 20),
-              FormularioPreco(controller: precoController, label: 'Preço por dia'),
+              FormularioNumerico(controller: precoController, label: 'Preço por dia', maskType: 'preco',),
               FormularioDescricao(controller: descricaoController, label: 'Descrição'),
 
               BotaoCadastro(

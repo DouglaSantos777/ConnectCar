@@ -18,11 +18,7 @@ class ThemeNotifier extends StateNotifier<AppTheme> {
     final box = await Hive.openBox('settings');
     final themeString = box.get(themeKey, defaultValue: 'light');
 
-    if (themeString == 'dark') {
-      state = AppTheme.dark;
-    } else {
-      state = AppTheme.light;
-    }
+    state = themeString == 'dark' ? AppTheme.dark : AppTheme.light;
   }
 
   Future<void> toggleTheme() async {
