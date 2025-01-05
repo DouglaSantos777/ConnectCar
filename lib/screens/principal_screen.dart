@@ -1,5 +1,4 @@
-﻿/*
-import 'package:connectcar/screens/adicionar_carro_screen.dart';
+﻿import 'package:connectcar/screens/adicionar_carro_screen.dart';
 import 'package:connectcar/screens/alugueis_screen.dart';
 import 'package:connectcar/screens/carros_screen.dart';
 import 'package:connectcar/screens/historico_screen.dart';
@@ -55,4 +54,3 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
     );
   }
 }
-*/
