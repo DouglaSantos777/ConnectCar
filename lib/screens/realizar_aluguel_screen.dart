@@ -26,6 +26,7 @@ class _RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final aluguels = ref.watch(rentsProvider);
     return Scaffold(
       appBar: const CustomAppBar(title: 'Realizar aluguel'),
       body: SingleChildScrollView(
@@ -129,7 +130,34 @@ class _RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
                                     Text('Aluguel finalizado com sucesso!')),
                           );
                         }
-                      })
+                      },
+                      ),
+                        const SizedBox(height: 20),
+                  // Adicionando a ListView para exibir os aluguéis
+                  const Text(
+                    'Aluguéis realizados:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  aluguels.isEmpty
+                      ? const Text("Nenhum aluguel realizado ainda.")
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: aluguels.length,
+                          itemBuilder: (context, index) {
+                            final aluguel = aluguels[index];
+                            return ListTile(
+                              title: Text(
+                                  "Cliente: ${aluguel.clienteId}, Carro: ${aluguel.carId}"),
+                              subtitle: Text(
+                                  "Data Retirada: ${DateFormat('dd/MM/yyyy').format(aluguel.rentDate)} - Data Devolução: ${DateFormat('dd/MM/yyyy').format(aluguel.returnDate)}"),
+                            );
+                          },
+                        ),
                 ],
               ),
             ),

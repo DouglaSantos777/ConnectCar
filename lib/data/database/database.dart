@@ -20,6 +20,18 @@ class Database extends _$Database {
   @override
   int get schemaVersion => 1;
 
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        onUpgrade: (migrator, from, to) async {
+          if (from == 1 && to >= 2) {
+            await migrator.createTable(rents);
+          }
+        },
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON');
+        },
+      );
+
   static Future<Database> open() async {
     final appDocDirectory = await getApplicationDocumentsDirectory();
     final dbPath = '${appDocDirectory.path}/rent.db';
@@ -67,17 +79,17 @@ class Database extends _$Database {
         .getSingleOrNull();
   }
 
-
-  Future<void> registerRent(int clienteId, int carId, DateTime rentDate, DateTime returnDate) async {
-
+  Future<void> registerRent(
+      int clienteId, int carId, DateTime rentDate, DateTime returnDate) async {
     final isAvailable = await isCarAvailable(carId, rentDate, returnDate);
     if (!isAvailable) {
       throw Exception('Carro já alugado no período informado.');
     }
 
     // Obter o preço do carro
-    final car = await (select(cars)..where((tbl) => tbl.id.equals(carId))).getSingle();
-    
+    final car =
+        await (select(cars)..where((tbl) => tbl.id.equals(carId))).getSingle();
+
     // Calcular o valor do aluguel
     final rentDuration = returnDate.difference(rentDate).inDays;
     final totalValue = car.priceByDay * rentDuration;
@@ -95,14 +107,16 @@ class Database extends _$Database {
   }
 
   // Verificar se o carro está disponível para o período solicitado
-  Future<bool> isCarAvailable(int carId, DateTime rentDate, DateTime returnDate) async {
+  Future<bool> isCarAvailable(
+      int carId, DateTime rentDate, DateTime returnDate) async {
     final rentedCars = await (select(rents)
           ..where((tbl) => tbl.carId.equals(carId))
           ..where((tbl) => tbl.returnDate.isBiggerThanValue(rentDate))
           ..where((tbl) => tbl.rentDate.isSmallerThanValue(returnDate)))
         .get();
 
-    return rentedCars.isEmpty; // Se não houver registros de aluguel sobrepondo, o carro está disponível
+    return rentedCars
+        .isEmpty; // Se não houver registros de aluguel sobrepondo, o carro está disponível
   }
 
   // Obter todos os aluguéis
@@ -110,21 +124,6 @@ class Database extends _$Database {
     return await select(rents).get();
   }
 }
-
-
-
-  /*@override
-  MigrationStrategy get migration => MigrationStrategy(
-        onUpgrade: (migrator, from, to) async {
-          if (from == 1) {
-  
-          }
-        },
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-      );
-*/
 
 /*
 LazyDatabase _openConnection() {
