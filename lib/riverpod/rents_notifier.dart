@@ -48,7 +48,32 @@ class RentsNotifier extends StateNotifier<List<Rent>> {
   state = [...state, rent];
 }
 
+ // Método para obter o nome do cliente
+  Future<String?> getClienteNome(int clienteId) async {
+    final db = await Database.open();
+    final cliente = await (db.select(db.cliente)..where((tbl) => tbl.id.equals(clienteId))).getSingleOrNull();
+    return cliente?.nome;
+  }
+
+  // Método para obter a categoria do carro
+  Future<String?> getCarroCategoria(int carId) async {
+    final db = await Database.open();
+    final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
+    return car?.category;
+  }
+
 }
+
+// Providers para acessar nome do cliente e categoria do carro
+final clienteNomeProvider = FutureProvider.family<String?, int>((ref, clienteId) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier);
+  return await rentsNotifier.getClienteNome(clienteId);
+});
+
+final carroCategoriaProvider = FutureProvider.family<String?, int>((ref, carId) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier);
+  return await rentsNotifier.getCarroCategoria(carId);
+});
 
 final rentsProvider = StateNotifierProvider<RentsNotifier, List<Rent>>((ref) {
   final notifier = RentsNotifier();

@@ -3,7 +3,19 @@ import 'package:flutter/material.dart';
 
 class CardAluguel extends StatelessWidget {
   final VoidCallback onPressed;
-  const CardAluguel({super.key, required this.onPressed});
+  final String clienteNome;
+  final String categoriaCarro;
+  final String dataRetirada;
+  final String dataDevolucao;
+
+  const CardAluguel({
+    super.key,
+    required this.onPressed,
+    required this.clienteNome,
+    required this.categoriaCarro,
+    required this.dataRetirada,
+    required this.dataDevolucao,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,30 +39,30 @@ class CardAluguel extends StatelessWidget {
             ),
           ],
         ),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 18.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Aluguel de {categoria carro}',
-                style: TextStyle(
+             'Aluguel de $categoriaCarro',
+                style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: CoresTheme.textoTemaEscuro,
                 ),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               Text(
-                'Cliente {nome do cliente}',
-                style: TextStyle(
+                'Cliente $clienteNome',
+                style: const TextStyle(
                   color: Colors.white70,
                   fontSize: 18,
                 ),
               ),
               SizedBox(height: 4),
               Text(
-                'Data de retirada - Data de devolução',
+                '$dataRetirada - $dataDevolucao',
                 style: TextStyle(
                   color: Colors.white60,
                   fontSize: 16,
