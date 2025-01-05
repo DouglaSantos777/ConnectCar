@@ -1200,17 +1200,365 @@ class ClienteCompanion extends UpdateCompanion<ClienteData> {
   }
 }
 
+class $RentsTable extends Rents with TableInfo<$RentsTable, Rent> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _clienteIdMeta =
+      const VerificationMeta('clienteId');
+  @override
+  late final GeneratedColumn<int> clienteId = GeneratedColumn<int>(
+      'cliente_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES cliente (id)'));
+  static const VerificationMeta _carIdMeta = const VerificationMeta('carId');
+  @override
+  late final GeneratedColumn<int> carId = GeneratedColumn<int>(
+      'car_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES cars (id)'));
+  static const VerificationMeta _rentDateMeta =
+      const VerificationMeta('rentDate');
+  @override
+  late final GeneratedColumn<DateTime> rentDate = GeneratedColumn<DateTime>(
+      'rent_date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _returnDateMeta =
+      const VerificationMeta('returnDate');
+  @override
+  late final GeneratedColumn<DateTime> returnDate = GeneratedColumn<DateTime>(
+      'return_date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _totalValueMeta =
+      const VerificationMeta('totalValue');
+  @override
+  late final GeneratedColumn<double> totalValue = GeneratedColumn<double>(
+      'total_value', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, clienteId, carId, rentDate, returnDate, totalValue];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'rents';
+  @override
+  VerificationContext validateIntegrity(Insertable<Rent> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('cliente_id')) {
+      context.handle(_clienteIdMeta,
+          clienteId.isAcceptableOrUnknown(data['cliente_id']!, _clienteIdMeta));
+    } else if (isInserting) {
+      context.missing(_clienteIdMeta);
+    }
+    if (data.containsKey('car_id')) {
+      context.handle(
+          _carIdMeta, carId.isAcceptableOrUnknown(data['car_id']!, _carIdMeta));
+    } else if (isInserting) {
+      context.missing(_carIdMeta);
+    }
+    if (data.containsKey('rent_date')) {
+      context.handle(_rentDateMeta,
+          rentDate.isAcceptableOrUnknown(data['rent_date']!, _rentDateMeta));
+    } else if (isInserting) {
+      context.missing(_rentDateMeta);
+    }
+    if (data.containsKey('return_date')) {
+      context.handle(
+          _returnDateMeta,
+          returnDate.isAcceptableOrUnknown(
+              data['return_date']!, _returnDateMeta));
+    } else if (isInserting) {
+      context.missing(_returnDateMeta);
+    }
+    if (data.containsKey('total_value')) {
+      context.handle(
+          _totalValueMeta,
+          totalValue.isAcceptableOrUnknown(
+              data['total_value']!, _totalValueMeta));
+    } else if (isInserting) {
+      context.missing(_totalValueMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Rent map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Rent(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      clienteId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}cliente_id'])!,
+      carId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}car_id'])!,
+      rentDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}rent_date'])!,
+      returnDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}return_date'])!,
+      totalValue: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}total_value'])!,
+    );
+  }
+
+  @override
+  $RentsTable createAlias(String alias) {
+    return $RentsTable(attachedDatabase, alias);
+  }
+}
+
+class Rent extends DataClass implements Insertable<Rent> {
+  final int id;
+  final int clienteId;
+  final int carId;
+  final DateTime rentDate;
+  final DateTime returnDate;
+  final double totalValue;
+  const Rent(
+      {required this.id,
+      required this.clienteId,
+      required this.carId,
+      required this.rentDate,
+      required this.returnDate,
+      required this.totalValue});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['cliente_id'] = Variable<int>(clienteId);
+    map['car_id'] = Variable<int>(carId);
+    map['rent_date'] = Variable<DateTime>(rentDate);
+    map['return_date'] = Variable<DateTime>(returnDate);
+    map['total_value'] = Variable<double>(totalValue);
+    return map;
+  }
+
+  RentsCompanion toCompanion(bool nullToAbsent) {
+    return RentsCompanion(
+      id: Value(id),
+      clienteId: Value(clienteId),
+      carId: Value(carId),
+      rentDate: Value(rentDate),
+      returnDate: Value(returnDate),
+      totalValue: Value(totalValue),
+    );
+  }
+
+  factory Rent.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Rent(
+      id: serializer.fromJson<int>(json['id']),
+      clienteId: serializer.fromJson<int>(json['clienteId']),
+      carId: serializer.fromJson<int>(json['carId']),
+      rentDate: serializer.fromJson<DateTime>(json['rentDate']),
+      returnDate: serializer.fromJson<DateTime>(json['returnDate']),
+      totalValue: serializer.fromJson<double>(json['totalValue']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'clienteId': serializer.toJson<int>(clienteId),
+      'carId': serializer.toJson<int>(carId),
+      'rentDate': serializer.toJson<DateTime>(rentDate),
+      'returnDate': serializer.toJson<DateTime>(returnDate),
+      'totalValue': serializer.toJson<double>(totalValue),
+    };
+  }
+
+  Rent copyWith(
+          {int? id,
+          int? clienteId,
+          int? carId,
+          DateTime? rentDate,
+          DateTime? returnDate,
+          double? totalValue}) =>
+      Rent(
+        id: id ?? this.id,
+        clienteId: clienteId ?? this.clienteId,
+        carId: carId ?? this.carId,
+        rentDate: rentDate ?? this.rentDate,
+        returnDate: returnDate ?? this.returnDate,
+        totalValue: totalValue ?? this.totalValue,
+      );
+  Rent copyWithCompanion(RentsCompanion data) {
+    return Rent(
+      id: data.id.present ? data.id.value : this.id,
+      clienteId: data.clienteId.present ? data.clienteId.value : this.clienteId,
+      carId: data.carId.present ? data.carId.value : this.carId,
+      rentDate: data.rentDate.present ? data.rentDate.value : this.rentDate,
+      returnDate:
+          data.returnDate.present ? data.returnDate.value : this.returnDate,
+      totalValue:
+          data.totalValue.present ? data.totalValue.value : this.totalValue,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Rent(')
+          ..write('id: $id, ')
+          ..write('clienteId: $clienteId, ')
+          ..write('carId: $carId, ')
+          ..write('rentDate: $rentDate, ')
+          ..write('returnDate: $returnDate, ')
+          ..write('totalValue: $totalValue')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, clienteId, carId, rentDate, returnDate, totalValue);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Rent &&
+          other.id == this.id &&
+          other.clienteId == this.clienteId &&
+          other.carId == this.carId &&
+          other.rentDate == this.rentDate &&
+          other.returnDate == this.returnDate &&
+          other.totalValue == this.totalValue);
+}
+
+class RentsCompanion extends UpdateCompanion<Rent> {
+  final Value<int> id;
+  final Value<int> clienteId;
+  final Value<int> carId;
+  final Value<DateTime> rentDate;
+  final Value<DateTime> returnDate;
+  final Value<double> totalValue;
+  const RentsCompanion({
+    this.id = const Value.absent(),
+    this.clienteId = const Value.absent(),
+    this.carId = const Value.absent(),
+    this.rentDate = const Value.absent(),
+    this.returnDate = const Value.absent(),
+    this.totalValue = const Value.absent(),
+  });
+  RentsCompanion.insert({
+    this.id = const Value.absent(),
+    required int clienteId,
+    required int carId,
+    required DateTime rentDate,
+    required DateTime returnDate,
+    required double totalValue,
+  })  : clienteId = Value(clienteId),
+        carId = Value(carId),
+        rentDate = Value(rentDate),
+        returnDate = Value(returnDate),
+        totalValue = Value(totalValue);
+  static Insertable<Rent> custom({
+    Expression<int>? id,
+    Expression<int>? clienteId,
+    Expression<int>? carId,
+    Expression<DateTime>? rentDate,
+    Expression<DateTime>? returnDate,
+    Expression<double>? totalValue,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (clienteId != null) 'cliente_id': clienteId,
+      if (carId != null) 'car_id': carId,
+      if (rentDate != null) 'rent_date': rentDate,
+      if (returnDate != null) 'return_date': returnDate,
+      if (totalValue != null) 'total_value': totalValue,
+    });
+  }
+
+  RentsCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? clienteId,
+      Value<int>? carId,
+      Value<DateTime>? rentDate,
+      Value<DateTime>? returnDate,
+      Value<double>? totalValue}) {
+    return RentsCompanion(
+      id: id ?? this.id,
+      clienteId: clienteId ?? this.clienteId,
+      carId: carId ?? this.carId,
+      rentDate: rentDate ?? this.rentDate,
+      returnDate: returnDate ?? this.returnDate,
+      totalValue: totalValue ?? this.totalValue,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (clienteId.present) {
+      map['cliente_id'] = Variable<int>(clienteId.value);
+    }
+    if (carId.present) {
+      map['car_id'] = Variable<int>(carId.value);
+    }
+    if (rentDate.present) {
+      map['rent_date'] = Variable<DateTime>(rentDate.value);
+    }
+    if (returnDate.present) {
+      map['return_date'] = Variable<DateTime>(returnDate.value);
+    }
+    if (totalValue.present) {
+      map['total_value'] = Variable<double>(totalValue.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RentsCompanion(')
+          ..write('id: $id, ')
+          ..write('clienteId: $clienteId, ')
+          ..write('carId: $carId, ')
+          ..write('rentDate: $rentDate, ')
+          ..write('returnDate: $returnDate, ')
+          ..write('totalValue: $totalValue')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
   $DatabaseManager get managers => $DatabaseManager(this);
   late final $CarsTable cars = $CarsTable(this);
   late final $ClienteTable cliente = $ClienteTable(this);
+  late final $RentsTable rents = $RentsTable(this);
   late final CarDao carDao = CarDao(this as Database);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [cars, cliente];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [cars, cliente, rents];
 }
 
 typedef $$CarsTableCreateCompanionBuilder = CarsCompanion Function({
@@ -1241,6 +1589,25 @@ typedef $$CarsTableUpdateCompanionBuilder = CarsCompanion Function({
   Value<String> status,
   Value<DateTime> createdAt,
 });
+
+final class $$CarsTableReferences
+    extends BaseReferences<_$Database, $CarsTable, Car> {
+  $$CarsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$RentsTable, List<Rent>> _rentsRefsTable(
+          _$Database db) =>
+      MultiTypedResultKey.fromTable(db.rents,
+          aliasName: $_aliasNameGenerator(db.cars.id, db.rents.carId));
+
+  $$RentsTableProcessedTableManager get rentsRefs {
+    final manager = $$RentsTableTableManager($_db, $_db.rents)
+        .filter((f) => f.carId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(_rentsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
 
 class $$CarsTableFilterComposer extends Composer<_$Database, $CarsTable> {
   $$CarsTableFilterComposer({
@@ -1285,6 +1652,27 @@ class $$CarsTableFilterComposer extends Composer<_$Database, $CarsTable> {
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> rentsRefs(
+      Expression<bool> Function($$RentsTableFilterComposer f) f) {
+    final $$RentsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.rents,
+        getReferencedColumn: (t) => t.carId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RentsTableFilterComposer(
+              $db: $db,
+              $table: $db.rents,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$CarsTableOrderingComposer extends Composer<_$Database, $CarsTable> {
@@ -1375,6 +1763,27 @@ class $$CarsTableAnnotationComposer extends Composer<_$Database, $CarsTable> {
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  Expression<T> rentsRefs<T extends Object>(
+      Expression<T> Function($$RentsTableAnnotationComposer a) f) {
+    final $$RentsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.rents,
+        getReferencedColumn: (t) => t.carId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RentsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.rents,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$CarsTableTableManager extends RootTableManager<
@@ -1386,9 +1795,9 @@ class $$CarsTableTableManager extends RootTableManager<
     $$CarsTableAnnotationComposer,
     $$CarsTableCreateCompanionBuilder,
     $$CarsTableUpdateCompanionBuilder,
-    (Car, BaseReferences<_$Database, $CarsTable, Car>),
+    (Car, $$CarsTableReferences),
     Car,
-    PrefetchHooks Function()> {
+    PrefetchHooks Function({bool rentsRefs})> {
   $$CarsTableTableManager(_$Database db, $CarsTable table)
       : super(TableManagerState(
           db: db,
@@ -1456,9 +1865,31 @@ class $$CarsTableTableManager extends RootTableManager<
             createdAt: createdAt,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map((e) =>
+                  (e.readTable(table), $$CarsTableReferences(db, table, e)))
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({rentsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (rentsRefs) db.rents],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (rentsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $$CarsTableReferences._rentsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$CarsTableReferences(db, table, p0).rentsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.carId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
@@ -1471,9 +1902,9 @@ typedef $$CarsTableProcessedTableManager = ProcessedTableManager<
     $$CarsTableAnnotationComposer,
     $$CarsTableCreateCompanionBuilder,
     $$CarsTableUpdateCompanionBuilder,
-    (Car, BaseReferences<_$Database, $CarsTable, Car>),
+    (Car, $$CarsTableReferences),
     Car,
-    PrefetchHooks Function()>;
+    PrefetchHooks Function({bool rentsRefs})>;
 typedef $$ClienteTableCreateCompanionBuilder = ClienteCompanion Function({
   Value<int> id,
   required String nome,
@@ -1502,6 +1933,25 @@ typedef $$ClienteTableUpdateCompanionBuilder = ClienteCompanion Function({
   Value<String> telefone,
   Value<String> email,
 });
+
+final class $$ClienteTableReferences
+    extends BaseReferences<_$Database, $ClienteTable, ClienteData> {
+  $$ClienteTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$RentsTable, List<Rent>> _rentsRefsTable(
+          _$Database db) =>
+      MultiTypedResultKey.fromTable(db.rents,
+          aliasName: $_aliasNameGenerator(db.cliente.id, db.rents.clienteId));
+
+  $$RentsTableProcessedTableManager get rentsRefs {
+    final manager = $$RentsTableTableManager($_db, $_db.rents)
+        .filter((f) => f.clienteId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(_rentsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
 
 class $$ClienteTableFilterComposer extends Composer<_$Database, $ClienteTable> {
   $$ClienteTableFilterComposer({
@@ -1550,6 +2000,27 @@ class $$ClienteTableFilterComposer extends Composer<_$Database, $ClienteTable> {
 
   ColumnFilters<String> get email => $composableBuilder(
       column: $table.email, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> rentsRefs(
+      Expression<bool> Function($$RentsTableFilterComposer f) f) {
+    final $$RentsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.rents,
+        getReferencedColumn: (t) => t.clienteId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RentsTableFilterComposer(
+              $db: $db,
+              $table: $db.rents,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$ClienteTableOrderingComposer
@@ -1646,6 +2117,27 @@ class $$ClienteTableAnnotationComposer
 
   GeneratedColumn<String> get email =>
       $composableBuilder(column: $table.email, builder: (column) => column);
+
+  Expression<T> rentsRefs<T extends Object>(
+      Expression<T> Function($$RentsTableAnnotationComposer a) f) {
+    final $$RentsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.rents,
+        getReferencedColumn: (t) => t.clienteId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RentsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.rents,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$ClienteTableTableManager extends RootTableManager<
@@ -1657,9 +2149,9 @@ class $$ClienteTableTableManager extends RootTableManager<
     $$ClienteTableAnnotationComposer,
     $$ClienteTableCreateCompanionBuilder,
     $$ClienteTableUpdateCompanionBuilder,
-    (ClienteData, BaseReferences<_$Database, $ClienteTable, ClienteData>),
+    (ClienteData, $$ClienteTableReferences),
     ClienteData,
-    PrefetchHooks Function()> {
+    PrefetchHooks Function({bool rentsRefs})> {
   $$ClienteTableTableManager(_$Database db, $ClienteTable table)
       : super(TableManagerState(
           db: db,
@@ -1727,9 +2219,31 @@ class $$ClienteTableTableManager extends RootTableManager<
             email: email,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map((e) =>
+                  (e.readTable(table), $$ClienteTableReferences(db, table, e)))
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({rentsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (rentsRefs) db.rents],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (rentsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $$ClienteTableReferences._rentsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ClienteTableReferences(db, table, p0).rentsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.clienteId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
@@ -1742,9 +2256,353 @@ typedef $$ClienteTableProcessedTableManager = ProcessedTableManager<
     $$ClienteTableAnnotationComposer,
     $$ClienteTableCreateCompanionBuilder,
     $$ClienteTableUpdateCompanionBuilder,
-    (ClienteData, BaseReferences<_$Database, $ClienteTable, ClienteData>),
+    (ClienteData, $$ClienteTableReferences),
     ClienteData,
-    PrefetchHooks Function()>;
+    PrefetchHooks Function({bool rentsRefs})>;
+typedef $$RentsTableCreateCompanionBuilder = RentsCompanion Function({
+  Value<int> id,
+  required int clienteId,
+  required int carId,
+  required DateTime rentDate,
+  required DateTime returnDate,
+  required double totalValue,
+});
+typedef $$RentsTableUpdateCompanionBuilder = RentsCompanion Function({
+  Value<int> id,
+  Value<int> clienteId,
+  Value<int> carId,
+  Value<DateTime> rentDate,
+  Value<DateTime> returnDate,
+  Value<double> totalValue,
+});
+
+final class $$RentsTableReferences
+    extends BaseReferences<_$Database, $RentsTable, Rent> {
+  $$RentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $ClienteTable _clienteIdTable(_$Database db) => db.cliente
+      .createAlias($_aliasNameGenerator(db.rents.clienteId, db.cliente.id));
+
+  $$ClienteTableProcessedTableManager get clienteId {
+    final manager = $$ClienteTableTableManager($_db, $_db.cliente)
+        .filter((f) => f.id($_item.clienteId!));
+    final item = $_typedResult.readTableOrNull(_clienteIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $CarsTable _carIdTable(_$Database db) =>
+      db.cars.createAlias($_aliasNameGenerator(db.rents.carId, db.cars.id));
+
+  $$CarsTableProcessedTableManager get carId {
+    final manager = $$CarsTableTableManager($_db, $_db.cars)
+        .filter((f) => f.id($_item.carId!));
+    final item = $_typedResult.readTableOrNull(_carIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$RentsTableFilterComposer extends Composer<_$Database, $RentsTable> {
+  $$RentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get rentDate => $composableBuilder(
+      column: $table.rentDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get returnDate => $composableBuilder(
+      column: $table.returnDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get totalValue => $composableBuilder(
+      column: $table.totalValue, builder: (column) => ColumnFilters(column));
+
+  $$ClienteTableFilterComposer get clienteId {
+    final $$ClienteTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.clienteId,
+        referencedTable: $db.cliente,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ClienteTableFilterComposer(
+              $db: $db,
+              $table: $db.cliente,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$CarsTableFilterComposer get carId {
+    final $$CarsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.carId,
+        referencedTable: $db.cars,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CarsTableFilterComposer(
+              $db: $db,
+              $table: $db.cars,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$RentsTableOrderingComposer extends Composer<_$Database, $RentsTable> {
+  $$RentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get rentDate => $composableBuilder(
+      column: $table.rentDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get returnDate => $composableBuilder(
+      column: $table.returnDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get totalValue => $composableBuilder(
+      column: $table.totalValue, builder: (column) => ColumnOrderings(column));
+
+  $$ClienteTableOrderingComposer get clienteId {
+    final $$ClienteTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.clienteId,
+        referencedTable: $db.cliente,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ClienteTableOrderingComposer(
+              $db: $db,
+              $table: $db.cliente,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$CarsTableOrderingComposer get carId {
+    final $$CarsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.carId,
+        referencedTable: $db.cars,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CarsTableOrderingComposer(
+              $db: $db,
+              $table: $db.cars,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$RentsTableAnnotationComposer extends Composer<_$Database, $RentsTable> {
+  $$RentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get rentDate =>
+      $composableBuilder(column: $table.rentDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get returnDate => $composableBuilder(
+      column: $table.returnDate, builder: (column) => column);
+
+  GeneratedColumn<double> get totalValue => $composableBuilder(
+      column: $table.totalValue, builder: (column) => column);
+
+  $$ClienteTableAnnotationComposer get clienteId {
+    final $$ClienteTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.clienteId,
+        referencedTable: $db.cliente,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ClienteTableAnnotationComposer(
+              $db: $db,
+              $table: $db.cliente,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$CarsTableAnnotationComposer get carId {
+    final $$CarsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.carId,
+        referencedTable: $db.cars,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$CarsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.cars,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$RentsTableTableManager extends RootTableManager<
+    _$Database,
+    $RentsTable,
+    Rent,
+    $$RentsTableFilterComposer,
+    $$RentsTableOrderingComposer,
+    $$RentsTableAnnotationComposer,
+    $$RentsTableCreateCompanionBuilder,
+    $$RentsTableUpdateCompanionBuilder,
+    (Rent, $$RentsTableReferences),
+    Rent,
+    PrefetchHooks Function({bool clienteId, bool carId})> {
+  $$RentsTableTableManager(_$Database db, $RentsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> clienteId = const Value.absent(),
+            Value<int> carId = const Value.absent(),
+            Value<DateTime> rentDate = const Value.absent(),
+            Value<DateTime> returnDate = const Value.absent(),
+            Value<double> totalValue = const Value.absent(),
+          }) =>
+              RentsCompanion(
+            id: id,
+            clienteId: clienteId,
+            carId: carId,
+            rentDate: rentDate,
+            returnDate: returnDate,
+            totalValue: totalValue,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int clienteId,
+            required int carId,
+            required DateTime rentDate,
+            required DateTime returnDate,
+            required double totalValue,
+          }) =>
+              RentsCompanion.insert(
+            id: id,
+            clienteId: clienteId,
+            carId: carId,
+            rentDate: rentDate,
+            returnDate: returnDate,
+            totalValue: totalValue,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$RentsTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({clienteId = false, carId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (clienteId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.clienteId,
+                    referencedTable: $$RentsTableReferences._clienteIdTable(db),
+                    referencedColumn:
+                        $$RentsTableReferences._clienteIdTable(db).id,
+                  ) as T;
+                }
+                if (carId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.carId,
+                    referencedTable: $$RentsTableReferences._carIdTable(db),
+                    referencedColumn: $$RentsTableReferences._carIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$RentsTableProcessedTableManager = ProcessedTableManager<
+    _$Database,
+    $RentsTable,
+    Rent,
+    $$RentsTableFilterComposer,
+    $$RentsTableOrderingComposer,
+    $$RentsTableAnnotationComposer,
+    $$RentsTableCreateCompanionBuilder,
+    $$RentsTableUpdateCompanionBuilder,
+    (Rent, $$RentsTableReferences),
+    Rent,
+    PrefetchHooks Function({bool clienteId, bool carId})>;
 
 class $DatabaseManager {
   final _$Database _db;
@@ -1752,4 +2610,6 @@ class $DatabaseManager {
   $$CarsTableTableManager get cars => $$CarsTableTableManager(_db, _db.cars);
   $$ClienteTableTableManager get cliente =>
       $$ClienteTableTableManager(_db, _db.cliente);
+  $$RentsTableTableManager get rents =>
+      $$RentsTableTableManager(_db, _db.rents);
 }

@@ -5,50 +5,28 @@ import 'package:connectcar/data/dao/car_dao.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:connectcar/data/tables/clientes.dart';
+import 'package:connectcar/data/tables/rents.dart';
 import 'package:path/path.dart' as path;
 
 part 'database.g.dart';
 
-/*
-LazyDatabase _openConnection() {
-  return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(path.join(dbFolder.path, 'db.sqlite'));
-
-    return NativeDatabase(file);
-  });
-}
-*/
 @DriftDatabase(
-  tables: [Cars, Cliente],
+  tables: [Cars, Cliente, Rents],
   daos: [CarDao],
 )
 class Database extends _$Database {
-   Database(QueryExecutor e) : super(e);
+  Database(QueryExecutor e) : super(e);
 
   @override
   int get schemaVersion => 1;
 
-   static Future<Database> open() async {
+  static Future<Database> open() async {
     final appDocDirectory = await getApplicationDocumentsDirectory();
-    final dbPath = '${appDocDirectory.path}/rent.db'; 
-    final dbFile = File(dbPath);    
-    final executor = NativeDatabase(dbFile); 
-    return Database(executor);  
+    final dbPath = '${appDocDirectory.path}/rent.db';
+    final dbFile = File(dbPath);
+    final executor = NativeDatabase(dbFile);
+    return Database(executor);
   }
-
-  /*@override
-  MigrationStrategy get migration => MigrationStrategy(
-        onUpgrade: (migrator, from, to) async {
-          if (from == 1) {
-  
-          }
-        },
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-      );
-*/
 
   Future<void> addCliente({
     required String nome,
@@ -88,4 +66,73 @@ class Database extends _$Database {
     return (select(cliente)..where((tbl) => tbl.id.equals(id)))
         .getSingleOrNull();
   }
+
+
+  Future<void> registerRent(int clienteId, int carId, DateTime rentDate, DateTime returnDate) async {
+
+    final isAvailable = await isCarAvailable(carId, rentDate, returnDate);
+    if (!isAvailable) {
+      throw Exception('Carro já alugado no período informado.');
+    }
+
+    // Obter o preço do carro
+    final car = await (select(cars)..where((tbl) => tbl.id.equals(carId))).getSingle();
+    
+    // Calcular o valor do aluguel
+    final rentDuration = returnDate.difference(rentDate).inDays;
+    final totalValue = car.priceByDay * rentDuration;
+
+    // Registrar o aluguel
+    final rentCompanion = RentsCompanion(
+      clienteId: Value(clienteId),
+      carId: Value(carId),
+      rentDate: Value(rentDate),
+      returnDate: Value(returnDate),
+      totalValue: Value(totalValue),
+    );
+
+    await into(rents).insert(rentCompanion);
+  }
+
+  // Verificar se o carro está disponível para o período solicitado
+  Future<bool> isCarAvailable(int carId, DateTime rentDate, DateTime returnDate) async {
+    final rentedCars = await (select(rents)
+          ..where((tbl) => tbl.carId.equals(carId))
+          ..where((tbl) => tbl.returnDate.isBiggerThanValue(rentDate))
+          ..where((tbl) => tbl.rentDate.isSmallerThanValue(returnDate)))
+        .get();
+
+    return rentedCars.isEmpty; // Se não houver registros de aluguel sobrepondo, o carro está disponível
+  }
+
+  // Obter todos os aluguéis
+  Future<List<Rent>> getAllRents() async {
+    return await select(rents).get();
+  }
 }
+
+
+
+  /*@override
+  MigrationStrategy get migration => MigrationStrategy(
+        onUpgrade: (migrator, from, to) async {
+          if (from == 1) {
+  
+          }
+        },
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON');
+        },
+      );
+*/
+
+/*
+LazyDatabase _openConnection() {
+  return LazyDatabase(() async {
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(path.join(dbFolder.path, 'db.sqlite'));
+
+    return NativeDatabase(file);
+  });
+}
+*/
