@@ -1,4 +1,4 @@
-﻿/*import 'package:connectcar/models/app_database.dart';
+﻿import 'package:connectcar/data/database/database.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_numerico.dart';
@@ -25,7 +25,7 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
   final TextEditingController telefoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
 
-  late AppDatabase appDatabase;
+  late Database database;
   List<ClienteData> clientes = [];
 
   @override
@@ -35,13 +35,13 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
   }
 
   Future<void> _initializeDatabase() async {
-    appDatabase = await AppDatabase.open();
+    database = await Database.open();
     setState(() {}); 
     await _carregarClientes(); 
   }
 
   Future<void> _carregarClientes() async {
-    final allClientes = await appDatabase.getAllClientes();
+    final allClientes = await database.getAllClientes();
     setState(() {
       clientes = allClientes;
     });
@@ -60,8 +60,8 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
     final telefone = telefoneController.text;
     final email = emailController.text;
 
-    if (appDatabase != null) {
-      await appDatabase.addCliente(
+    if (database != null) {
+      await database.addCliente(
         nome: nome,
         cpf: cpf,
         cnh: cnh,
@@ -132,4 +132,3 @@ class _AdicionarClienteState extends State<AdicionarCliente> {
     );
   }
 }
-*/

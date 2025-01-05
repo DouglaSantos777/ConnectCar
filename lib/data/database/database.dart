@@ -9,6 +9,7 @@ import 'package:path/path.dart' as path;
 
 part 'database.g.dart';
 
+/*
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
@@ -17,7 +18,7 @@ LazyDatabase _openConnection() {
     return NativeDatabase(file);
   });
 }
-
+*/
 @DriftDatabase(
   tables: [Cars, Cliente],
   daos: [CarDao],
@@ -29,11 +30,15 @@ class Database extends _$Database {
   int get schemaVersion => 1;
 
    static Future<Database> open() async {
-    final executor = _openConnection(); 
-    return Database(executor);    
+    final appDocDirectory = await getApplicationDocumentsDirectory();
+    final dbPath = '${appDocDirectory.path}/rent.db'; 
+    final dbFile = File(dbPath);    
+    final executor = NativeDatabase(dbFile); 
+    return Database(executor);  
   }
 
-  @override
+
+  /*@override
   MigrationStrategy get migration => MigrationStrategy(
         onUpgrade: (migrator, from, to) async {
           if (from == 1) {
@@ -44,6 +49,7 @@ class Database extends _$Database {
           await customStatement('PRAGMA foreign_keys = ON');
         },
       );
+*/
 
   Future<void> addCliente({
     required String nome,
