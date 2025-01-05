@@ -1,5 +1,4 @@
-﻿/*
-import 'package:connectcar/widgets/carros_widgets/secao_carros_alug.dart';
+﻿import 'package:connectcar/widgets/carros_widgets/secao_carros_alug.dart';
 import 'package:connectcar/widgets/carros_widgets/secao_carros_disp.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -25,4 +24,3 @@ class CarrosScreen extends StatelessWidget {
     );
   }
 }
-*/

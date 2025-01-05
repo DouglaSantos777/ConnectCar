@@ -6,6 +6,7 @@ import 'dart:io';
 
 part 'app_database.g.dart';
 
+/*
 @DriftDatabase(tables: [Cliente]) 
 class AppDatabase extends _$AppDatabase {
   AppDatabase(QueryExecutor e) : super(e);
@@ -20,6 +21,7 @@ class AppDatabase extends _$AppDatabase {
     final executor = NativeDatabase(dbFile); 
     return AppDatabase(executor); 
   }
+*/
 
   Future<void> addCliente({
     required String nome,

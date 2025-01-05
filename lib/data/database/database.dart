@@ -37,7 +37,6 @@ class Database extends _$Database {
     return Database(executor);  
   }
 
-
   /*@override
   MigrationStrategy get migration => MigrationStrategy(
         onUpgrade: (migrator, from, to) async {
