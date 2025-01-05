@@ -69,7 +69,7 @@ class SecaoCarrosAlugados extends StatelessWidget {
 
           const SizedBox(height: 14),
 
-          BotaoCarros(),
+          const BotaoCarros(filtro: 'Alugado',),
         ],
       ),
     );

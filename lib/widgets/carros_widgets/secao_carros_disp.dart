@@ -56,7 +56,7 @@ class SecaoCarrosDisponiveis extends StatelessWidget {
 
         const SizedBox(height: 12),
 
-        BotaoCarros(),
+        const BotaoCarros(filtro: 'Disponível',),
 
         const SizedBox(height: 30),
       ],

@@ -33,17 +33,17 @@ class Database extends _$Database {
   int get schemaVersion => 1;
 
   @override
-  MigrationStrategy get migration => MigrationStrategy(
-        onUpgrade: (migrator, from, to) async {
-          if (from == 1) {
-            await migrator.addColumn(cars, cars.category);
-            await migrator.addColumn(cars, cars.status); 
-            await migrator.createTable(categories);
-            await migrator.createTable(status);
-          }
-        },
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-      );
+    MigrationStrategy get migration => MigrationStrategy(
+      onUpgrade: (migrator, from, to) async {
+        if (from == 1) {
+          await migrator.createTable(cars);
+          await migrator.createTable(categories);
+          await migrator.createTable(status);
+        }
+      },
+      beforeOpen: (details) async {
+        await customStatement('PRAGMA foreign_keys = ON');
+      },
+    );
+
 }

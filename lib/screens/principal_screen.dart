@@ -16,9 +16,9 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    CarrosScreen(),
+    const CarrosScreen(),
     const AlugueisScreen(),
-    const AdicionarCarroScreen(),
+     const AdicionarCarroScreen(),
     const RealizarAluguelScreen(),
     const HistoricoScreen(),
   ];

@@ -1,15 +1,13 @@
 import 'package:drift/drift.dart';
 import 'package:connectcar/data/tables/cars.dart';
-import 'package:connectcar/data/tables/categories.dart';
-import 'package:connectcar/data/tables/status.dart';
 import 'package:connectcar/data/database/database.dart';
 
 part 'car_dao.g.dart';
 
 @DriftAccessor(
-  tables: [Cars, Categories],
+  tables: [Cars],
   queries: {
-    'carrosComStatusEcategoria': 'SELECT * FROM cars LEFT JOIN categories ON cars.category = categories.nome LEFT JOIN status ON cars.status = status.nome'
+    //'carrosComStatusEcategoria': 'SELECT * FROM cars LEFT JOIN categories ON cars.category = categories.nome LEFT JOIN status ON cars.status = status.nome'
   },
 )
 class CarDao extends DatabaseAccessor<Database> with _$CarDaoMixin {
@@ -47,12 +45,8 @@ class CarDao extends DatabaseAccessor<Database> with _$CarDaoMixin {
 
 class CarDetails {
   final Car car;
-  final Category category;
-  final Status status;
 
   CarDetails({
     required this.car,
-    required this.category,
-    required this.status,
   });
 }
