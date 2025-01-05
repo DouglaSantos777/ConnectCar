@@ -27,6 +27,7 @@ class AdicionarCarroScreenState extends ConsumerState<AdicionarCarroScreen> {
   final descricaoController = TextEditingController();
 
   bool isDisponivel = true;
+  String caminhoImagem = '';
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +52,11 @@ class AdicionarCarroScreenState extends ConsumerState<AdicionarCarroScreen> {
                   onDisponibilidadeChanged: (bool isDisponivel) {
                     setState(() {
                       this.isDisponivel = isDisponivel;
+                    });
+                  },
+                  onImagemSelecionada: (String caminho) {
+                    setState(() {
+                      caminhoImagem = caminho; 
                     });
                   },
                 ),
@@ -95,7 +101,7 @@ class AdicionarCarroScreenState extends ConsumerState<AdicionarCarroScreen> {
       priceByDay: drift.Value(preco),
       description: drift.Value(descricao),
       createdAt: drift.Value(DateTime.now()),
-      photo: const drift.Value('default_photo_url'),
+      photo: drift.Value(caminhoImagem),
       status: drift.Value(status),
     );
 

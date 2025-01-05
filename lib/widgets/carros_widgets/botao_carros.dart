@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/riverpod/providers.dart';
+﻿import 'dart:io';
+import 'package:connectcar/riverpod/providers.dart';
 import 'package:connectcar/screens/detalhes_carro_screen.dart';
 import 'package:connectcar/theme/botao_carros_theme.dart';
 import 'package:connectcar/theme/cores_theme.dart';
@@ -11,6 +12,7 @@ class BotaoCarros extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final carList = ref.watch(carProvider.select((carProvider) =>
         carProvider.cars.where((car) => car.status == filtro).toList()));
 
@@ -42,17 +44,10 @@ class BotaoCarros extends ConsumerWidget {
               label: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    decoration: BoxDecoration(
-                      color: Color(int.parse(corCategoria)),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                  _carregarImagem(car.photo, corCategoria), 
                   const SizedBox(height: 4),
                   Text(
-                    car.model, 
+                    car.model,
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -84,6 +79,29 @@ class BotaoCarros extends ConsumerWidget {
         return '0xffF9A825';
       default:
         return '0xff1E88E5'; 
+    }
+  }
+
+  Widget _carregarImagem(String url, String corCategoria) {
+    if (url.startsWith('/data/')) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.file(
+          File(url),
+          width: 80,
+          height: 80,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else {
+      return Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          color: Color(int.parse(corCategoria)),
+          borderRadius: BorderRadius.circular(8),
+        ),
+      );
     }
   }
 }

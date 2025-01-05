@@ -1,5 +1,5 @@
-﻿import 'package:connectcar/theme/cores_theme.dart';
-import 'package:connectcar/widgets/alugueis/orcamento.dart';
+﻿import 'package:connectcar/widgets/alugueis/orcamento.dart';
+import 'package:connectcar/widgets/botao_insercao.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:connectcar/widgets/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_carros.dart';
@@ -47,29 +47,14 @@ class _RealizarAluguelScreenState extends State<RealizarAluguelScreen> {
                       });
                     },
                   ),
-                  ElevatedButton(
+                  BotaoInsercao(
+                    label: 'Adicionar Cliente', 
                     onPressed: (){
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => const AdicionarCliente()),
                       );
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: CoresTheme.backgroundBotao, 
-                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16), 
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12), 
-                      ),
-                      elevation: 5, 
-                    ),
-                    child: const Text(
-                      'Adicionar Cliente',
-                      style: TextStyle(
-                        fontSize: 18, 
-                        fontWeight: FontWeight.bold,
-                        color: CoresTheme.textoTemaEscuro 
-                      ),
-                    ),
                   ),
                   const SizedBox(height: 14),
                   const Text(

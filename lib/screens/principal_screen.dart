@@ -39,7 +39,7 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.directions_car), label: 'Carros'),
           BottomNavigationBarItem(icon: Icon(Icons.car_rental), label: 'Alugueis'),
-          BottomNavigationBarItem(icon: Icon(Icons.app_registration_outlined), label: 'Adicionar carro'),
+          BottomNavigationBarItem(icon: Icon(Icons.app_registration_outlined), label: 'Novo carro'),
           BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Alugar'),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Histórico'),
         ],
