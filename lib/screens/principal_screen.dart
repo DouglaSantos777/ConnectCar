@@ -33,23 +33,16 @@ class _PrincipalScreenState extends State<PrincipalScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_selectedIndex],  
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          boxShadow: [
-            BoxShadow(color: Colors.black12, spreadRadius: 0, blurRadius: 10),
-          ],
-        ),
-        child: BottomNavigationBar(
-          currentIndex: _selectedIndex,  
-          onTap: _onItemTapped, 
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.directions_car), label: 'Carros'),
-            BottomNavigationBarItem(icon: Icon(Icons.car_rental), label: 'Alugueis'),
-            BottomNavigationBarItem(icon: Icon(Icons.app_registration_outlined), label: 'Adicionar carro'),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Alugar'),
-            BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Histórico'),
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,  
+        onTap: _onItemTapped, 
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.directions_car), label: 'Carros'),
+          BottomNavigationBarItem(icon: Icon(Icons.car_rental), label: 'Alugueis'),
+          BottomNavigationBarItem(icon: Icon(Icons.app_registration_outlined), label: 'Adicionar carro'),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: 'Alugar'),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Histórico'),
+        ],
       ),
     );
   }

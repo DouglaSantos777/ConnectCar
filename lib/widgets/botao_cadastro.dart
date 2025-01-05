@@ -16,16 +16,16 @@ class BotaoCadastro extends StatelessWidget {
         backgroundColor: CoresTheme.corVerde,
         padding: const EdgeInsets.symmetric(
           vertical: 15.0,
-          horizontal: 30.0,
+          horizontal: 24.0,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
       child: Text(
         label,
         style: const TextStyle(
-          fontSize: 18,
+          fontSize: 20,
           fontWeight: FontWeight.bold,
           color: CoresTheme.textoTemaEscuro,
         ),

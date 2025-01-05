@@ -1,7 +1,7 @@
 ﻿import 'package:connectcar/theme/cores_theme.dart';
 import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
-import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
+import 'package:connectcar/widgets/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_carros.dart';
 import 'package:connectcar/widgets/formulario/formulario_clientes.dart';
 import 'package:flutter/material.dart';

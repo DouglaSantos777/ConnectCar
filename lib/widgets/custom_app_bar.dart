@@ -13,7 +13,9 @@ class CustomAppBar extends ConsumerWidget implements PreferredSizeWidget {
       title: Text(title),
       actions: [
         IconButton(
-          icon: const Icon(Icons.brightness_6),
+          icon: Icon(
+            ref.watch(themeProvider) == AppTheme.dark ? Icons.nights_stay : Icons.wb_sunny,
+          ),
           onPressed: () {
             ref.read(themeProvider.notifier).toggleTheme();
           },

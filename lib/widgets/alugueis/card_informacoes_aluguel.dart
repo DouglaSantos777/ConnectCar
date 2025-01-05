@@ -1,4 +1,5 @@
 ﻿import 'package:connectcar/theme/cores_theme.dart';
+import 'package:connectcar/widgets/botao_cadastro.dart';
 import 'package:flutter/material.dart';
 
 class CardInformacoesAluguel extends StatelessWidget {
@@ -40,19 +41,7 @@ class CardInformacoesAluguel extends StatelessWidget {
           const SizedBox(height: 16),
           const Text('Data do Pagamento {cliente}', style: TextStyle(fontSize: 18)),
           const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: CoresTheme.corVerde, 
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              textStyle: const TextStyle(fontSize: 20),
-              foregroundColor: CoresTheme.textoTemaEscuro
-            ),
-            child: const Text('Registrar Devolução'),
-          ),
+          BotaoCadastro(label: 'Registrar Devolução', onPressed: (){})
         ],
       ),
     );
