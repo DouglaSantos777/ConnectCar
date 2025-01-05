@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/riverpod/providers.dart';
+﻿/*
+import 'package:connectcar/riverpod/providers.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:connectcar/widgets/formulario/botao_cadastro.dart';
 import 'package:connectcar/widgets/formulario/formulario_descricao.dart';
@@ -176,3 +177,4 @@ class AdicionarCarroScreenState extends ConsumerState<AdicionarCarroScreen> {
     }
   }
 }
+*/

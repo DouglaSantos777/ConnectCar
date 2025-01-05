@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/widgets/alugueis/card_informacoes_aluguel.dart';
+﻿/*
+import 'package:connectcar/widgets/alugueis/card_informacoes_aluguel.dart';
 import 'package:connectcar/widgets/carros_widgets/card_carro.dart';
 import 'package:connectcar/widgets/clientes/card_cliente.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
@@ -26,3 +27,4 @@ class DetalhesAluguelScreen extends StatelessWidget {
     );
   }
 }
+*/

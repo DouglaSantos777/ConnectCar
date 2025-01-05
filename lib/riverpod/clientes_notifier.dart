@@ -1,11 +1,12 @@
-﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:connectcar/models/app_database.dart';
+﻿
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:connectcar/data/database/database.dart';
 
 class ClientesNotifier extends StateNotifier<List<ClienteData>> {
   ClientesNotifier() : super([]);
 
   Future<void> carregarClientes() async {
-    final db = await AppDatabase.open();
+    final db = await Database.open();
     state = await db.getAllClientes();
   }
 

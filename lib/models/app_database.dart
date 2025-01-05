@@ -1,4 +1,4 @@
-﻿import 'package:drift/drift.dart';
+﻿/*import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'db_tables.dart';
 import 'package:path_provider/path_provider.dart';
@@ -60,3 +60,4 @@ class AppDatabase extends _$AppDatabase {
     return (select(cliente)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
   }
 }
+*/

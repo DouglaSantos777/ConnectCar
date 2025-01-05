@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/models/app_database.dart';
+﻿/*
+import 'package:connectcar/models/app_database.dart';
 import 'package:flutter/material.dart';
 
 class CardCliente extends StatefulWidget {
@@ -103,3 +104,4 @@ class _CardClienteState extends State<CardCliente> {
     );
   }
 }
+*/
