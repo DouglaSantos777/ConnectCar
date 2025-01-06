@@ -70,7 +70,7 @@ class _FormularioCarrosState extends ConsumerState<FormularioCarros> {
               ),
             ),
             items: _carrosFiltrados.map((car) {
-              return DropdownMenuItem<String>(
+              return DropdownMenuItem<String>( 
                 value: car.id.toString(),
                 child: Text('${car.model} - ${car.plate}'),
               );

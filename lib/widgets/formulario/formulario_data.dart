@@ -3,13 +3,15 @@ import 'package:intl/intl.dart';
 
 class FormularioData extends StatefulWidget {
   final String label;
-  final TextEditingController controller; 
+  final TextEditingController controller;
+  final Function(String)? onChanged;
 
   const FormularioData({
     super.key, 
     required this.label,
-    required this.controller
-    });
+    required this.controller,
+    this.onChanged,
+  });
 
   @override
   FormularioDataState createState() => FormularioDataState();
@@ -26,7 +28,13 @@ class FormularioDataState extends State<FormularioData> {
 
     if (picked != null && picked != DateTime.now()) {
       setState(() {
-        widget.controller.text = DateFormat('dd/MM/yyyy').format(picked);  
+        final formattedDate = DateFormat('dd/MM/yyyy').format(picked);
+        
+        widget.controller.text = formattedDate;
+
+        if (widget.onChanged != null) {
+          widget.onChanged!(formattedDate);
+        }
       });
     }
   }
@@ -36,14 +44,14 @@ class FormularioDataState extends State<FormularioData> {
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: TextField(
-        controller: widget.controller,
+        controller: widget.controller, 
         readOnly: true, 
         decoration: InputDecoration(
-          labelText: widget.label,
+          labelText: widget.label, 
           suffixIcon: const Icon(Icons.calendar_month_outlined), 
         ),
         onTap: () {
-          _selectDate(context); 
+          _selectDate(context);
         },
       ),
     );

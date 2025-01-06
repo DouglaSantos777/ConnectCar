@@ -12,7 +12,10 @@ final carDetailsProvider = FutureProvider.family<Car?, int>((ref, carId) async {
 
 class CardCarroDetalhes extends ConsumerWidget {
   final int carId;
-  const CardCarroDetalhes({super.key, required this.carId});
+  CardCarroDetalhes({super.key, required this.carId});
+
+  final _dataRetiradaController = TextEditingController();
+  final _dataDevolucaoController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -126,7 +129,11 @@ class CardCarroDetalhes extends ConsumerWidget {
                   style: const TextStyle(fontSize: 14),
                 ),
                 const SizedBox(height: 16),
-                const Orcamento(),
+                Orcamento(
+                  dataRetiradaController: _dataRetiradaController, 
+                  dataDevolucaoController: _dataDevolucaoController,
+                  valueCar: car.priceByDay,
+                ),
               ],
             ),
           ),

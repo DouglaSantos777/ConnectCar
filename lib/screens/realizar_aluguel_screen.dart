@@ -1,4 +1,5 @@
 import 'package:connectcar/riverpod/clientes_notifier.dart';
+import 'package:connectcar/riverpod/providers.dart';
 import 'package:connectcar/riverpod/rents_notifier.dart';
 import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:connectcar/widgets/botao_insercao.dart';
@@ -21,6 +22,7 @@ class RealizarAluguelScreen extends ConsumerStatefulWidget {
 class RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
   String? clienteSelecionado;
   String? carroSelecionado;
+  double? precoPorDiaCarroSelecionado;
 
   final _dataRetiradaController = TextEditingController();
   final _dataDevolucaoController = TextEditingController();
@@ -28,6 +30,8 @@ class RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
   @override
   Widget build(BuildContext context) {
     final aluguels = ref.watch(rentsProvider);
+    final carrosDisponiveis = ref.watch(carProvider).cars;
+    
     return Scaffold(
       appBar: const CustomAppBar(title: 'Realizar aluguel'),
       body: SingleChildScrollView(
@@ -81,12 +85,17 @@ class RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
                     onChanged: (String? newValue) {
                       setState(() {
                         carroSelecionado = newValue;
+                        final carro = carrosDisponiveis.firstWhere(
+                          (car) => car.id.toString() == carroSelecionado,
+                        );
+                        precoPorDiaCarroSelecionado = carro.priceByDay;
                       });
                     },
                   ),
                  Orcamento(
                   dataRetiradaController: _dataRetiradaController, 
-                  dataDevolucaoController: _dataDevolucaoController, 
+                  dataDevolucaoController: _dataDevolucaoController,
+                  valueCar: precoPorDiaCarroSelecionado ?? 0.0,
                 ),
                   BotaoCadastro(
                       label: 'Finalizar aluguel',
