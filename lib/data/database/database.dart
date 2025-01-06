@@ -6,25 +6,29 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:connectcar/data/tables/clientes.dart';
 import 'package:connectcar/data/tables/rents.dart';
+import 'package:connectcar/data/tables/payments.dart';
 import 'package:path/path.dart' as path;
 
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [Cars, Cliente, Rents],
+  tables: [Cars, Cliente, Rents, Payments],
   daos: [CarDao],
 )
 class Database extends _$Database {
   Database(QueryExecutor e) : super(e);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
         onUpgrade: (migrator, from, to) async {
           if (from == 1 && to >= 2) {
             await migrator.createTable(rents);
+          }
+          if (from <= 2 && to >= 3) {
+            await migrator.createTable(payments);
           }
         },
         beforeOpen: (details) async {
@@ -125,10 +129,9 @@ class Database extends _$Database {
   }
 
   Future<Car?> getCarById(int carId) async {
-    return (select(cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
+    return (select(cars)..where((tbl) => tbl.id.equals(carId)))
+        .getSingleOrNull();
   }
-
-
 }
 
 /*

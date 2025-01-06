@@ -1547,18 +1547,321 @@ class RentsCompanion extends UpdateCompanion<Rent> {
   }
 }
 
+class $PaymentsTable extends Payments with TableInfo<$PaymentsTable, Payment> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PaymentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _rentIdMeta = const VerificationMeta('rentId');
+  @override
+  late final GeneratedColumn<int> rentId = GeneratedColumn<int>(
+      'rent_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES rents (id)'));
+  static const VerificationMeta _valueMeta = const VerificationMeta('value');
+  @override
+  late final GeneratedColumn<double> value = GeneratedColumn<double>(
+      'value', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _paymentDateMeta =
+      const VerificationMeta('paymentDate');
+  @override
+  late final GeneratedColumn<DateTime> paymentDate = GeneratedColumn<DateTime>(
+      'payment_date', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+      'status', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, rentId, value, paymentDate, status];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'payments';
+  @override
+  VerificationContext validateIntegrity(Insertable<Payment> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('rent_id')) {
+      context.handle(_rentIdMeta,
+          rentId.isAcceptableOrUnknown(data['rent_id']!, _rentIdMeta));
+    } else if (isInserting) {
+      context.missing(_rentIdMeta);
+    }
+    if (data.containsKey('value')) {
+      context.handle(
+          _valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
+    } else if (isInserting) {
+      context.missing(_valueMeta);
+    }
+    if (data.containsKey('payment_date')) {
+      context.handle(
+          _paymentDateMeta,
+          paymentDate.isAcceptableOrUnknown(
+              data['payment_date']!, _paymentDateMeta));
+    } else if (isInserting) {
+      context.missing(_paymentDateMeta);
+    }
+    if (data.containsKey('status')) {
+      context.handle(_statusMeta,
+          status.isAcceptableOrUnknown(data['status']!, _statusMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Payment map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Payment(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      rentId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}rent_id'])!,
+      value: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}value'])!,
+      paymentDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}payment_date'])!,
+      status: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}status']),
+    );
+  }
+
+  @override
+  $PaymentsTable createAlias(String alias) {
+    return $PaymentsTable(attachedDatabase, alias);
+  }
+}
+
+class Payment extends DataClass implements Insertable<Payment> {
+  final int id;
+  final int rentId;
+  final double value;
+  final DateTime paymentDate;
+  final String? status;
+  const Payment(
+      {required this.id,
+      required this.rentId,
+      required this.value,
+      required this.paymentDate,
+      this.status});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['rent_id'] = Variable<int>(rentId);
+    map['value'] = Variable<double>(value);
+    map['payment_date'] = Variable<DateTime>(paymentDate);
+    if (!nullToAbsent || status != null) {
+      map['status'] = Variable<String>(status);
+    }
+    return map;
+  }
+
+  PaymentsCompanion toCompanion(bool nullToAbsent) {
+    return PaymentsCompanion(
+      id: Value(id),
+      rentId: Value(rentId),
+      value: Value(value),
+      paymentDate: Value(paymentDate),
+      status:
+          status == null && nullToAbsent ? const Value.absent() : Value(status),
+    );
+  }
+
+  factory Payment.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Payment(
+      id: serializer.fromJson<int>(json['id']),
+      rentId: serializer.fromJson<int>(json['rentId']),
+      value: serializer.fromJson<double>(json['value']),
+      paymentDate: serializer.fromJson<DateTime>(json['paymentDate']),
+      status: serializer.fromJson<String?>(json['status']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'rentId': serializer.toJson<int>(rentId),
+      'value': serializer.toJson<double>(value),
+      'paymentDate': serializer.toJson<DateTime>(paymentDate),
+      'status': serializer.toJson<String?>(status),
+    };
+  }
+
+  Payment copyWith(
+          {int? id,
+          int? rentId,
+          double? value,
+          DateTime? paymentDate,
+          Value<String?> status = const Value.absent()}) =>
+      Payment(
+        id: id ?? this.id,
+        rentId: rentId ?? this.rentId,
+        value: value ?? this.value,
+        paymentDate: paymentDate ?? this.paymentDate,
+        status: status.present ? status.value : this.status,
+      );
+  Payment copyWithCompanion(PaymentsCompanion data) {
+    return Payment(
+      id: data.id.present ? data.id.value : this.id,
+      rentId: data.rentId.present ? data.rentId.value : this.rentId,
+      value: data.value.present ? data.value.value : this.value,
+      paymentDate:
+          data.paymentDate.present ? data.paymentDate.value : this.paymentDate,
+      status: data.status.present ? data.status.value : this.status,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Payment(')
+          ..write('id: $id, ')
+          ..write('rentId: $rentId, ')
+          ..write('value: $value, ')
+          ..write('paymentDate: $paymentDate, ')
+          ..write('status: $status')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, rentId, value, paymentDate, status);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Payment &&
+          other.id == this.id &&
+          other.rentId == this.rentId &&
+          other.value == this.value &&
+          other.paymentDate == this.paymentDate &&
+          other.status == this.status);
+}
+
+class PaymentsCompanion extends UpdateCompanion<Payment> {
+  final Value<int> id;
+  final Value<int> rentId;
+  final Value<double> value;
+  final Value<DateTime> paymentDate;
+  final Value<String?> status;
+  const PaymentsCompanion({
+    this.id = const Value.absent(),
+    this.rentId = const Value.absent(),
+    this.value = const Value.absent(),
+    this.paymentDate = const Value.absent(),
+    this.status = const Value.absent(),
+  });
+  PaymentsCompanion.insert({
+    this.id = const Value.absent(),
+    required int rentId,
+    required double value,
+    required DateTime paymentDate,
+    this.status = const Value.absent(),
+  })  : rentId = Value(rentId),
+        value = Value(value),
+        paymentDate = Value(paymentDate);
+  static Insertable<Payment> custom({
+    Expression<int>? id,
+    Expression<int>? rentId,
+    Expression<double>? value,
+    Expression<DateTime>? paymentDate,
+    Expression<String>? status,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (rentId != null) 'rent_id': rentId,
+      if (value != null) 'value': value,
+      if (paymentDate != null) 'payment_date': paymentDate,
+      if (status != null) 'status': status,
+    });
+  }
+
+  PaymentsCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? rentId,
+      Value<double>? value,
+      Value<DateTime>? paymentDate,
+      Value<String?>? status}) {
+    return PaymentsCompanion(
+      id: id ?? this.id,
+      rentId: rentId ?? this.rentId,
+      value: value ?? this.value,
+      paymentDate: paymentDate ?? this.paymentDate,
+      status: status ?? this.status,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (rentId.present) {
+      map['rent_id'] = Variable<int>(rentId.value);
+    }
+    if (value.present) {
+      map['value'] = Variable<double>(value.value);
+    }
+    if (paymentDate.present) {
+      map['payment_date'] = Variable<DateTime>(paymentDate.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PaymentsCompanion(')
+          ..write('id: $id, ')
+          ..write('rentId: $rentId, ')
+          ..write('value: $value, ')
+          ..write('paymentDate: $paymentDate, ')
+          ..write('status: $status')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$Database extends GeneratedDatabase {
   _$Database(QueryExecutor e) : super(e);
   $DatabaseManager get managers => $DatabaseManager(this);
   late final $CarsTable cars = $CarsTable(this);
   late final $ClienteTable cliente = $ClienteTable(this);
   late final $RentsTable rents = $RentsTable(this);
+  late final $PaymentsTable payments = $PaymentsTable(this);
   late final CarDao carDao = CarDao(this as Database);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [cars, cliente, rents];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [cars, cliente, rents, payments];
 }
 
 typedef $$CarsTableCreateCompanionBuilder = CarsCompanion Function({
@@ -2303,6 +2606,20 @@ final class $$RentsTableReferences
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
   }
+
+  static MultiTypedResultKey<$PaymentsTable, List<Payment>> _paymentsRefsTable(
+          _$Database db) =>
+      MultiTypedResultKey.fromTable(db.payments,
+          aliasName: $_aliasNameGenerator(db.rents.id, db.payments.rentId));
+
+  $$PaymentsTableProcessedTableManager get paymentsRefs {
+    final manager = $$PaymentsTableTableManager($_db, $_db.payments)
+        .filter((f) => f.rentId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(_paymentsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
 }
 
 class $$RentsTableFilterComposer extends Composer<_$Database, $RentsTable> {
@@ -2363,6 +2680,27 @@ class $$RentsTableFilterComposer extends Composer<_$Database, $RentsTable> {
                   $removeJoinBuilderFromRootComposer,
             ));
     return composer;
+  }
+
+  Expression<bool> paymentsRefs(
+      Expression<bool> Function($$PaymentsTableFilterComposer f) f) {
+    final $$PaymentsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.payments,
+        getReferencedColumn: (t) => t.rentId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PaymentsTableFilterComposer(
+              $db: $db,
+              $table: $db.payments,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
   }
 }
 
@@ -2486,6 +2824,27 @@ class $$RentsTableAnnotationComposer extends Composer<_$Database, $RentsTable> {
             ));
     return composer;
   }
+
+  Expression<T> paymentsRefs<T extends Object>(
+      Expression<T> Function($$PaymentsTableAnnotationComposer a) f) {
+    final $$PaymentsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.payments,
+        getReferencedColumn: (t) => t.rentId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PaymentsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.payments,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$RentsTableTableManager extends RootTableManager<
@@ -2499,7 +2858,7 @@ class $$RentsTableTableManager extends RootTableManager<
     $$RentsTableUpdateCompanionBuilder,
     (Rent, $$RentsTableReferences),
     Rent,
-    PrefetchHooks Function({bool clienteId, bool carId})> {
+    PrefetchHooks Function({bool clienteId, bool carId, bool paymentsRefs})> {
   $$RentsTableTableManager(_$Database db, $RentsTable table)
       : super(TableManagerState(
           db: db,
@@ -2546,10 +2905,11 @@ class $$RentsTableTableManager extends RootTableManager<
               .map((e) =>
                   (e.readTable(table), $$RentsTableReferences(db, table, e)))
               .toList(),
-          prefetchHooksCallback: ({clienteId = false, carId = false}) {
+          prefetchHooksCallback: (
+              {clienteId = false, carId = false, paymentsRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [],
+              explicitlyWatchedTables: [if (paymentsRefs) db.payments],
               addJoins: <
                   T extends TableManagerState<
                       dynamic,
@@ -2584,7 +2944,19 @@ class $$RentsTableTableManager extends RootTableManager<
                 return state;
               },
               getPrefetchedDataCallback: (items) async {
-                return [];
+                return [
+                  if (paymentsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $$RentsTableReferences._paymentsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$RentsTableReferences(db, table, p0).paymentsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.rentId == item.id),
+                        typedResults: items)
+                ];
               },
             );
           },
@@ -2602,7 +2974,268 @@ typedef $$RentsTableProcessedTableManager = ProcessedTableManager<
     $$RentsTableUpdateCompanionBuilder,
     (Rent, $$RentsTableReferences),
     Rent,
-    PrefetchHooks Function({bool clienteId, bool carId})>;
+    PrefetchHooks Function({bool clienteId, bool carId, bool paymentsRefs})>;
+typedef $$PaymentsTableCreateCompanionBuilder = PaymentsCompanion Function({
+  Value<int> id,
+  required int rentId,
+  required double value,
+  required DateTime paymentDate,
+  Value<String?> status,
+});
+typedef $$PaymentsTableUpdateCompanionBuilder = PaymentsCompanion Function({
+  Value<int> id,
+  Value<int> rentId,
+  Value<double> value,
+  Value<DateTime> paymentDate,
+  Value<String?> status,
+});
+
+final class $$PaymentsTableReferences
+    extends BaseReferences<_$Database, $PaymentsTable, Payment> {
+  $$PaymentsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $RentsTable _rentIdTable(_$Database db) => db.rents
+      .createAlias($_aliasNameGenerator(db.payments.rentId, db.rents.id));
+
+  $$RentsTableProcessedTableManager get rentId {
+    final manager = $$RentsTableTableManager($_db, $_db.rents)
+        .filter((f) => f.id($_item.rentId!));
+    final item = $_typedResult.readTableOrNull(_rentIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$PaymentsTableFilterComposer
+    extends Composer<_$Database, $PaymentsTable> {
+  $$PaymentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get value => $composableBuilder(
+      column: $table.value, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get paymentDate => $composableBuilder(
+      column: $table.paymentDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnFilters(column));
+
+  $$RentsTableFilterComposer get rentId {
+    final $$RentsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.rentId,
+        referencedTable: $db.rents,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RentsTableFilterComposer(
+              $db: $db,
+              $table: $db.rents,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$PaymentsTableOrderingComposer
+    extends Composer<_$Database, $PaymentsTable> {
+  $$PaymentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get value => $composableBuilder(
+      column: $table.value, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get paymentDate => $composableBuilder(
+      column: $table.paymentDate, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get status => $composableBuilder(
+      column: $table.status, builder: (column) => ColumnOrderings(column));
+
+  $$RentsTableOrderingComposer get rentId {
+    final $$RentsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.rentId,
+        referencedTable: $db.rents,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RentsTableOrderingComposer(
+              $db: $db,
+              $table: $db.rents,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$PaymentsTableAnnotationComposer
+    extends Composer<_$Database, $PaymentsTable> {
+  $$PaymentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<double> get value =>
+      $composableBuilder(column: $table.value, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get paymentDate => $composableBuilder(
+      column: $table.paymentDate, builder: (column) => column);
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  $$RentsTableAnnotationComposer get rentId {
+    final $$RentsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.rentId,
+        referencedTable: $db.rents,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RentsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.rents,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$PaymentsTableTableManager extends RootTableManager<
+    _$Database,
+    $PaymentsTable,
+    Payment,
+    $$PaymentsTableFilterComposer,
+    $$PaymentsTableOrderingComposer,
+    $$PaymentsTableAnnotationComposer,
+    $$PaymentsTableCreateCompanionBuilder,
+    $$PaymentsTableUpdateCompanionBuilder,
+    (Payment, $$PaymentsTableReferences),
+    Payment,
+    PrefetchHooks Function({bool rentId})> {
+  $$PaymentsTableTableManager(_$Database db, $PaymentsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PaymentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PaymentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PaymentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> rentId = const Value.absent(),
+            Value<double> value = const Value.absent(),
+            Value<DateTime> paymentDate = const Value.absent(),
+            Value<String?> status = const Value.absent(),
+          }) =>
+              PaymentsCompanion(
+            id: id,
+            rentId: rentId,
+            value: value,
+            paymentDate: paymentDate,
+            status: status,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int rentId,
+            required double value,
+            required DateTime paymentDate,
+            Value<String?> status = const Value.absent(),
+          }) =>
+              PaymentsCompanion.insert(
+            id: id,
+            rentId: rentId,
+            value: value,
+            paymentDate: paymentDate,
+            status: status,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$PaymentsTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({rentId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (rentId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.rentId,
+                    referencedTable: $$PaymentsTableReferences._rentIdTable(db),
+                    referencedColumn:
+                        $$PaymentsTableReferences._rentIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$PaymentsTableProcessedTableManager = ProcessedTableManager<
+    _$Database,
+    $PaymentsTable,
+    Payment,
+    $$PaymentsTableFilterComposer,
+    $$PaymentsTableOrderingComposer,
+    $$PaymentsTableAnnotationComposer,
+    $$PaymentsTableCreateCompanionBuilder,
+    $$PaymentsTableUpdateCompanionBuilder,
+    (Payment, $$PaymentsTableReferences),
+    Payment,
+    PrefetchHooks Function({bool rentId})>;
 
 class $DatabaseManager {
   final _$Database _db;
@@ -2612,4 +3245,6 @@ class $DatabaseManager {
       $$ClienteTableTableManager(_db, _db.cliente);
   $$RentsTableTableManager get rents =>
       $$RentsTableTableManager(_db, _db.rents);
+  $$PaymentsTableTableManager get payments =>
+      $$PaymentsTableTableManager(_db, _db.payments);
 }
