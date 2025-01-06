@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:connectcar/data/database/database.dart';
+import 'package:connectcar/data/dao/payment_dao.dart';
 
 class RentsNotifier extends StateNotifier<List<Rent>> {
   RentsNotifier() : super([]);
@@ -48,6 +49,27 @@ class RentsNotifier extends StateNotifier<List<Rent>> {
   state = [...state, rent];
 }
 
+Future<void> registrarPagamento({
+    required int rentId,
+    required double value,
+    required DateTime paymentDate,
+    String? status,
+  }) async {
+    final db = await Database.open();
+
+    final paymentDao = PaymentDao(db);
+    await paymentDao.addPayment(
+      rentId: rentId,
+      value: value,
+      paymentDate: paymentDate,
+      status: status,
+    );
+
+    // Caso você queira atualizar pagamentos ou realizar ações específicas:
+    // final pagamentos = await paymentDao.getPaymentsByRent(rentId);
+    // Atualizar ou realizar alguma ação com pagamentos.
+  }
+
  // Método para obter o nome do cliente
   Future<String?> getClienteNome(int clienteId) async {
     final db = await Database.open();
@@ -86,7 +108,6 @@ class RentsNotifier extends StateNotifier<List<Rent>> {
     final cars = await (db.select(db.cars)..where((tbl) => tbl.status.equals(status))).get();
     return cars;
   }
-
 
 }
 
