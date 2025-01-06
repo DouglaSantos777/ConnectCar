@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:connectcar/widgets/botao_cadastro.dart';
 import 'package:connectcar/theme/cores_theme.dart';
+import 'package:intl/intl.dart';
 
 class CardInformacoesAluguel extends ConsumerWidget {
   final int aluguelId;
@@ -106,9 +107,9 @@ class CardInformacoesAluguel extends ConsumerWidget {
             error: (e, stack) => Text('Erro ao carregar placa: $e',
                 style: const TextStyle(fontSize: 18)),
           ),
-          Text('Data de Retirada: ${aluguel.rentDate.toLocal()}',
+          Text('Data de Retirada: ${DateFormat('dd/MM/yyyy').format(aluguel.rentDate)}',
               style: const TextStyle(fontSize: 18)),
-          Text('Data de Devolução: ${aluguel.returnDate.toLocal()}',
+          Text('Data de Devolução: ${DateFormat('dd/MM/yyyy').format(aluguel.rentDate)}',
               style: const TextStyle(fontSize: 18)),
           Text('Valor Total: R\$ ${aluguel.totalValue}',
               style: const TextStyle(fontSize: 18)),
