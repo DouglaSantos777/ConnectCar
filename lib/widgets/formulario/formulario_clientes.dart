@@ -29,12 +29,20 @@ class _FormularioClientesState extends ConsumerState<FormularioClientes> {
     final clientes = ref.watch(clientesProvider);
 
     void _filtrarClientes(String cpf) {
+      final listaFiltrada = clientes.where((cliente) {
+        return cliente.cpf.contains(cpf) || cliente.nome.toLowerCase().contains(cpf.toLowerCase());
+      }).toList();
+
       setState(() {
-        clientesFiltrados = clientes.where((cliente) {
-          return cliente.cpf.contains(cpf) || cliente.nome.toLowerCase().contains(cpf.toLowerCase());
-        }).toList();
+        clientesFiltrados = listaFiltrada;
       });
     }
+
+    ref.listen(clientesProvider, (previous, next) {
+      setState(() {
+        clientesFiltrados = next;
+      });
+    });
 
     return Container(
       margin: const EdgeInsets.only(bottom: 20),
@@ -58,7 +66,7 @@ class _FormularioClientesState extends ConsumerState<FormularioClientes> {
                     'Selecione um cliente',
                     style: TextStyle(color: CoresTheme.textoEscuroClaro, fontWeight: FontWeight.w700),
                   ),
-                  items: (clientesFiltrados.isEmpty ? clientes : clientesFiltrados).map((cliente) {
+                  items: clientesFiltrados.map((cliente) {
                     return DropdownMenuItem<String>(
                       value: cliente.id.toString(),
                       child: Text('${cliente.nome} - ${cliente.cpf}'),

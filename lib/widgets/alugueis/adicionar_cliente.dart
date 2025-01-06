@@ -9,10 +9,10 @@ class AdicionarCliente extends StatefulWidget {
   const AdicionarCliente({super.key});
 
   @override
-  _AdicionarClienteState createState() => _AdicionarClienteState();
+  AdicionarClienteState createState() => AdicionarClienteState();
 }
 
-class _AdicionarClienteState extends State<AdicionarCliente> {
+class AdicionarClienteState extends State<AdicionarCliente> {
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController cpfController = TextEditingController();
   final TextEditingController cnhController = TextEditingController();
