@@ -39,7 +39,6 @@ class BotaoCarros extends ConsumerWidget {
       child: Wrap(
         spacing: 12.0,
         children: carList.map((car) {
-          String corCategoria = _obterCorCategoria(car.category);
           return InkWell(
             onTap: () {
               Navigator.push(
@@ -61,7 +60,7 @@ class BotaoCarros extends ConsumerWidget {
               label: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _carregarImagem(car.photo, corCategoria),
+                  _carregarImagem(car.photo),
                   const SizedBox(height: 4),
                   Text(
                     car.model,
@@ -80,26 +79,7 @@ class BotaoCarros extends ConsumerWidget {
     );
   }
 
-  String _obterCorCategoria(String categoria) {
-    switch (categoria) {
-      case 'GNV':
-        return '0xff1E88E5';
-      case 'Flex':
-        return '0xffE53935';
-      case 'Diesel':
-        return '0xff8E24AA';
-      case 'Híbrido':
-        return '0xff43A047';
-      case 'Elétrico':
-        return '0xffC1C1C1';
-      case 'Gasolina':
-        return '0xffF9A825';
-      default:
-        return '0xff1E88E5';
-    }
-  }
-
-  Widget _carregarImagem(String url, String corCategoria) {
+  Widget _carregarImagem(String url) {
     if (url.startsWith('/data/')) {
       return ClipRRect(
         borderRadius: BorderRadius.circular(8),
@@ -115,8 +95,15 @@ class BotaoCarros extends ConsumerWidget {
         width: 80,
         height: 80,
         decoration: BoxDecoration(
-          color: Color(int.parse(corCategoria)),
+          color: Colors.blueGrey,
           borderRadius: BorderRadius.circular(8),
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.directions_car, 
+            size: 40,
+            color: Colors.white,
+          ),
         ),
       );
     }

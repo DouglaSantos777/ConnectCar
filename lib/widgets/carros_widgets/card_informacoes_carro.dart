@@ -2,30 +2,27 @@
 import 'package:connectcar/theme/cores_theme.dart';
 import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
 
-class CardCarroDetalhes extends StatelessWidget {
+final carDetailsProvider = FutureProvider.family<Car?, int>((ref, carId) async {
+  final db = await Database.open();
+  return db.getCarById(carId);
+});
+
+class CardCarroDetalhes extends ConsumerWidget {
   final int carId;
   const CardCarroDetalhes({super.key, required this.carId});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final carAsync = ref.watch(carDetailsProvider(carId));
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    return FutureBuilder<Car?>(
-      future: Database.open().then((db) => db.getCarById(carId)),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator(); 
-        }
-
-        if (snapshot.hasError) {
-          return const Text('Erro ao carregar os dados do carro');
-        }
-
-        final car = snapshot.data;
-
+    return carAsync.when(
+      data: (car) {
         if (car == null) {
-          return const Text('Carro não encontrado');
+          return const Center(child: Text('Carro não encontrado'));
         }
 
         return Card(
@@ -33,22 +30,30 @@ class CardCarroDetalhes extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          color: isDarkMode ? Colors.grey[850] : Colors.white70, 
-          shadowColor: isDarkMode ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.1), 
+          color: isDarkMode ? Colors.grey[850] : Colors.white70,
+          shadowColor:
+              isDarkMode ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.1),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: _carregarImagem(car.photo), 
+                ),
+                const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Marca: ${car.brand}', 
+                      'Marca: ${car.brand}',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode ? CoresTheme.textoTemaEscuro : CoresTheme.textoAzulTemaClaro, 
+                        color: isDarkMode
+                            ? CoresTheme.textoTemaEscuro
+                            : CoresTheme.textoAzulTemaClaro,
                       ),
                     ),
                     Text(
@@ -56,7 +61,9 @@ class CardCarroDetalhes extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode ? CoresTheme.textoTemaEscuro : CoresTheme.textoAzulTemaClaro, 
+                        color: isDarkMode
+                            ? CoresTheme.textoTemaEscuro
+                            : CoresTheme.textoAzulTemaClaro,
                       ),
                     ),
                   ],
@@ -94,15 +101,17 @@ class CardCarroDetalhes extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Status: ${car.status}', 
+                      'Status: ${car.status}',
                       style: TextStyle(
                         fontSize: 16,
-                        color: car.status == 'Disponível' ? CoresTheme.corVerde : Colors.red,
+                        color: car.status == 'Disponível'
+                            ? CoresTheme.corVerde
+                            : Colors.red,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      'R\$ ${car.priceByDay}/dia', 
+                      'R\$ ${car.priceByDay}/dia',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.orange[800],
@@ -113,16 +122,48 @@ class CardCarroDetalhes extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Descrição: ${car.description}', 
+                  'Descrição: ${car.description}',
                   style: const TextStyle(fontSize: 14),
                 ),
                 const SizedBox(height: 16),
-                const Orcamento(), 
+                const Orcamento(),
               ],
             ),
           ),
         );
       },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (err, _) => const Center(child: Text('Erro ao carregar dados do carro')),
     );
+  }
+
+  Widget _carregarImagem(String url) {
+    if (url.startsWith('/data/')) {
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.file(
+          File(url),
+          height: 200, 
+          width: double.infinity,
+          fit: BoxFit.cover,
+        ),
+      );
+    } else {
+      return Container(
+        width: double.infinity,
+        height: 200,
+        decoration: BoxDecoration(
+          color: Colors.blueGrey,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.directions_car, 
+            size: 80,
+            color: Colors.white,
+          ),
+        ),
+      );
+    }
   }
 }
