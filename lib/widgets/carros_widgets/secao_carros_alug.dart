@@ -49,7 +49,7 @@ class SecaoCarrosAlugados extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => const ListaCarrosScreen(),
+                      builder: (_) => const ListaCarrosScreen(status: 'Alugado',),
                     ),
                   );
                 },
@@ -69,7 +69,7 @@ class SecaoCarrosAlugados extends StatelessWidget {
 
           const SizedBox(height: 14),
 
-          const BotaoCarros(filtro: 'Alugado',),
+          const BotaoCarros(filtro: 'Alugado', searchQuery: '',),
         ],
       ),
     );

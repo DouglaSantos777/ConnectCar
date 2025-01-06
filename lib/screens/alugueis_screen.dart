@@ -21,24 +21,24 @@ class AlugueisScreen extends ConsumerWidget {
             children: rents.map((rent) {
               final clienteNome =
                   ref.watch(clienteNomeProvider(rent.clienteId));
-              final categoriaCarro =
-                  ref.watch(carroCategoriaProvider(rent.carId));
+              final modeloCarro =
+                  ref.watch(carroModeloProvider(rent.carId));
 
               return clienteNome.when(
                 data: (nome) {
-                  return categoriaCarro.when(
-                    data: (categoria) {
+                  return modeloCarro.when(
+                    data: (modelo) {
                       return CardAluguel(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => DetalhesAluguelScreen(),
+                              builder: (_) => DetalhesAluguelScreen(aluguelId: rent.id, carId: rent.carId, clienteId: rent.clienteId,),
                             ),
                           );
                         },
                         clienteNome: nome ?? 'Cliente não encontrado',
-                        categoriaCarro: categoria ?? 'Categoria não encontrada',
+                        modeloCarro: modelo ?? 'Modelo não encontrado',
                         dataRetirada:
                             rent.rentDate.toLocal().toString().split(' ')[0],
                         dataDevolucao:
@@ -47,7 +47,7 @@ class AlugueisScreen extends ConsumerWidget {
                     },
                     loading: () => const CircularProgressIndicator(),
                     error: (error, stackTrace) =>
-                        Text('Erro ao carregar categoria: $error'),
+                        Text('Erro ao carregar modelo: $error'),
                   );
                 },
                 loading: () => const CircularProgressIndicator(),

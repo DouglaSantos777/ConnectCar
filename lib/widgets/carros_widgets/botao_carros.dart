@@ -1,44 +1,51 @@
-import 'package:connectcar/data/database/database.dart';
 import 'dart:io';
+
+import 'package:connectcar/data/database/database.dart';
 import 'package:connectcar/riverpod/providers.dart';
 import 'package:connectcar/screens/detalhes_carro_screen.dart';
-import 'package:connectcar/theme/botao_carros_theme.dart';
-import 'package:connectcar/theme/cores_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:connectcar/theme/cores_theme.dart';
+import 'package:connectcar/theme/botao_carros_theme.dart';
 
 class BotaoCarros extends ConsumerWidget {
   final String filtro;
-  const BotaoCarros({super.key, required this.filtro});
+  final String searchQuery;
+
+  const BotaoCarros({super.key, required this.filtro, required this.searchQuery});
 
   @override
-Widget build(BuildContext context, WidgetRef ref) {
-  final carDaoAsync = ref.watch(carDaoProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final carDaoAsync = ref.watch(carDaoProvider);
 
-  return carDaoAsync.when(
-    data: (carDao) {
-      final carList = ref.watch(carProvider.select((carProvider) =>
-          carProvider.cars.where((car) => car.status == filtro).toList()));
-      return _construirListaCarros(context, carList);
-    },
-    loading: () => const Center(child: CircularProgressIndicator()),
-    error: (error, _) => Center(child: Text('Erro: $error')),
-  );
-}
+    return carDaoAsync.when(
+      data: (carDao) {
+        final carList = ref.watch(carProvider.select((carProvider) =>
+            carProvider.cars.where((car) =>
+                car.status == filtro &&
+                car.model.toLowerCase().contains(searchQuery) 
+            ).toList()));
+        
+        return _construirListaCarros(context, carList);
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(child: Text('Erro: $error')),
+    );
+  }
 
-Widget _construirListaCarros(BuildContext context, List<Car> carList) {
-  return SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Wrap(
-      spacing: 12.0,
-      children: carList.map((car) {
-        String corCategoria = _obterCorCategoria(car.category);
+  Widget _construirListaCarros(BuildContext context, List<Car> carList) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Wrap(
+        spacing: 12.0,
+        children: carList.map((car) {
+          String corCategoria = _obterCorCategoria(car.category);
           return InkWell(
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => const DetalhesCarroScreen(),
+                  builder: (_) => DetalhesCarroScreen(carId: car.id),
                 ),
               );
             },
@@ -54,7 +61,7 @@ Widget _construirListaCarros(BuildContext context, List<Car> carList) {
               label: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _carregarImagem(car.photo, corCategoria), 
+                  _carregarImagem(car.photo, corCategoria),
                   const SizedBox(height: 4),
                   Text(
                     car.model,
@@ -88,7 +95,7 @@ Widget _construirListaCarros(BuildContext context, List<Car> carList) {
       case 'Gasolina':
         return '0xffF9A825';
       default:
-        return '0xff1E88E5'; 
+        return '0xff1E88E5';
     }
   }
 

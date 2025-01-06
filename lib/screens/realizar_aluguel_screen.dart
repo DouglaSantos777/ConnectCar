@@ -1,5 +1,4 @@
 import 'package:connectcar/riverpod/rents_notifier.dart';
-import 'package:connectcar/theme/cores_theme.dart';
 import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:connectcar/widgets/botao_insercao.dart';
 import 'package:connectcar/widgets/custom_app_bar.dart';
@@ -15,10 +14,10 @@ class RealizarAluguelScreen extends ConsumerStatefulWidget {
   const RealizarAluguelScreen({super.key});
 
   @override
-  _RealizarAluguelScreenState createState() => _RealizarAluguelScreenState();
+  RealizarAluguelScreenState createState() => RealizarAluguelScreenState();
 }
 
-class _RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
+class RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
   String? clienteSelecionado;
   String? carroSelecionado;
 
@@ -119,31 +118,6 @@ class _RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
                       },
                       ),
                         const SizedBox(height: 20),
-                  // Adicionando a ListView para exibir os aluguéis
-                  const Text(
-                    'Aluguéis realizados:',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  aluguels.isEmpty
-                      ? const Text("Nenhum aluguel realizado ainda.")
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: aluguels.length,
-                          itemBuilder: (context, index) {
-                            final aluguel = aluguels[index];
-                            return ListTile(
-                              title: Text(
-                                  "Cliente: ${aluguel.clienteId}, Carro: ${aluguel.carId}"),
-                              subtitle: Text(
-                                  "Data Retirada: ${DateFormat('dd/MM/yyyy').format(aluguel.rentDate)} - Data Devolução: ${DateFormat('dd/MM/yyyy').format(aluguel.returnDate)}"),
-                            );
-                          },
-                        ),
                 ],
               ),
             ),

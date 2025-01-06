@@ -123,6 +123,12 @@ class Database extends _$Database {
   Future<List<Rent>> getAllRents() async {
     return await select(rents).get();
   }
+
+  Future<Car?> getCarById(int carId) async {
+    return (select(cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
+  }
+
+
 }
 
 /*

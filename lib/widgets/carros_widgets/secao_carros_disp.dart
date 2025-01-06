@@ -3,8 +3,23 @@ import 'package:connectcar/theme/cores_theme.dart';
 import 'package:connectcar/widgets/carros_widgets/botao_carros.dart';
 import 'package:flutter/material.dart';
 
-class SecaoCarrosDisponiveis extends StatelessWidget {
+class SecaoCarrosDisponiveis extends StatefulWidget {
   const SecaoCarrosDisponiveis({super.key});
+
+  @override
+  _SecaoCarrosDisponiveisState createState() => _SecaoCarrosDisponiveisState();
+}
+
+class _SecaoCarrosDisponiveisState extends State<SecaoCarrosDisponiveis> {
+  final TextEditingController _controller = TextEditingController();
+  String _searchQuery = '';
+
+  // Função de filtragem
+  void _filterCars(String query) {
+    setState(() {
+      _searchQuery = query.toLowerCase(); 
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +41,7 @@ class SecaoCarrosDisponiveis extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const ListaCarrosScreen(),
+                    builder: (_) => const ListaCarrosScreen(status: 'Disponível'),
                   ),
                 );
               },
@@ -44,11 +59,14 @@ class SecaoCarrosDisponiveis extends StatelessWidget {
           ],
         ),
         
-        const Padding(
-          padding: EdgeInsets.symmetric(vertical: 8),
+        // Barra de pesquisa
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Pesquise por marca ou modelo...',
+            controller: _controller,
+            onChanged: _filterCars, 
+            decoration: const InputDecoration(
+              hintText: 'Pesquise por modelo...',
               prefixIcon: Icon(Icons.search),
             ),
           ),
@@ -56,7 +74,7 @@ class SecaoCarrosDisponiveis extends StatelessWidget {
 
         const SizedBox(height: 12),
 
-        const BotaoCarros(filtro: 'Disponível',),
+        BotaoCarros(filtro: 'Disponível', searchQuery: _searchQuery),
 
         const SizedBox(height: 30),
       ],

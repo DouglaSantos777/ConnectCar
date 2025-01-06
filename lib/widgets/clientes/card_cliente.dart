@@ -21,7 +21,7 @@ class _CardClienteState extends State<CardCliente> {
 
   Future<ClienteData?> _buscarClientePorId(int id) async {
     final db = await Database.open();
-    return db.getClienteById(id);  // Método que busca um cliente específico
+    return db.getClienteById(id);  
   }
 
   @override

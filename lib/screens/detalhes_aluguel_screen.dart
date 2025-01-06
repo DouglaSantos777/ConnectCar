@@ -5,20 +5,23 @@ import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class DetalhesAluguelScreen extends StatelessWidget {
-  const DetalhesAluguelScreen({super.key});
+  final int aluguelId;
+  final int carId;
+  final int clienteId;
+  const DetalhesAluguelScreen({super.key, required this.aluguelId, required this.carId, required this.clienteId});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: CustomAppBar(title: 'Detalhes do aluguel'),
+    return Scaffold(
+      appBar: const CustomAppBar(title: 'Detalhes do aluguel'),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              CardCarro(),
-              CardCliente(clienteId: 4,),
-              CardInformacoesAluguel(),
+              CardCarro(carId: carId),
+              CardCliente(clienteId: clienteId,),
+              CardInformacoesAluguel(aluguelId: aluguelId),
             ],
           ),
         ),

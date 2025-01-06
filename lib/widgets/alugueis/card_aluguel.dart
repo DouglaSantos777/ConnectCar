@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class CardAluguel extends StatelessWidget {
   final VoidCallback onPressed;
   final String clienteNome;
-  final String categoriaCarro;
+  final String modeloCarro;
   final String dataRetirada;
   final String dataDevolucao;
 
@@ -12,7 +12,7 @@ class CardAluguel extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.clienteNome,
-    required this.categoriaCarro,
+    required this.modeloCarro,
     required this.dataRetirada,
     required this.dataDevolucao,
   });
@@ -45,7 +45,7 @@ class CardAluguel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-             'Aluguel de $categoriaCarro',
+             'Aluguel de $modeloCarro',
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -54,16 +54,16 @@ class CardAluguel extends StatelessWidget {
               ),
               const SizedBox(height: 6),
               Text(
-                'Cliente $clienteNome',
+                'Cliente: $clienteNome',
                 style: const TextStyle(
                   color: Colors.white70,
                   fontSize: 18,
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
                 '$dataRetirada - $dataDevolucao',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white60,
                   fontSize: 16,
                 ),

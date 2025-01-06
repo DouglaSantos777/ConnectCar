@@ -18,7 +18,7 @@ final carProvider = ChangeNotifierProvider<CarProvider>((ref) {
   final carDaoAsync = ref.watch(carDaoProvider);
   
   return carDaoAsync.when(
-    data: (carDao) => CarProvider(carDao), // Retorna o CarProvider com o carDao correto
+    data: (carDao) => CarProvider(carDao), 
     loading: () => throw Exception('Database is loading'),
     error: (error, stackTrace) => throw Exception('Error loading database: $error'),
   );

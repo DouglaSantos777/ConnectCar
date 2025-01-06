@@ -3,7 +3,8 @@ import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class DetalhesCarroScreen extends StatelessWidget {
-  const DetalhesCarroScreen({super.key});
+  final int carId;
+  const DetalhesCarroScreen({super.key, required this.carId});
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +12,9 @@ class DetalhesCarroScreen extends StatelessWidget {
       appBar: const CustomAppBar(title: 'Detalhes do carro'),
       body: Container(
         padding: const EdgeInsets.all(16),
-        child: const Column(
+        child: Column(
           children: [
-            CardCarroDetalhes(),
+            CardCarroDetalhes(carId: carId),
           ],
         ),
       )

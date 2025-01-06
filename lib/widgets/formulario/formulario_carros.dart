@@ -19,23 +19,27 @@ class FormularioCarros extends ConsumerStatefulWidget {
 }
 
 class _FormularioCarrosState extends ConsumerState<FormularioCarros> {
-  List<Car> _carrosFiltrados = [];  // Alterado para tipo correto
+  List<Car> _carrosFiltrados = [];  
   final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _carrosFiltrados = ref.read(carProvider).cars;  // Carrega os carros ao iniciar
+    _carrosFiltrados = ref.read(carProvider).cars
+      .where((car) => car.status == 'Disponível') 
+      .toList();  
   }
 
   void _filtrarCarros(String query) {
     final carros = ref.read(carProvider).cars;
 
     setState(() {
-      _carrosFiltrados = carros.where((car) {
-        return car.model.toLowerCase().contains(query.toLowerCase()) ||
-            car.plate.toLowerCase().contains(query.toLowerCase());
-      }).toList();
+      _carrosFiltrados = carros
+        .where((car) => car.status == 'Disponível') 
+        .where((car) {
+          return car.model.toLowerCase().contains(query.toLowerCase()) ||
+              car.plate.toLowerCase().contains(query.toLowerCase());
+        }).toList();
     });
   }
 

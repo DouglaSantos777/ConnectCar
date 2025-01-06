@@ -62,6 +62,32 @@ class RentsNotifier extends StateNotifier<List<Rent>> {
     return car?.category;
   }
 
+  // Método para obter o modelo do carro
+  Future<String?> getCarroModelo(int carId) async {
+    final db = await Database.open();
+    final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
+    return car?.model;
+  }
+
+  Future<String?> getCarroPlaca(int carId) async {
+    final db = await Database.open();
+    final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
+    return car?.plate;
+  }
+
+  Future<double?> getCarroById(int carId) async {
+    final db = await Database.open();
+    final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
+    return car?.priceByDay;
+  }
+
+  Future<List<Car>> getAllCarsByStatus(String status) async {
+    final db = await Database.open();
+    final cars = await (db.select(db.cars)..where((tbl) => tbl.status.equals(status))).get();
+    return cars;
+  }
+
+
 }
 
 // Providers para acessar nome do cliente e categoria do carro
@@ -75,8 +101,33 @@ final carroCategoriaProvider = FutureProvider.family<String?, int>((ref, carId) 
   return await rentsNotifier.getCarroCategoria(carId);
 });
 
+final carroModeloProvider = FutureProvider.family<String?, int>((ref, carId) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier);
+  return await rentsNotifier.getCarroModelo(carId);
+});
+
 final rentsProvider = StateNotifierProvider<RentsNotifier, List<Rent>>((ref) {
   final notifier = RentsNotifier();
   notifier.carregarRents();
   return notifier;
+});
+
+final carroPlacaProvider = FutureProvider.family<String?, int>((ref, carId) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier);
+  return await rentsNotifier.getCarroPlaca(carId);
+});
+
+final carrosDisponiveisProvider = FutureProvider<List<Car>>((ref) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier); 
+  return await rentsNotifier.getAllCarsByStatus('Disponível'); 
+});
+
+final carrosAlugadosProvider = FutureProvider<List<Car>>((ref) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier); 
+  return await rentsNotifier.getAllCarsByStatus('Alugado'); 
+});
+
+final carroPriceProvider = FutureProvider.family<double?, String?>((ref, carroId) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier); 
+  return await rentsNotifier.getCarroById(int.parse(carroId!));
 });
