@@ -1,3 +1,4 @@
+import 'package:connectcar/riverpod/clientes_notifier.dart';
 import 'package:connectcar/riverpod/rents_notifier.dart';
 import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:connectcar/widgets/botao_insercao.dart';
@@ -61,7 +62,9 @@ class RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const AdicionarCliente()),
-                      );
+                      ).then((_) {
+                        ref.read(clientesProvider.notifier).carregarClientes();
+                      });
                     },
                   ),
                   const SizedBox(height: 14),
