@@ -1,4 +1,5 @@
-﻿import 'dart:io';
+import 'package:connectcar/data/database/database.dart';
+import 'dart:io';
 import 'package:connectcar/riverpod/providers.dart';
 import 'package:connectcar/screens/detalhes_carro_screen.dart';
 import 'package:connectcar/theme/botao_carros_theme.dart';
@@ -11,18 +12,27 @@ class BotaoCarros extends ConsumerWidget {
   const BotaoCarros({super.key, required this.filtro});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+Widget build(BuildContext context, WidgetRef ref) {
+  final carDaoAsync = ref.watch(carDaoProvider);
 
-    final carList = ref.watch(carProvider.select((carProvider) =>
-        carProvider.cars.where((car) => car.status == filtro).toList()));
+  return carDaoAsync.when(
+    data: (carDao) {
+      final carList = ref.watch(carProvider.select((carProvider) =>
+          carProvider.cars.where((car) => car.status == filtro).toList()));
+      return _construirListaCarros(context, carList);
+    },
+    loading: () => const Center(child: CircularProgressIndicator()),
+    error: (error, _) => Center(child: Text('Erro: $error')),
+  );
+}
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Wrap(
-        spacing: 12.0,
-        children: carList.map((car) {
-          String corCategoria = _obterCorCategoria(car.category);
-
+Widget _construirListaCarros(BuildContext context, List<Car> carList) {
+  return SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Wrap(
+      spacing: 12.0,
+      children: carList.map((car) {
+        String corCategoria = _obterCorCategoria(car.category);
           return InkWell(
             onTap: () {
               Navigator.push(

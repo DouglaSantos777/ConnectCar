@@ -1,7 +1,7 @@
-import 'package:connectcar/data/tables/auto_primary_key.dart';
 import 'package:drift/drift.dart';
 
-class Cars extends Table with AutoIncrementingPrimaryKey{
+class Cars extends Table{
+IntColumn get id => integer().autoIncrement()();
 IntColumn get renavam => integer()();
 TextColumn get plate => text().withLength(max: 20)();
 TextColumn get brand => text().withLength(max: 50)();

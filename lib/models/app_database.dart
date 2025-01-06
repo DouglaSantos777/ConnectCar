@@ -1,4 +1,4 @@
-﻿import 'package:drift/drift.dart';
+﻿/*import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'db_tables.dart';
 import 'package:path_provider/path_provider.dart';
@@ -6,6 +6,7 @@ import 'dart:io';
 
 part 'app_database.g.dart';
 
+/*
 @DriftDatabase(tables: [Cliente]) 
 class AppDatabase extends _$AppDatabase {
   AppDatabase(QueryExecutor e) : super(e);
@@ -20,6 +21,7 @@ class AppDatabase extends _$AppDatabase {
     final executor = NativeDatabase(dbFile); 
     return AppDatabase(executor); 
   }
+*/
 
   Future<void> addCliente({
     required String nome,
@@ -60,3 +62,4 @@ class AppDatabase extends _$AppDatabase {
     return (select(cliente)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
   }
 }
+*/

@@ -15,7 +15,7 @@ class CarDao extends DatabaseAccessor<Database> with _$CarDaoMixin {
 
   CarDao(this.db) : super(db);
 
-  Future insertCar(Insertable<Car> car) => into(cars).insert(car);
+ Future insertCar(Insertable<Car> car) => into(cars).insert(car);
 
   /* Future<int> insertCar(CarsCompanion entity) async {
     return await into(cars).insert(entity);
@@ -49,4 +49,5 @@ class CarDetails {
   CarDetails({
     required this.car,
   });
+
 }

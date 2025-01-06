@@ -1,4 +1,4 @@
-﻿import 'package:connectcar/models/app_database.dart';
+﻿import 'package:connectcar/data/database/database.dart';
 import 'package:flutter/material.dart';
 
 class CardCliente extends StatefulWidget {
@@ -20,7 +20,7 @@ class _CardClienteState extends State<CardCliente> {
   }
 
   Future<ClienteData?> _buscarClientePorId(int id) async {
-    final db = await AppDatabase.open();
+    final db = await Database.open();
     return db.getClienteById(id);  // Método que busca um cliente específico
   }
 

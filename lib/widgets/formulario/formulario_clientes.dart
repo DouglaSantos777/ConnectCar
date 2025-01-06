@@ -1,4 +1,4 @@
-﻿import 'package:connectcar/models/app_database.dart';
+﻿import 'package:connectcar/data/database/database.dart';
 import 'package:connectcar/riverpod/clientes_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:connectcar/theme/cores_theme.dart';
@@ -13,6 +13,8 @@ class FormularioClientes extends ConsumerStatefulWidget {
     required this.onChanged,
     this.clienteSelecionado,
   });
+
+//
 
   @override
   ConsumerState<FormularioClientes> createState() => _FormularioClientesState();
@@ -58,7 +60,7 @@ class _FormularioClientesState extends ConsumerState<FormularioClientes> {
                   ),
                   items: (clientesFiltrados.isEmpty ? clientes : clientesFiltrados).map((cliente) {
                     return DropdownMenuItem<String>(
-                      value: cliente.cpf,
+                      value: cliente.id.toString(),
                       child: Text('${cliente.nome} - ${cliente.cpf}'),
                     );
                   }).toList(),
