@@ -60,7 +60,7 @@ class _FormularioClientesState extends ConsumerState<FormularioClientes> {
                   ),
                   items: (clientesFiltrados.isEmpty ? clientes : clientesFiltrados).map((cliente) {
                     return DropdownMenuItem<String>(
-                      value: cliente.cpf,
+                      value: cliente.id.toString(),
                       child: Text('${cliente.nome} - ${cliente.cpf}'),
                     );
                   }).toList(),

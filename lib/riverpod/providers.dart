@@ -8,19 +8,20 @@ final databaseProvider = FutureProvider<Database>((ref) async {
   return await Database.open(); 
 });
 
-final carDaoProvider = Provider<CarDao>((ref) {
-  final databaseAsync = ref.watch(databaseProvider);
-
-  return databaseAsync.when(
-    data: (database) => CarDao(database), 
-    loading: () => throw Exception('Database is loading'), 
-    error: (error, stackTrace) => throw Exception('Error loading database: $error'), 
-  );
+final carDaoProvider = FutureProvider<CarDao>((ref) async {
+  final database = await ref.watch(databaseProvider.future);
+  return CarDao(database);
 });
 
+
 final carProvider = ChangeNotifierProvider<CarProvider>((ref) {
-  final carDao = ref.watch(carDaoProvider); 
-  return CarProvider(carDao); 
+  final carDaoAsync = ref.watch(carDaoProvider);
+  
+  return carDaoAsync.when(
+    data: (carDao) => CarProvider(carDao), // Retorna o CarProvider com o carDao correto
+    loading: () => throw Exception('Database is loading'),
+    error: (error, stackTrace) => throw Exception('Error loading database: $error'),
+  );
 });
 
 

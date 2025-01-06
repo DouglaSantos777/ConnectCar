@@ -146,7 +146,7 @@ class _RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
                       ? const Text("Nenhum aluguel realizado ainda.")
                       : ListView.builder(
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemCount: aluguels.length,
                           itemBuilder: (context, index) {
                             final aluguel = aluguels[index];
