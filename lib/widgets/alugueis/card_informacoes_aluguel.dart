@@ -24,18 +24,18 @@ class CardInformacoesAluguel extends ConsumerWidget {
 
     final pagamentos = ref.watch(paymentNotifierProvider);
 
-     void registrarPagamento() async {
+    void registrarPagamento() async {
       try {
         final value = aluguel.totalValue;
         final paymentDate = DateTime.now();
 
         // Registra o pagamento
         await ref.read(paymentNotifierProvider.notifier).registerPayment(
-          rentId: aluguel.id,
-          value: value,
-          paymentDate: paymentDate,
-          status: 'Pago',
-        );
+              rentId: aluguel.id,
+              value: value,
+              paymentDate: paymentDate,
+              status: 'Pago',
+            );
 
         // Exibe a confirmação de sucesso
         ScaffoldMessenger.of(context).showSnackBar(
@@ -137,11 +137,36 @@ class CardInformacoesAluguel extends ConsumerWidget {
                     itemCount: pagamentos.length,
                     itemBuilder: (context, index) {
                       final pagamento = pagamentos[index];
-                      return ListTile(
-                        title: Text('Pagamento de R\$ ${pagamento.value}'),
-                        subtitle: Text(
-                          'Data: ${pagamento.paymentDate.toLocal()} | Status: ${pagamento.status}',
-                        ),
+
+                      // Buscando o aluguel correspondente ao pagamento
+                      final aluguel = rent
+                          .firstWhere((rent) => rent.id == pagamento.rentId);
+
+                      // Buscando o nome do cliente e a categoria do carro relacionados ao aluguel
+                      final clienteNome =
+                          ref.watch(clienteNomeProvider(aluguel.clienteId));
+                      final carroModelo =
+                          ref.watch(carroModeloProvider(aluguel.carId));
+
+                      return clienteNome.when(
+                        data: (nome) {
+                          return carroModelo.when(
+                            data: (modelo) {
+                              return ListTile(
+                                title:
+                                    Text('Pagamento de R\$ ${pagamento.value}'),
+                                subtitle: Text(
+                                  'Cliente: $nome\nCarro: $modelo\nData: ${pagamento.paymentDate.toLocal()} | Status: ${pagamento.status}',
+                                ),
+                              );
+                            },
+                            loading: () => const CircularProgressIndicator(),
+                            error: (e, stack) =>
+                                Text('Erro ao carregar categoria: $e'),
+                          );
+                        },
+                        loading: () => const CircularProgressIndicator(),
+                        error: (e, stack) => Text('Erro ao carregar nome: $e'),
                       );
                     },
                   ),
