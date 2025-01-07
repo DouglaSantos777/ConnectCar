@@ -7,6 +7,7 @@ class CardAluguel extends StatelessWidget {
   final String modeloCarro;
   final String dataRetirada;
   final String dataDevolucao;
+  final bool isPago; // Recebe o status de pagamento
 
   const CardAluguel({
     super.key,
@@ -15,6 +16,7 @@ class CardAluguel extends StatelessWidget {
     required this.modeloCarro,
     required this.dataRetirada,
     required this.dataDevolucao,
+    this.isPago = false, // Por padrão, é falso
   });
 
   @override
@@ -45,7 +47,7 @@ class CardAluguel extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-             'Aluguel de $modeloCarro',
+                'Aluguel de $modeloCarro',
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -68,6 +70,19 @@ class CardAluguel extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
+              if (isPago)
+                Container(
+                  margin: const EdgeInsets.only(top: 8),
+                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text(
+                    'Pago',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
             ],
           ),
         ),
