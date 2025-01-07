@@ -35,7 +35,7 @@ class OrcamentoState extends State<Orcamento> {
             fontSize: 20,
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 4),
         FormularioData(
           label: 'Data de Retirada',
           controller: widget.dataRetiradaController ?? TextEditingController(),
@@ -46,7 +46,6 @@ class OrcamentoState extends State<Orcamento> {
           controller: widget.dataDevolucaoController ?? TextEditingController(),
           onChanged: (text) => _atualizarDataDevolucao(text),
         ),
-        const SizedBox(height: 14),
         ValorTotalEstilo(valorTotal: _calcularValorTotal()),
       ],
     );

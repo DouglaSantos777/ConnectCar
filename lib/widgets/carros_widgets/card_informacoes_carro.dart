@@ -54,7 +54,7 @@ class CardCarroDetalhes extends ConsumerWidget {
                     Text(
                       'Marca: ${car.brand}',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: isDarkMode
                             ? CoresTheme.textoTemaEscuro
@@ -64,7 +64,7 @@ class CardCarroDetalhes extends ConsumerWidget {
                     Text(
                       'Modelo: ${car.model}',
                       style: TextStyle(
-                        fontSize: 22,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: isDarkMode
                             ? CoresTheme.textoTemaEscuro
@@ -130,7 +130,7 @@ class CardCarroDetalhes extends ConsumerWidget {
                   'Descrição: ${car.description}',
                   style: const TextStyle(fontSize: 14),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
                 Orcamento(
                   dataRetiradaController: _dataRetiradaController, 
                   dataDevolucaoController: _dataDevolucaoController,
