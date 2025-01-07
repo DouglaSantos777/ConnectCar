@@ -1,5 +1,4 @@
-﻿// No seu provider de carros (exemplo)
-import 'package:connectcar/data/database/database.dart';
+﻿import 'package:connectcar/data/database/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final carrosProvider = StateNotifierProvider<CarrosNotifier, List<Car>>((ref) {

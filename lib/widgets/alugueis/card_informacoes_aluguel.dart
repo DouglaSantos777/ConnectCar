@@ -23,13 +23,11 @@ class _CardInformacoesAluguelState
     final rent = ref.watch(rentsProvider);
     final aluguel = rent.firstWhere((rent) => rent.id == widget.aluguelId);
 
-    // Use "when" para acessar os valores de AsyncValue
     final clienteNome = ref.watch(clienteNomeProvider(aluguel.clienteId));
     final carroCategoria = ref.watch(carroCategoriaProvider(aluguel.carId));
     final carroModelo = ref.watch(carroModeloProvider(aluguel.carId));
     final carroPlaca = ref.watch(carroPlacaProvider(aluguel.carId));
 
-    // Verifica o status do pagamento
     final payments = ref.watch(paymentNotifierProvider);
     final isPago = payments.any(
         (payment) => payment.rentId == aluguel.id && payment.status == 'Pago');
@@ -39,7 +37,6 @@ class _CardInformacoesAluguelState
         final value = aluguel.totalValue;
         final paymentDate = DateTime.now();
 
-        // Registra o pagamento
         await ref.read(paymentNotifierProvider.notifier).registerPayment(
               rentId: aluguel.id,
               value: value,
@@ -52,7 +49,6 @@ class _CardInformacoesAluguelState
               'Disponível',
             );
 
-        // Exibe a confirmação de sucesso
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Pagamento registrado com sucesso!')),
         );

@@ -90,11 +90,9 @@ class Database extends _$Database {
       throw Exception('Carro já alugado no período informado.');
     }
 
-    // Obter o preço do carro
     final car =
         await (select(cars)..where((tbl) => tbl.id.equals(carId))).getSingle();
 
-    // Calcular o valor do aluguel
     final rentDuration = returnDate.difference(rentDate).inDays;
     final totalValue = car.priceByDay * rentDuration;
 
@@ -110,7 +108,6 @@ class Database extends _$Database {
     await into(rents).insert(rentCompanion);
   }
 
-  // Verificar se o carro está disponível para o período solicitado
   Future<bool> isCarAvailable(
       int carId, DateTime rentDate, DateTime returnDate) async {
     final rentedCars = await (select(rents)
@@ -120,10 +117,9 @@ class Database extends _$Database {
         .get();
 
     return rentedCars
-        .isEmpty; // Se não houver registros de aluguel sobrepondo, o carro está disponível
+        .isEmpty; 
   }
 
-  // Obter todos os aluguéis
   Future<List<Rent>> getAllRents() async {
     return await select(rents).get();
   }
@@ -133,14 +129,3 @@ class Database extends _$Database {
         .getSingleOrNull();
   }
 }
-
-/*
-LazyDatabase _openConnection() {
-  return LazyDatabase(() async {
-    final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(path.join(dbFolder.path, 'db.sqlite'));
-
-    return NativeDatabase(file);
-  });
-}
-*/

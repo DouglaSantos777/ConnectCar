@@ -123,7 +123,6 @@ class RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
                           returnDate: returnDate,
                         );
 
-                        // Atualizar o status do carro para "Alugado"
                         final carrosNotifier =
                             ref.read(carrosProvider.notifier);
                         carrosNotifier.atualizarStatusCarro(

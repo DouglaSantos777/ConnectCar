@@ -1,5 +1,4 @@
 ﻿import 'package:connectcar/data/database/database.dart';
-import 'package:connectcar/riverpod/rents_notifier.dart';
 import 'package:connectcar/theme/cores_theme.dart';
 import 'package:connectcar/widgets/alugueis/orcamento.dart';
 import 'package:flutter/material.dart';

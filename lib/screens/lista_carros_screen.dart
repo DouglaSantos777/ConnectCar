@@ -4,7 +4,6 @@ import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// Classe de tela onde listamos os carros com base no status
 class ListaCarrosScreen extends ConsumerWidget {
   final String status;
 

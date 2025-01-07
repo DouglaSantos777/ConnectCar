@@ -26,7 +26,6 @@ class AlugueisScreen extends ConsumerWidget {
               final modeloCarro =
                   ref.watch(carroModeloProvider(rent.carId));
 
-              // Verificar status de pagamento
               final isPago = payments.any(
                   (payment) => payment.rentId == rent.id && payment.status == 'Pago');
 

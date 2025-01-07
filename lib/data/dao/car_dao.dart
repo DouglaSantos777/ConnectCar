@@ -7,7 +7,7 @@ part 'car_dao.g.dart';
 @DriftAccessor(
   tables: [Cars],
   queries: {
-    //'carrosComStatusEcategoria': 'SELECT * FROM cars LEFT JOIN categories ON cars.category = categories.nome LEFT JOIN status ON cars.status = status.nome'
+
   },
 )
 class CarDao extends DatabaseAccessor<Database> with _$CarDaoMixin {
@@ -16,10 +16,6 @@ class CarDao extends DatabaseAccessor<Database> with _$CarDaoMixin {
   CarDao(this.db) : super(db);
 
  Future insertCar(Insertable<Car> car) => into(cars).insert(car);
-
-  /* Future<int> insertCar(CarsCompanion entity) async {
-    return await into(cars).insert(entity);
-  } */
 
   Future<Car?> getCar(int id) {
     return (select(cars)
@@ -33,7 +29,6 @@ class CarDao extends DatabaseAccessor<Database> with _$CarDaoMixin {
     return await select(cars).get();
   }
 
-  // Uso do Companion pois nao é necessário colocar tds os dados apenas os que acho necessário atualizar
   Future<bool> updateCar(CarsCompanion entity) async {
     return await update(cars).replace(entity);
   }

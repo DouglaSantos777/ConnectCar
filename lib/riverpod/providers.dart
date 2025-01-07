@@ -1,5 +1,4 @@
-﻿
-import 'package:connectcar/data/dao/car_dao.dart';
+﻿import 'package:connectcar/data/dao/car_dao.dart';
 import 'package:connectcar/data/database/database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:connectcar/data/provider/car_provider.dart';

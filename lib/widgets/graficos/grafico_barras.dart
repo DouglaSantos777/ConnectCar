@@ -16,7 +16,6 @@ Widget build(BuildContext context, WidgetRef ref) {
         return const Center(child: Text('Nenhum carro alugado ainda.'));
       }
 
-      // Gerando os grupos de barras e os rótulos dinâmicos
       List<BarChartGroupData> barGroups = [];
       List<String> carNames = [];
 
@@ -24,10 +23,8 @@ Widget build(BuildContext context, WidgetRef ref) {
         final carId = dados[i]['carId'] as int;
         final totalAlugado = dados[i]['totalAlugado'] as int;
 
-        // Buscando o nome do carro baseado no carId
         ref.read(carroModeloProvider(carId)).when(
           data: (carModelo) {
-            // Adicionando o nome do carro à lista
             carNames.add(carModelo ?? 'Carro desconhecido');
           },
           loading: () => carNames.add('Carregando...'),

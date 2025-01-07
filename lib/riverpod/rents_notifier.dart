@@ -19,18 +19,15 @@ class RentsNotifier extends StateNotifier<List<Rent>> {
 }) async {
   final db = await Database.open();
 
-  // Verificar se o carro está disponível
   final isAvailable = await db.isCarAvailable(carId, rentDate, returnDate);
   if (!isAvailable) {
     throw Exception('Carro já alugado no período informado.');
   }
 
-  // Obter o preço do carro e calcular o valor
   final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingle();
   final rentDuration = returnDate.difference(rentDate).inDays;
   final totalValue = car.priceByDay * rentDuration;
 
-  // Registrar o aluguel
   final rentCompanion = RentsCompanion(
     clienteId: Value(clienteId),
     carId: Value(carId),
@@ -39,13 +36,10 @@ class RentsNotifier extends StateNotifier<List<Rent>> {
     totalValue: Value(totalValue),
   );
 
-  // Inserir o aluguel no banco de dados
   final rentId = await db.into(db.rents).insert(rentCompanion);
 
-  // Buscar o aluguel recém inserido
   final rent = await (db.select(db.rents)..where((tbl) => tbl.id.equals(rentId))).getSingle();
 
-  // Atualizar o estado local com o novo aluguel
   state = [...state, rent];
 }
 
@@ -64,20 +58,14 @@ Future<void> registrarPagamento({
       paymentDate: paymentDate,
       status: status,
     );
-
-    // Caso você queira atualizar pagamentos ou realizar ações específicas:
-    // final pagamentos = await paymentDao.getPaymentsByRent(rentId);
-    // Atualizar ou realizar alguma ação com pagamentos.
   }
 
- // Método para obter o nome do cliente
   Future<String?> getClienteNome(int clienteId) async {
     final db = await Database.open();
     final cliente = await (db.select(db.cliente)..where((tbl) => tbl.id.equals(clienteId))).getSingleOrNull();
     return cliente?.nome;
   }
 
-  // Método para obter a categoria do carro
   Future<String?> getCarroCategoria(int carId) async {
     final db = await Database.open();
     final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
@@ -91,7 +79,6 @@ Future<void> registrarPagamento({
   }
 
 
-  // Método para obter o modelo do carro
   Future<String?> getCarroModelo(int carId) async {
     final db = await Database.open();
     final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
@@ -119,7 +106,6 @@ Future<void> registrarPagamento({
 Future<List<Map<String, dynamic>>> getCarrosMaisAlugados() async {
   final db = await Database.open();
 
-  // Query SQL para agrupar os aluguéis e contar a quantidade de vezes alugado
   final query = await db.customSelect(
     '''
     SELECT car_id AS carId, COUNT(car_id) AS totalAlugado
@@ -129,7 +115,6 @@ Future<List<Map<String, dynamic>>> getCarrosMaisAlugados() async {
     '''
   ).get();
 
-  // Mapear os resultados para uma lista de mapas
   return query.map((row) {
     return {
       'carId': row.data['carId'] as int,
@@ -140,7 +125,6 @@ Future<List<Map<String, dynamic>>> getCarrosMaisAlugados() async {
 
 }
 
-// Providers para acessar nome do cliente e categoria do carro
 final clienteNomeProvider = FutureProvider.family<String?, int>((ref, clienteId) async {
   final rentsNotifier = ref.watch(rentsProvider.notifier);
   return await rentsNotifier.getClienteNome(clienteId);
