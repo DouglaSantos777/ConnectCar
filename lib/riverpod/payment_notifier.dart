@@ -2,7 +2,6 @@ import 'package:connectcar/riverpod/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:connectcar/data/dao/payment_dao.dart';
 import 'package:connectcar/data/database/database.dart';
-import 'package:connectcar/data/tables/payments.dart';
 
 class PaymentNotifier extends StateNotifier<List<Payment>> {
   final PaymentDao _paymentDao;

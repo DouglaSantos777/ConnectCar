@@ -84,6 +84,13 @@ Future<void> registrarPagamento({
     return car?.category;
   }
 
+   Future<String?> getCarroStatus(int carId) async {
+    final db = await Database.open();
+    final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
+    return car?.status;
+  }
+
+
   // Método para obter o modelo do carro
   Future<String?> getCarroModelo(int carId) async {
     final db = await Database.open();
@@ -182,7 +189,5 @@ final carrosMaisAlugadosProvider = FutureProvider<List<Map<String, dynamic>>>((r
 
 final carroStatusProvider = FutureProvider.family<String?, int>((ref, carId) async {
   final rentsNotifier = ref.watch(rentsProvider.notifier);
-  final car = await rentsNotifier.getCarroCategoria(carId);
-  return car; // Ou qualquer outra lógica para obter o status do carro
+ return await rentsNotifier.getCarroStatus(carId);
 });
-
