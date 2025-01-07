@@ -4,6 +4,7 @@ import 'package:connectcar/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:connectcar/riverpod/rents_notifier.dart';
+import 'package:connectcar/riverpod/payment_notifier.dart';
 
 class AlugueisScreen extends ConsumerWidget {
   const AlugueisScreen({super.key});
@@ -11,6 +12,7 @@ class AlugueisScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final rents = ref.watch(rentsProvider);
+    final payments = ref.watch(paymentNotifierProvider);
 
     return Scaffold(
       appBar: const CustomAppBar(title: 'Aluguéis'),
@@ -24,6 +26,10 @@ class AlugueisScreen extends ConsumerWidget {
               final modeloCarro =
                   ref.watch(carroModeloProvider(rent.carId));
 
+              // Verificar status de pagamento
+              final isPago = payments.any(
+                  (payment) => payment.rentId == rent.id && payment.status == 'Pago');
+
               return clienteNome.when(
                 data: (nome) {
                   return modeloCarro.when(
@@ -33,7 +39,11 @@ class AlugueisScreen extends ConsumerWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => DetalhesAluguelScreen(aluguelId: rent.id, carId: rent.carId, clienteId: rent.clienteId,),
+                              builder: (_) => DetalhesAluguelScreen(
+                                aluguelId: rent.id,
+                                carId: rent.carId,
+                                clienteId: rent.clienteId,
+                              ),
                             ),
                           );
                         },
@@ -43,6 +53,7 @@ class AlugueisScreen extends ConsumerWidget {
                             rent.rentDate.toLocal().toString().split(' ')[0],
                         dataDevolucao:
                             rent.returnDate.toLocal().toString().split(' ')[0],
+                        isPago: isPago,
                       );
                     },
                     loading: () => const CircularProgressIndicator(),

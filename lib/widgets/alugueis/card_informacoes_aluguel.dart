@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/riverpod/payment_notifier.dart';
+﻿import 'package:connectcar/riverpod/cars_notifier.dart';
+import 'package:connectcar/riverpod/payment_notifier.dart';
 import 'package:connectcar/riverpod/rents_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,16 +7,21 @@ import 'package:connectcar/widgets/botao_cadastro.dart';
 import 'package:connectcar/theme/cores_theme.dart';
 import 'package:intl/intl.dart';
 
-class CardInformacoesAluguel extends ConsumerWidget {
+class CardInformacoesAluguel extends ConsumerStatefulWidget {
   final int aluguelId;
   const CardInformacoesAluguel({super.key, required this.aluguelId});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+  _CardInformacoesAluguelState createState() => _CardInformacoesAluguelState();
+}
 
+class _CardInformacoesAluguelState
+    extends ConsumerState<CardInformacoesAluguel> {
+  @override
+  Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final rent = ref.watch(rentsProvider);
-    final aluguel = rent.firstWhere((rent) => rent.id == aluguelId);
+    final aluguel = rent.firstWhere((rent) => rent.id == widget.aluguelId);
 
     // Use "when" para acessar os valores de AsyncValue
     final clienteNome = ref.watch(clienteNomeProvider(aluguel.clienteId));
@@ -23,7 +29,10 @@ class CardInformacoesAluguel extends ConsumerWidget {
     final carroModelo = ref.watch(carroModeloProvider(aluguel.carId));
     final carroPlaca = ref.watch(carroPlacaProvider(aluguel.carId));
 
-    final pagamentos = ref.watch(paymentNotifierProvider);
+    // Verifica o status do pagamento
+    final payments = ref.watch(paymentNotifierProvider);
+    final isPago = payments.any(
+        (payment) => payment.rentId == aluguel.id && payment.status == 'Pago');
 
     void registrarPagamento() async {
       try {
@@ -36,6 +45,11 @@ class CardInformacoesAluguel extends ConsumerWidget {
               value: value,
               paymentDate: paymentDate,
               status: 'Pago',
+            );
+
+        ref.read(carrosProvider.notifier).atualizarStatusCarro(
+              aluguel.carId,
+              'Disponível',
             );
 
         // Exibe a confirmação de sucesso
@@ -114,64 +128,27 @@ class CardInformacoesAluguel extends ConsumerWidget {
           Text('Valor Total: R\$ ${aluguel.totalValue}',
               style: const TextStyle(fontSize: 18)),
           const SizedBox(height: 16),
-          BotaoCadastro(
-            label: 'Registrar Devolução',
-            onPressed: registrarPagamento,
-          ),
-          const SizedBox(height: 16),
-          // Exibir a lista de pagamentos diretamente
-          Text(
-            'Pagamentos Registrados:',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: isDarkMode
-                  ? CoresTheme.textoTemaEscuro
-                  : CoresTheme.textoPrimarioClaro,
+          if (isPago)
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 24),
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                'Pago',
+                style:
+                    TextStyle(
+                      color: Color.fromARGB(218, 255, 255, 255), 
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+              ),
+            )
+          else
+            BotaoCadastro(
+              label: 'Registrar Devolução',
+              onPressed: registrarPagamento,
             ),
-          ),
-          pagamentos.isEmpty
-              ? const Center(child: Text('Nenhum pagamento registrado.'))
-              : SizedBox(
-                  height: 200,
-                  child: ListView.builder(
-                    itemCount: pagamentos.length,
-                    itemBuilder: (context, index) {
-                      final pagamento = pagamentos[index];
-
-                      // Buscando o aluguel correspondente ao pagamento
-                      final aluguel = rent
-                          .firstWhere((rent) => rent.id == pagamento.rentId);
-
-                      // Buscando o nome do cliente e a categoria do carro relacionados ao aluguel
-                      final clienteNome =
-                          ref.watch(clienteNomeProvider(aluguel.clienteId));
-                      final carroModelo =
-                          ref.watch(carroModeloProvider(aluguel.carId));
-
-                      return clienteNome.when(
-                        data: (nome) {
-                          return carroModelo.when(
-                            data: (modelo) {
-                              return ListTile(
-                                title:
-                                    Text('Pagamento de R\$ ${pagamento.value}'),
-                                subtitle: Text(
-                                  'Cliente: $nome\nCarro: $modelo\nData: ${pagamento.paymentDate.toLocal()} | Status: ${pagamento.status}',
-                                ),
-                              );
-                            },
-                            loading: () => const CircularProgressIndicator(),
-                            error: (e, stack) =>
-                                Text('Erro ao carregar categoria: $e'),
-                          );
-                        },
-                        loading: () => const CircularProgressIndicator(),
-                        error: (e, stack) => Text('Erro ao carregar nome: $e'),
-                      );
-                    },
-                  ),
-                ),
         ],
       ),
     );

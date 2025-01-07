@@ -7,6 +7,7 @@ class CardAluguel extends StatelessWidget {
   final String modeloCarro;
   final String dataRetirada;
   final String dataDevolucao;
+  final bool isPago;
 
   const CardAluguel({
     super.key,
@@ -15,6 +16,7 @@ class CardAluguel extends StatelessWidget {
     required this.modeloCarro,
     required this.dataRetirada,
     required this.dataDevolucao,
+    this.isPago = false,
   });
 
   @override
@@ -44,29 +46,59 @@ class CardAluguel extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-             'Aluguel de $modeloCarro',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: CoresTheme.textoTemaEscuro,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Text(
-                'Cliente: $clienteNome',
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 18,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                '$dataRetirada - $dataDevolucao',
-                style: const TextStyle(
-                  color: Colors.white60,
-                  fontSize: 16,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Aluguel de $modeloCarro',
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: CoresTheme.textoTemaEscuro,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          'Cliente: $clienteNome',
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 18,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          '$dataRetirada - $dataDevolucao',
+                          style: const TextStyle(
+                            color: Colors.white60,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  if (isPago)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6, horizontal: 12),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Text(
+                        'Pago',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ],
           ),

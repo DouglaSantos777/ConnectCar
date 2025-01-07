@@ -38,7 +38,7 @@ class Database extends _$Database {
 
   static Future<Database> open() async {
     final appDocDirectory = await getApplicationDocumentsDirectory();
-    final dbPath = '${appDocDirectory.path}/rent.db';
+    final dbPath = '${appDocDirectory.path}/rents.db';
     final dbFile = File(dbPath);
     final executor = NativeDatabase(dbFile);
     return Database(executor);

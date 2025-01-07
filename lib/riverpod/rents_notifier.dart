@@ -84,6 +84,13 @@ Future<void> registrarPagamento({
     return car?.category;
   }
 
+   Future<String?> getCarroStatus(int carId) async {
+    final db = await Database.open();
+    final car = await (db.select(db.cars)..where((tbl) => tbl.id.equals(carId))).getSingleOrNull();
+    return car?.status;
+  }
+
+
   // Método para obter o modelo do carro
   Future<String?> getCarroModelo(int carId) async {
     final db = await Database.open();
@@ -108,6 +115,28 @@ Future<void> registrarPagamento({
     final cars = await (db.select(db.cars)..where((tbl) => tbl.status.equals(status))).get();
     return cars;
   }
+
+Future<List<Map<String, dynamic>>> getCarrosMaisAlugados() async {
+  final db = await Database.open();
+
+  // Query SQL para agrupar os aluguéis e contar a quantidade de vezes alugado
+  final query = await db.customSelect(
+    '''
+    SELECT car_id AS carId, COUNT(car_id) AS totalAlugado
+    FROM rents
+    GROUP BY car_id
+    ORDER BY totalAlugado DESC
+    '''
+  ).get();
+
+  // Mapear os resultados para uma lista de mapas
+  return query.map((row) {
+    return {
+      'carId': row.data['carId'] as int,
+      'totalAlugado': row.data['totalAlugado'] as int,
+    };
+  }).toList();
+}
 
 }
 
@@ -151,4 +180,14 @@ final carrosAlugadosProvider = FutureProvider<List<Car>>((ref) async {
 final carroPriceProvider = FutureProvider.family<double?, String?>((ref, carroId) async {
   final rentsNotifier = ref.watch(rentsProvider.notifier); 
   return await rentsNotifier.getCarroById(int.parse(carroId!));
+});
+
+final carrosMaisAlugadosProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier);
+  return await rentsNotifier.getCarrosMaisAlugados();
+});
+
+final carroStatusProvider = FutureProvider.family<String?, int>((ref, carId) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier);
+ return await rentsNotifier.getCarroStatus(carId);
 });

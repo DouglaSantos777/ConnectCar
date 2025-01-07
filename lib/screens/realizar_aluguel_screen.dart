@@ -1,3 +1,4 @@
+import 'package:connectcar/riverpod/cars_notifier.dart';
 import 'package:connectcar/riverpod/clientes_notifier.dart';
 import 'package:connectcar/riverpod/providers.dart';
 import 'package:connectcar/riverpod/rents_notifier.dart';
@@ -60,8 +61,8 @@ class RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
                     },
                   ),
                   BotaoInsercao(
-                    label: 'Adicionar Cliente', 
-                    onPressed: (){
+                    label: 'Adicionar Cliente',
+                    onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -97,39 +98,45 @@ class RealizarAluguelScreenState extends ConsumerState<RealizarAluguelScreen> {
                   dataDevolucaoController: _dataDevolucaoController,
                   valueCar: precoPorDiaCarroSelecionado ?? 0.0,
                 ),
+
                   BotaoCadastro(
-                      label: 'Finalizar aluguel',
-                      onPressed: () {
-                        if (clienteSelecionado == null ||
-                            carroSelecionado == null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text(
-                                    'Por favor, selecione cliente e carro!')),
-                          );
-                        } else {
-                    final rentDate = DateFormat('dd/MM/yyyy')
-                          .parse(_dataRetiradaController.text);
-                      final returnDate = DateFormat('dd/MM/yyyy')
-                          .parse(_dataDevolucaoController.text);
+                    label: 'Finalizar aluguel',
+                    onPressed: () {
+                      if (clienteSelecionado == null ||
+                          carroSelecionado == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text(
+                                  'Por favor, selecione cliente e carro!')),
+                        );
+                      } else {
+                        final rentDate = DateFormat('dd/MM/yyyy')
+                            .parse(_dataRetiradaController.text);
+                        final returnDate = DateFormat('dd/MM/yyyy')
+                            .parse(_dataDevolucaoController.text);
 
-                          final rentNotifier = ref.read(rentsProvider.notifier);
-                          rentNotifier.adicionarRent(
-                            clienteId: int.parse(clienteSelecionado!),
-                            carId: int.parse(carroSelecionado!),
-                            rentDate: rentDate,
-                            returnDate: returnDate,
-                          );
+                        final rentNotifier = ref.read(rentsProvider.notifier);
+                        rentNotifier.adicionarRent(
+                          clienteId: int.parse(clienteSelecionado!),
+                          carId: int.parse(carroSelecionado!),
+                          rentDate: rentDate,
+                          returnDate: returnDate,
+                        );
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Aluguel finalizado com sucesso!')),
-                          );
-                        }
-                      },
-                      ),
-                        const SizedBox(height: 20),
+                        // Atualizar o status do carro para "Alugado"
+                        final carrosNotifier =
+                            ref.read(carrosProvider.notifier);
+                        carrosNotifier.atualizarStatusCarro(
+                            int.parse(carroSelecionado!), 'Alugado');
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Aluguel finalizado com sucesso!')),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
