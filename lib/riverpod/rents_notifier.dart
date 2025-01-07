@@ -109,6 +109,28 @@ Future<void> registrarPagamento({
     return cars;
   }
 
+Future<List<Map<String, dynamic>>> getCarrosMaisAlugados() async {
+  final db = await Database.open();
+
+  // Query SQL para agrupar os aluguéis e contar a quantidade de vezes alugado
+  final query = await db.customSelect(
+    '''
+    SELECT car_id AS carId, COUNT(car_id) AS totalAlugado
+    FROM rents
+    GROUP BY car_id
+    ORDER BY totalAlugado DESC
+    '''
+  ).get();
+
+  // Mapear os resultados para uma lista de mapas
+  return query.map((row) {
+    return {
+      'carId': row.data['carId'] as int,
+      'totalAlugado': row.data['totalAlugado'] as int,
+    };
+  }).toList();
+}
+
 }
 
 // Providers para acessar nome do cliente e categoria do carro
@@ -152,3 +174,15 @@ final carroPriceProvider = FutureProvider.family<double?, String?>((ref, carroId
   final rentsNotifier = ref.watch(rentsProvider.notifier); 
   return await rentsNotifier.getCarroById(int.parse(carroId!));
 });
+
+final carrosMaisAlugadosProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier);
+  return await rentsNotifier.getCarrosMaisAlugados();
+});
+
+final carroStatusProvider = FutureProvider.family<String?, int>((ref, carId) async {
+  final rentsNotifier = ref.watch(rentsProvider.notifier);
+  final car = await rentsNotifier.getCarroCategoria(carId);
+  return car; // Ou qualquer outra lógica para obter o status do carro
+});
+

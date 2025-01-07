@@ -1,4 +1,5 @@
-﻿import 'package:connectcar/riverpod/payment_notifier.dart';
+﻿import 'package:connectcar/riverpod/cars_notifier.dart';
+import 'package:connectcar/riverpod/payment_notifier.dart';
 import 'package:connectcar/riverpod/rents_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,6 +37,11 @@ class CardInformacoesAluguel extends ConsumerWidget {
               paymentDate: paymentDate,
               status: 'Pago',
             );
+
+          ref.read(carrosProvider.notifier).atualizarStatusCarro(
+          aluguel.carId,
+          'Disponível',
+        );
 
         // Exibe a confirmação de sucesso
         ScaffoldMessenger.of(context).showSnackBar(
@@ -117,7 +123,7 @@ class CardInformacoesAluguel extends ConsumerWidget {
             label: 'Registrar Devolução',
             onPressed: registrarPagamento,
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 16),                                                                                                                           
           // Exibir a lista de pagamentos diretamente
           Text(
             'Pagamentos Registrados:',
