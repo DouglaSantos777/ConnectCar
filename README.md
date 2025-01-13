@@ -18,3 +18,23 @@ O ConnectCar é um aplicativo desenvolvido para facilitar o gerenciamento de alu
 - **Drift:** Banco de dados local utilizado para persistir informações sobre clientes, carros, aluguéis e pagamentos.
 - **Hive:** Utilizado para persistir o estado do tema (claro ou escuro) localmente.
 - **Riverpod:** Biblioteca para gerenciamento de estado, permitindo um controle eficiente e reativo das mudanças de estado no aplicativo.
+
+---
+
+# Imagens do aplicativo
+-- Abaixo estão algumas imagens do aplicativo ConnectCar em funcionamento:
+
+-- **Tela inicial:** 
+![Tela inicial em tema claro](lib/assets/screenshots/telainicial_claro.jpg)
+![Tela inicial em tema escuro](lib/assets/screenshots/telanicial_escuro.jpg)
+
+-- **Alugueis:**
+![Tela de alugueis](lib/assets/screenshots/alugueis.jpg)
+
+-- **Detalhes do aluguel:**
+![Tela de detalhes do aluguel em tema claro](lib/assets/screenshots/detalhesaluguel_claro.jpg)
+![Tela de detalhes do aluguel em tema escuro](lib/assets/screenshots/detalhesaluguel_escuro.jpg)
+
+-- **Histórico de alugueis:**
+![Tela de histórico em tema claro](lib/assets/screenshots/historico_claro.jpg)
+![Tela de histórico em tema escuro](lib/assets/screenshots/historico_escuro.jpg)
