@@ -32,6 +32,10 @@ O ConnectCar é um aplicativo desenvolvido para facilitar o gerenciamento de alu
 <img src="lib/assets/screenshots/detalhesaluguel_claro.jpg" alt="Tela de detalhes do aluguel em tema claro" width="300" />
 <img src="lib/assets/screenshots/detalhesaluguel_escuro.jpg" alt="Tela de detalhes do aluguel em tema escuro" width="300" />
 
+- **Detalhes do carro:**
+<img src="lib/assets/screenshots/detalhescarro_claro.jpg" alt="Tela de detalhes do carro em tema claro" width="300" />
+<img src="lib/assets/screenshots/detalhescarro_escuro.jpg" alt="Tela de detalhes do carro em tema escuro" width="300" />
+
 - **Histórico de alugueis:**
 <img src="lib/assets/screenshots/historico_claro.jpg" alt="Tela de histórico em tema claro" width="300" />
 <img src="lib/assets/screenshots/historico_escuro.jpg" alt="Tela de histórico em tema escuro" width="300" />
